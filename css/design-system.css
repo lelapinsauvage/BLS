@@ -1,0 +1,259 @@
+/* ========================================
+   BLS DESIGN SYSTEM
+   Shared components, typography, and utilities
+   ======================================== */
+
+/* ----------------------------------------
+   CSS VARIABLES (Design Tokens)
+   ---------------------------------------- */
+:root {
+  /* Colors */
+  --color-black: #111111;
+  --color-white: #FFFFFF;
+  --color-off-white: #E3E3E3;
+  --color-gray: #999999;
+  --color-gray-light: #AAAAAA;
+  --color-accent: #FF6A47;
+  
+  /* Typography - Fonts */
+  --font-display: 'Neue Haas Grotesk Display Pro', sans-serif;
+  --font-accent: 'Archivo', sans-serif;
+  
+  /* Typography - Sizes */
+  --text-hero: clamp(1.75rem, 3.958vw, 4.75rem);       /* 76px */
+  --text-section-title: clamp(2rem, 3.02vw, 3.625rem); /* 58px */
+  --text-eyebrow: clamp(0.75rem, 1.042vw, 1.25rem);    /* 20px */
+  --text-body-lg: clamp(0.875rem, 1.042vw, 1.25rem);   /* 20px */
+  --text-body: clamp(0.875rem, 0.9375vw, 1.125rem);    /* 18px */
+  --text-nav: clamp(0.75rem, 0.9375vw, 1.125rem);      /* 18px */
+  --text-cta: clamp(0.75rem, 0.9375vw, 1.125rem);      /* 18px */
+  
+  /* Letter Spacing */
+  --tracking-eyebrow: -0.06em;
+  --tracking-links: -0.02em;
+  --tracking-tight: -0.04em;
+  
+  /* Line Heights */
+  --leading-tight: 0.9;
+  --leading-eyebrow: 1.24;
+  --leading-body: 1.59;
+  
+  /* Spacing */
+  --space-xs: clamp(0.5rem, 0.5vw, 0.75rem);
+  --space-sm: clamp(1rem, 1vw, 1.25rem);
+  --space-md: clamp(1.5rem, 2vw, 2.5rem);
+  --space-lg: clamp(3rem, 5vw, 6rem);
+  --space-xl: clamp(5rem, 10vw, 12rem);
+  
+  /* Layout */
+  --container-padding: clamp(1.25rem, 2.083vw, 2.5rem);
+  
+  /* Animation */
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --duration-fast: 0.3s;
+  --duration-normal: 0.4s;
+  --duration-slow: 0.5s;
+}
+
+
+/* ----------------------------------------
+   TYPOGRAPHY COMPONENTS
+   ---------------------------------------- */
+
+/* Eyebrow - Small uppercase label */
+.eyebrow {
+  color: var(--color-gray);
+  font-family: var(--font-accent);
+  font-size: var(--text-eyebrow);
+  font-weight: 400;
+  text-transform: uppercase;
+  line-height: var(--leading-eyebrow);
+  letter-spacing: var(--tracking-eyebrow);
+}
+
+.eyebrow--light {
+  color: var(--color-off-white);
+}
+
+.eyebrow--dark {
+  color: var(--color-black);
+}
+
+/* Section Title */
+.section-title {
+  font-family: var(--font-display);
+  font-size: var(--text-section-title);
+  font-weight: 600;
+  text-transform: uppercase;
+  line-height: var(--leading-tight);
+}
+
+.section-title--dark {
+  color: var(--color-black);
+}
+
+.section-title--light {
+  color: var(--color-white);
+}
+
+/* Body Text */
+.body-text {
+  font-family: var(--font-display);
+  font-size: var(--text-body-lg);
+  font-weight: 500;
+  line-height: var(--leading-body);
+}
+
+.body-text--large {
+  font-size: clamp(1.125rem, 1.25vw, 1.5rem);
+}
+
+
+/* ----------------------------------------
+   LINK REVEAL ANIMATION
+   ---------------------------------------- */
+
+/* Base link with reveal hover */
+.link-reveal {
+  position: relative;
+  overflow: hidden;
+  font-family: var(--font-display);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-links);
+  line-height: 1;
+}
+
+.link-reveal .link-text {
+  display: block;
+  transition: transform var(--duration-normal) var(--ease-out-expo);
+  line-height: 1.2;
+}
+
+.link-reveal .link-text--hover {
+  position: absolute;
+  top: 0;
+  left: 0;
+  color: var(--color-accent);
+  transform: translateY(100%);
+}
+
+.link-reveal:hover .link-text:first-child {
+  transform: translateY(-100%);
+}
+
+.link-reveal:hover .link-text--hover {
+  transform: translateY(0);
+}
+
+
+/* ----------------------------------------
+   BUTTON COMPONENTS
+   ---------------------------------------- */
+
+/* Button Wipe - Background fill animation */
+.btn-wipe {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.625rem;
+  
+  padding: 1rem 2rem;
+  background: var(--color-black);
+  border: none;
+  border-radius: 2.5rem;
+  overflow: hidden;
+  
+  font-family: var(--font-display);
+  font-size: var(--text-cta);
+  font-weight: 600;
+  text-transform: uppercase;
+  
+  cursor: pointer;
+}
+
+.btn-wipe--light {
+  background: var(--color-white);
+}
+
+.btn-wipe::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: var(--color-accent);
+  border-radius: 2.5rem;
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform var(--duration-slow) var(--ease-out-expo);
+}
+
+.btn-wipe:hover::before {
+  transform: scaleX(1);
+}
+
+.btn-wipe span {
+  position: relative;
+  z-index: 1;
+  color: var(--color-white);
+  transition: color var(--duration-slow) var(--ease-out-expo);
+}
+
+.btn-wipe--light span {
+  color: var(--color-black);
+}
+
+.btn-wipe:hover span {
+  color: var(--color-white);
+}
+
+.btn-wipe svg {
+  position: relative;
+  z-index: 1;
+  width: 1.5rem;
+  height: auto;
+  color: var(--color-white);
+  transition: transform var(--duration-slow) var(--ease-out-expo), 
+              color var(--duration-slow) var(--ease-out-expo);
+}
+
+.btn-wipe--light svg {
+  color: var(--color-black);
+}
+
+.btn-wipe:hover svg {
+  transform: translateX(4px);
+  color: var(--color-white);
+}
+
+
+/* ----------------------------------------
+   REVEAL ANIMATION WRAPPERS
+   ---------------------------------------- */
+
+.reveal {
+  overflow: hidden;
+  display: block;
+}
+
+.reveal__inner {
+  display: block;
+}
+
+
+/* ----------------------------------------
+   UTILITY CLASSES
+   ---------------------------------------- */
+
+.text-accent {
+  color: var(--color-accent);
+}
+
+.text-center {
+  text-align: center;
+}
+
+.text-right {
+  text-align: right;
+}
+
