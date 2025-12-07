@@ -67,6 +67,12 @@ if (typeof gsap === 'undefined') {
 function initHeroAnimation() {
   console.log('🎬 Starting hero animation...');
   
+  // Start video playback with hero animation
+  const heroVideo = document.querySelector('.hero__video');
+  if (heroVideo) {
+    heroVideo.play().catch(err => console.log('Video autoplay prevented:', err));
+  }
+  
   const master = gsap.timeline({
     onComplete: startScrollCtaBounce
   });

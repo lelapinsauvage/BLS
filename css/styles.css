@@ -420,14 +420,37 @@ body.is-loading {
   justify-content: center;
   align-items: center;
   padding: var(--space-section-padding) 1.5rem;
-  
-  /* Background with overlay */
-  background: 
-    linear-gradient(0deg, var(--color-overlay), var(--color-overlay)),
-    url('../images/hero-bg.png') center/cover no-repeat;
+  overflow: hidden;
+  background: var(--color-black);
+}
+
+/* Video background */
+.hero__video {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  min-width: 100%;
+  min-height: 100%;
+  width: auto;
+  height: auto;
+  object-fit: cover;
+  z-index: 0;
+}
+
+/* Dark overlay on video */
+.hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: var(--color-overlay);
+  z-index: 1;
+  pointer-events: none;
 }
 
 .hero__content {
+  position: relative;
+  z-index: 2;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -481,6 +504,7 @@ body.is-loading {
   bottom: 40px;
   left: 50%;
   transform: translateX(-50%);
+  z-index: 2;
 }
 
 .hero__scroll-cta {
@@ -776,15 +800,9 @@ body.is-loading {
   display: inline-block;
 }
 
-.projects__item-image {
-  width: clamp(200px, 18.125vw, 348px); /* 348px */
-  height: auto;
-  object-fit: cover;
-  display: block;
-}
-
 /* Dark overlay on project images */
-.projects__item-image-overlay {
+.projects__item-image-wrap::after {
+  content: '';
   position: absolute;
   inset: 0;
   background: rgba(0, 0, 0, 0);
@@ -792,9 +810,23 @@ body.is-loading {
   pointer-events: none;
 }
 
-/* When hovering on list, add dark overlay to non-hovered items' images */
-.projects__list:hover .projects__item:not(:hover) .projects__item-image-overlay {
-  background: rgba(0, 0, 0, 0.4);
+/* When hovering on list, add dark overlay to non-hovered items */
+.projects__list:hover .projects__item:not(:hover) .projects__item-image-wrap::after {
+  background: rgba(0, 0, 0, 0.5);
+}
+
+.projects__item-image {
+  width: clamp(200px, 18.125vw, 348px); /* 348px */
+  height: auto;
+  object-fit: cover;
+  display: block;
+  transition: filter 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+  filter: grayscale(0%);
+}
+
+/* Grayscale effect on non-hovered project images */
+.projects__list:hover .projects__item:not(:hover) .projects__item-image {
+  filter: grayscale(100%);
 }
 
 .projects__item-arrow {
@@ -849,7 +881,7 @@ body.is-loading {
   cursor: pointer;
 }
 
-/* Back image (revealed on hover) */
+/* Back image (revealed on hover) - stays full color */
 .founders__image--back {
   position: absolute;
   inset: 0;
@@ -880,30 +912,36 @@ body.is-loading {
   background-image: var(--img);
   background-size: cover;
   background-position: center;
-  transition: transform 0.5s ease;
+  filter: grayscale(0%) brightness(1);
+  /* Hover OUT: stays dark+grey, then returns in last 100ms (0.4s delay + 0.1s duration) */
+  transition: transform 0.5s ease, filter 0.3s ease 0.4s;
 }
 
-/* Top-left panel */
+/* Top-right panel (matches loader) */
 .founders__image-reveal::before {
-  clip-path: polygon(0 0, 100% 0, 0 100%);
-  transform-origin: top left;
+  clip-path: polygon(0 0, 100% 0, 100% 100%);
+  transform-origin: top right;
 }
 
-/* Bottom-right panel */
+/* Bottom-left panel (matches loader) */
 .founders__image-reveal::after {
-  clip-path: polygon(100% 0, 100% 100%, 0 100%);
-  transform-origin: bottom right;
+  clip-path: polygon(0 0, 100% 100%, 0 100%);
+  transform-origin: bottom left;
 }
 
-/* Hover - panels split open diagonally (slower in) */
+/* Hover - panels split open diagonally + become greyscale + darken */
 .founders__image-wrap:hover .founders__image-reveal::before {
-  transform: translate(-100%, -100%);
-  transition: transform 1s ease;
+  transform: translate(100%, -100%);
+  filter: grayscale(100%) brightness(0.5);
+  /* Hover IN: greyscale+dark fast, transform slow (1s) */
+  transition: transform 1s ease, filter 0.2s ease;
 }
 
 .founders__image-wrap:hover .founders__image-reveal::after {
-  transform: translate(100%, 100%);
-  transition: transform 1s ease;
+  transform: translate(-100%, 100%);
+  filter: grayscale(100%) brightness(0.5);
+  /* Hover IN: greyscale+dark fast, transform slow (1s) */
+  transition: transform 1s ease, filter 0.2s ease;
 }
 
 /* Front image (to set the size, invisible after load) */
