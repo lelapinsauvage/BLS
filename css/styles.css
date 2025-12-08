@@ -110,18 +110,18 @@
   transform: scaleX(1);
 }
 
-.btn-wipe span {
+.btn-wipe div {
   position: relative;
   z-index: 1;
   color: var(--color-white);
   transition: color 0.5s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-.btn-wipe--light span {
+.btn-wipe--light div {
   color: #111111;
 }
 
-.btn-wipe:hover span {
+.btn-wipe:hover div {
   color: #FFFFFF;
 }
 
@@ -134,12 +134,12 @@
   transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1), color 0.5s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-.btn-wipe span + svg,
+.btn-wipe div + svg,
 .btn-wipe svg {
   color: var(--color-white);
 }
 
-.btn-wipe--light span + svg,
+.btn-wipe--light div + svg,
 .btn-wipe--light svg {
   color: #111111;
 }
@@ -222,17 +222,46 @@ body.is-loading {
    NAVBAR
    ---------------------------------------- */
 .navbar {
-  position: absolute;
+  position: fixed;
   top: 0;
   left: 0;
   right: 0;
-  z-index: 100;
+  z-index: 9998; /* Below mobile menu (10000) but above content */
   
   display: flex;
   justify-content: space-between;
   align-items: center;
   
   padding: var(--navbar-padding-y) var(--navbar-padding-x);
+  
+  transform: translateY(0);
+  transition: transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94), background-color 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+/* Hide navbar on scroll down */
+.navbar--hidden {
+  transform: translateY(-100%);
+}
+
+/* White background after scrolling past hero */
+.navbar--solid {
+  background-color: var(--color-white);
+}
+
+.navbar--solid .navbar__link-text {
+  color: #111111;
+}
+
+.navbar--solid .navbar__link-text--hover {
+  color: var(--color-accent);
+}
+
+.navbar--solid .navbar__line {
+  background: #BEBEBE;
+}
+
+.navbar--solid .navbar__logo svg path {
+  fill: #111111;
 }
 
 /* Navbar line - animated separately */
@@ -277,6 +306,8 @@ body.is-loading {
   display: flex;
   align-items: center;
   gap: var(--nav-gap);
+  position: relative;
+  z-index: 1;
 }
 
 .navbar__link {
@@ -321,10 +352,6 @@ body.is-loading {
   pointer-events: none;
 }
 
-.navbar__link-dot {
-  margin-right: 0.15em;
-}
-
 .navbar__cta {
   position: relative;
   display: inline-flex;
@@ -348,14 +375,14 @@ body.is-loading {
   line-height: 1;
 }
 
-.navbar__cta-text span {
+.navbar__cta-text div {
   display: block;
   color: #EEEEEE;
   transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
   line-height: 1.2;
 }
 
-.navbar__cta-text span:last-child {
+.navbar__cta-text div:last-child {
   position: absolute;
   top: 0;
   left: 0;
@@ -363,11 +390,11 @@ body.is-loading {
   transform: translateY(100%);
 }
 
-.navbar__cta:hover .navbar__cta-text span:first-child {
+.navbar__cta:hover .navbar__cta-text div:first-child {
   transform: translateY(-100%);
 }
 
-.navbar__cta:hover .navbar__cta-text span:last-child {
+.navbar__cta:hover .navbar__cta-text div:last-child {
   transform: translateY(0);
 }
 
@@ -414,6 +441,7 @@ body.is-loading {
    ---------------------------------------- */
 .hero {
   position: relative;
+  z-index: 1;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
@@ -597,10 +625,6 @@ body.is-loading {
 }
 
 /* Greyscale non-hovered items when hovering on categories */
-.categories:hover .categories__item:not(:hover) {
-  filter: grayscale(100%);
-}
-
 /* Dark overlay - soft by default */
 .categories__item::before {
   content: '';
@@ -610,14 +634,21 @@ body.is-loading {
   transition: background 0.4s ease-out;
 }
 
-/* When parent is hovered, non-hovered items get darker overlay */
-.categories:hover .categories__item:not(:hover)::before {
-  background: rgba(0, 0, 0, 0.6);
-}
+/* Hover effects - only on desktop */
+@media (min-width: 1025px) {
+  .categories:hover .categories__item:not(:hover) {
+    filter: grayscale(100%);
+  }
 
-/* Hovered item keeps lighter overlay for text visibility */
-.categories:hover .categories__item:hover::before {
-  background: rgba(0, 0, 0, 0.3);
+  /* When parent is hovered, non-hovered items get darker overlay */
+  .categories:hover .categories__item:not(:hover)::before {
+    background: rgba(0, 0, 0, 0.6);
+  }
+
+  /* Hovered item keeps lighter overlay for text visibility */
+  .categories:hover .categories__item:hover::before {
+    background: rgba(0, 0, 0, 0.3);
+  }
 }
 
 .categories__title {
@@ -645,8 +676,10 @@ body.is-loading {
   transition: width 0.35s ease-out;
 }
 
-.categories__item:hover .categories__title::after {
-  width: 100%;
+@media (min-width: 1025px) {
+  .categories__item:hover .categories__title::after {
+    width: 100%;
+  }
 }
 
 .categories__description {
@@ -1298,6 +1331,219 @@ body.is-loading {
   transform: translateY(0);
 }
 
+/* ========================================
+   MOBILE MENU
+   ======================================== */
+
+.burger-menu {
+  display: none; /* Hidden on desktop */
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 7px;
+  width: 44px;
+  height: 44px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  position: fixed;
+  right: var(--navbar-padding-x);
+  top: var(--navbar-padding-y);
+  z-index: 10002;
+  padding: 0;
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.burger-menu:hover {
+  transform: scale(1.1);
+}
+
+.burger-menu.is-active:hover {
+  transform: scale(1.1) rotate(90deg);
+}
+
+.burger-menu__line {
+  width: 26px;
+  height: 2px;
+  background: var(--color-white);
+  border-radius: 2px;
+  transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+  transform-origin: center;
+}
+
+/* Light navbar - dark lines */
+.navbar--light ~ .burger-menu .burger-menu__line {
+  background: #111111;
+}
+
+/* X animation when active */
+.burger-menu.is-active {
+  gap: 0;
+  transform: rotate(90deg);
+}
+
+.burger-menu.is-active .burger-menu__line:nth-child(1) {
+  transform: translateY(0) rotate(45deg);
+  position: absolute;
+}
+
+.burger-menu.is-active .burger-menu__line:nth-child(2) {
+  opacity: 0;
+  transform: scaleX(0);
+}
+
+.burger-menu.is-active .burger-menu__line:nth-child(3) {
+  transform: translateY(0) rotate(-45deg);
+  position: absolute;
+}
+
+/* Always white when menu is open */
+.burger-menu.is-active .burger-menu__line {
+  background: var(--color-white);
+}
+
+/* Mobile Menu Overlay */
+.mobile-menu {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  background: #111111;
+  z-index: 10000;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  opacity: 0;
+  pointer-events: none;
+  overflow: hidden;
+  transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.mobile-menu.is-active {
+  opacity: 1;
+  pointer-events: all;
+}
+
+.mobile-menu__background {
+  position: absolute;
+  inset: 0;
+  background: #111111;
+}
+
+.mobile-menu__panel {
+  position: absolute;
+  inset: 0;
+  background: #111111;
+}
+
+.mobile-menu__panel--top {
+  clip-path: polygon(0 0, 100% 0, 100% 100%);
+  transform: translate(100%, -100%);
+}
+
+.mobile-menu__panel--bottom {
+  clip-path: polygon(0 0, 100% 100%, 0 100%);
+  transform: translate(-100%, 100%);
+}
+
+.mobile-menu__content {
+  position: relative;
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: clamp(2rem, 8vw, 4rem);
+  width: 100%;
+  max-width: 90%;
+  padding: 2rem;
+  opacity: 0;
+}
+
+.mobile-menu__nav {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: clamp(1.5rem, 6vw, 2.5rem);
+  width: 100%;
+}
+
+.mobile-menu__link {
+  position: relative;
+  overflow: hidden;
+  color: var(--color-white);
+  font-family: var(--font-display);
+  font-size: clamp(2.5rem, 10vw, 4rem);
+  font-weight: 600;
+  text-transform: uppercase;
+  line-height: 0.9;
+  letter-spacing: -0.02em;
+  opacity: 0;
+  transform: translateY(40px);
+}
+
+.mobile-menu__link-text {
+  display: block;
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.mobile-menu__link-text--hover {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translate(-50%, 100%);
+  color: var(--color-accent);
+}
+
+.mobile-menu__link:not(.mobile-menu__link--active):active .mobile-menu__link-text {
+  transform: translateY(-100%);
+}
+
+.mobile-menu__link:not(.mobile-menu__link--active):active .mobile-menu__link-text--hover {
+  transform: translate(-50%, 0);
+}
+
+.mobile-menu__link--active .mobile-menu__link-text {
+  color: var(--color-accent);
+}
+
+.mobile-menu__separator {
+  width: 80px;
+  height: 1px;
+  background: rgba(255, 255, 255, 0.2);
+  opacity: 0;
+  transform: scaleX(0);
+}
+
+.mobile-menu__cta {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  gap: 12px;
+  padding: clamp(16px, 4vw, 20px) clamp(32px, 7vw, 40px);
+  background: var(--color-accent);
+  border-radius: 50px;
+  color: var(--color-white);
+  font-family: var(--font-display);
+  font-size: clamp(1rem, 4vw, 1.125rem);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: -0.01em;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.mobile-menu__cta:active {
+  transform: translateY(20px) scale(0.96);
+}
+
+.mobile-menu__cta img {
+  width: clamp(24px, 6vw, 30px);
+  height: clamp(24px, 6vw, 30px);
+}
+
 
 /* ----------------------------------------
    RESPONSIVE - Tablet & Mobile
@@ -1313,22 +1559,13 @@ body.is-loading {
     padding-bottom: 5rem;
   }
   
-  /* Hide nav links on mobile - would need hamburger menu */
-  .navbar__link:not(.navbar__link--active) {
-    display: none;
+  /* Hide desktop menu, show burger */
+  .navbar__menu {
+    display: none !important;
   }
   
-  .navbar__link--active {
-    display: none;
-  }
-  
-  .navbar__cta span {
-    display: none;
-  }
-  
-  .navbar__cta {
-    padding: 8px;
-    border-radius: 50%;
+  .burger-menu {
+    display: flex;
   }
   
   /* Numbers section - stack on mobile */

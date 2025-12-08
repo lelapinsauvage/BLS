@@ -1,0 +1,167 @@
+/**
+ * Mobile Menu - Award-Winning Animated Navigation
+ * Handles burger menu toggle and full-screen menu animations
+ */
+
+function initMobileMenu() {
+  const burger = document.querySelector('.burger-menu');
+  const mobileMenu = document.querySelector('.mobile-menu');
+  const mobileMenuLinks = document.querySelectorAll('.mobile-menu__link');
+  const mobileCTA = document.querySelector('.mobile-menu__cta');
+  const separator = document.querySelector('.mobile-menu__separator');
+  const panels = {
+    top: document.querySelector('.mobile-menu__panel--top'),
+    bottom: document.querySelector('.mobile-menu__panel--bottom')
+  };
+
+  if (!burger || !mobileMenu) {
+    console.error('🍔 Mobile menu elements not found!');
+    return;
+  }
+  
+  console.log('🍔 Mobile menu elements found:', {
+    burger,
+    mobileMenu,
+    linksCount: mobileMenuLinks.length,
+    hasCTA: !!mobileCTA,
+    hasSeparator: !!separator,
+    hasPanels: !!panels.top && !!panels.bottom
+  });
+
+  let isOpen = false;
+  let menuTimeline;
+
+  // Create menu animation timeline
+  function createMenuTimeline() {
+    const tl = gsap.timeline({ paused: true });
+
+    // Panel reveal animation (similar to loader)
+    tl.to([panels.top, panels.bottom], {
+      xPercent: 0,
+      yPercent: 0,
+      duration: 0.8,
+      ease: 'power3.inOut'
+    }, 0);
+
+    // Fade in content wrapper
+    tl.to('.mobile-menu__content', {
+      opacity: 1,
+      duration: 0.3,
+      ease: 'power2.out'
+    }, 0.4);
+
+    // Stagger animate links from bottom
+    tl.to(mobileMenuLinks, {
+      opacity: 1,
+      y: 0,
+      duration: 0.6,
+      stagger: 0.08,
+      ease: 'power3.out'
+    }, 0.5);
+
+    // Animate separator
+    if (separator) {
+      tl.to(separator, {
+        opacity: 0.5,
+        scaleX: 1,
+        duration: 0.5,
+        ease: 'power2.out'
+      }, 0.8);
+    }
+
+    // Animate CTA button
+    if (mobileCTA) {
+      tl.to(mobileCTA, {
+        opacity: 1,
+        y: 0,
+        duration: 0.5,
+        ease: 'back.out(1.2)'
+      }, 0.9);
+    }
+
+    return tl;
+  }
+
+  // Toggle menu
+  function toggleMenu() {
+    if (isOpen) {
+      closeMenu();
+    } else {
+      openMenu();
+    }
+  }
+
+  // Open menu
+  function openMenu() {
+    console.log('🎬 Opening menu...');
+    isOpen = true;
+    burger.classList.add('is-active');
+    mobileMenu.classList.add('is-active');
+    document.body.style.overflow = 'hidden';
+
+    // Create and play timeline
+    if (!menuTimeline) {
+      menuTimeline = createMenuTimeline();
+    }
+    menuTimeline.play();
+    console.log('✅ Menu opened');
+  }
+
+  // Close menu
+  function closeMenu() {
+    console.log('🔒 Closing menu...');
+    isOpen = false;
+    burger.classList.remove('is-active');
+    
+    // Reverse animation
+    if (menuTimeline) {
+      menuTimeline.eventCallback('onReverseComplete', () => {
+        mobileMenu.classList.remove('is-active');
+        document.body.style.overflow = '';
+        menuTimeline.eventCallback('onReverseComplete', null); // Clear callback
+        console.log('✅ Menu closed');
+      });
+      menuTimeline.reverse();
+    } else {
+      mobileMenu.classList.remove('is-active');
+      document.body.style.overflow = '';
+      console.log('✅ Menu closed (no timeline)');
+    }
+  }
+
+  // Event listeners
+  burger.addEventListener('click', (e) => {
+    e.stopPropagation();
+    console.log('🍔 Burger clicked! Current state:', isOpen ? 'open' : 'closed');
+    toggleMenu();
+  });
+
+  // Close menu when clicking on a link (for page transitions)
+  mobileMenuLinks.forEach(link => {
+    link.addEventListener('click', () => {
+      if (!link.classList.contains('mobile-menu__link--active')) {
+        // Small delay to see the click effect before closing
+        setTimeout(() => {
+          closeMenu();
+        }, 150);
+      }
+    });
+  });
+
+  // Close menu on escape key
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && isOpen) {
+      closeMenu();
+    }
+  });
+
+  console.log('🍔 Mobile menu initialized');
+}
+
+// Initialize when DOM is ready
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', initMobileMenu);
+} else {
+  initMobileMenu();
+}
+

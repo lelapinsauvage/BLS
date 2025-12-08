@@ -33,6 +33,18 @@
   transform-origin: left center;
 }
 
+.navbar--light .navbar__cta {
+  background: #111111;
+}
+
+.navbar--light .navbar__cta-text div:first-child {
+  color: #EEEEEE;
+}
+
+.navbar--light .navbar__cta-text div:last-child {
+  color: var(--color-accent);
+}
+
 
 /* Start hidden for animation */
 .navbar--light .navbar__logo,
@@ -231,13 +243,16 @@
   overflow: hidden;
 }
 
-/* When hovering on the cards container */
-.values__cards:hover .values__card {
-  flex: 0.7;
-}
+/* Hover effects - only on desktop */
+@media (min-width: 1025px) {
+  /* When hovering on the cards container */
+  .values__cards:hover .values__card {
+    flex: 0.7;
+  }
 
-.values__cards:hover .values__card:hover {
-  flex: 1.6;
+  .values__cards:hover .values__card:hover {
+    flex: 1.6;
+  }
 }
 
 .values__card-img-wrap {
@@ -254,8 +269,10 @@
   transition: transform 0.5s ease;
 }
 
-.values__card:hover .values__card-img {
-  transform: scale(1.05);
+@media (min-width: 1025px) {
+  .values__card:hover .values__card-img {
+    transform: scale(1.05);
+  }
 }
 
 .values__card-title {
@@ -273,13 +290,20 @@
   font-size: var(--text-body-lg);
   font-weight: 500;
   line-height: 1.59;
-  opacity: 0;
+  opacity: 1; /* Always visible on touch devices */
   transition: opacity 0.15s ease;
 }
 
-.values__card:hover .values__card-text {
-  opacity: 1;
-  transition: opacity 0.2s ease 0.24s;
+/* Hide text initially only on desktop */
+@media (min-width: 1025px) {
+  .values__card-text {
+    opacity: 0;
+  }
+  
+  .values__card:hover .values__card-text {
+    opacity: 1;
+    transition: opacity 0.2s ease 0.24s;
+  }
 }
 
 .values__bottom-line {
@@ -518,6 +542,21 @@
   .values__cards:hover .values__card,
   .values__cards:hover .values__card:hover {
     flex: 0 0 auto;
+  }
+}
+
+
+/* ========================================
+   TOUCH DEVICES - Disable Hover Effects
+   ======================================== */
+@media (hover: none) and (pointer: coarse) {
+  /* Values cards - no hover expansion */
+  .values__card {
+    flex: 1 !important;
+  }
+  
+  .values__card-text {
+    opacity: 1 !important;
   }
 }
 

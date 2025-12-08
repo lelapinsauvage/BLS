@@ -25,6 +25,40 @@ requestAnimationFrame(raf);
 setLenis(lenis);
 
 // ========================================
+// NAVBAR SCROLL BEHAVIOR
+// ========================================
+
+let lastScrollY = 0;
+const navbar = document.querySelector('.navbar');
+const hero = document.querySelector('.hero');
+
+// Hook into Lenis scroll event for smooth integration
+lenis.on('scroll', ({ scroll, direction }) => {
+  const currentScrollY = scroll;
+  
+  // Hide/show navbar based on scroll direction
+  if (direction === 1 && currentScrollY > 100) {
+    // Scrolling down (direction 1)
+    navbar.classList.add('navbar--hidden');
+  } else if (direction === -1) {
+    // Scrolling up (direction -1)
+    navbar.classList.remove('navbar--hidden');
+  }
+  
+  // Add white background after scrolling past hero
+  if (hero) {
+    const heroHeight = hero.offsetHeight;
+    if (currentScrollY > heroHeight - 100) {
+      navbar.classList.add('navbar--solid');
+    } else {
+      navbar.classList.remove('navbar--solid');
+    }
+  }
+  
+  lastScrollY = currentScrollY;
+});
+
+// ========================================
 // INITIALIZE
 // ========================================
 
@@ -225,6 +259,9 @@ function initNumbersAnimation() {
 // ========================================
 
 function initCategoriesHover() {
+  // Only run on desktop/tablet landscape (hover-capable devices)
+  if (window.innerWidth <= 1024) return;
+  
   const categories = document.querySelector('.categories');
   const items = document.querySelectorAll('.categories__item');
   const titles = document.querySelectorAll('.categories__title');
@@ -232,6 +269,7 @@ function initCategoriesHover() {
   
   if (!categories || items.length === 0) return;
   
+  // Hide descriptions initially only on desktop
   gsap.set(descriptions, { opacity: 0, y: 10 });
   
   items.forEach((item, index) => {

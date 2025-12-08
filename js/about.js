@@ -24,6 +24,29 @@ requestAnimationFrame(raf);
 // Share lenis with transitions.js
 setLenis(lenis);
 
+// ========================================
+// NAVBAR SCROLL BEHAVIOR
+// ========================================
+
+let lastScrollY = 0;
+const navbar = document.querySelector('.navbar');
+
+// Hook into Lenis scroll event for smooth integration
+lenis.on('scroll', ({ scroll, direction }) => {
+  const currentScrollY = scroll;
+  
+  // Hide/show navbar based on scroll direction
+  if (direction === 1 && currentScrollY > 100) {
+    // Scrolling down (direction 1)
+    navbar.classList.add('navbar--hidden');
+  } else if (direction === -1) {
+    // Scrolling up (direction -1)
+    navbar.classList.remove('navbar--hidden');
+  }
+  
+  lastScrollY = currentScrollY;
+});
+
 // Check if GSAP is available
 if (typeof gsap !== 'undefined') {
   console.log('✅ GSAP loaded');
