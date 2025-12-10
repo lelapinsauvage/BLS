@@ -1482,6 +1482,7 @@ body.is-loading {
   width: 100%;
   max-width: 90%;
   padding: 2rem;
+  opacity: 0; /* Hidden by default, animated by JS */
   opacity: 0;
 }
 
@@ -1618,12 +1619,22 @@ body.is-loading {
   .projects__header {
     flex-direction: column;
     align-items: center;
-    gap: 1rem;
+    gap: 0.3rem; /* Reduced gap between titles */
   }
   
-  .projects__title-left,
-  .projects__title-right {
+  .projects__title-left {
+    order: 1;
     text-align: center;
+  }
+  
+  .projects__title-right {
+    order: 2;
+    text-align: center;
+  }
+  
+  .projects__intro {
+    order: 3;
+    margin-top: 1rem; /* Extra space before paragraph */
   }
   
   .projects__item {

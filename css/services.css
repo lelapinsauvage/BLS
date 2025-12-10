@@ -131,8 +131,7 @@ main {
   display: flex;
   flex-direction: column;
   gap: clamp(1rem, 1.41vw, 1.6875rem);
-  max-width: clamp(300px, 26.25vw, 504px);
-  flex: 1 1 clamp(280px, 26vw, 500px);
+  flex: 1; /* Full width of available space */
 }
 
 .service-card__image {
@@ -146,7 +145,7 @@ main {
   display: flex;
   flex-direction: column;
   gap: clamp(0.75rem, 0.89vw, 1.0625rem);
-  max-width: clamp(280px, 24.95vw, 479px);
+  width: 100%; /* Full width of card */
 }
 
 .service-card__title {
