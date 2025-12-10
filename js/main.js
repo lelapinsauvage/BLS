@@ -36,12 +36,17 @@ const hero = document.querySelector('.hero');
 lenis.on('scroll', ({ scroll, direction }) => {
   const currentScrollY = scroll;
   
-  // Hide/show navbar based on scroll direction
-  if (direction === 1 && currentScrollY > 100) {
-    // Scrolling down (direction 1)
-    navbar.classList.add('navbar--hidden');
-  } else if (direction === -1) {
-    // Scrolling up (direction -1)
+  // Hide/show navbar based on scroll direction (desktop only)
+  if (window.innerWidth > 768) {
+    if (direction === 1 && currentScrollY > 100) {
+      // Scrolling down (direction 1)
+      navbar.classList.add('navbar--hidden');
+    } else if (direction === -1) {
+      // Scrolling up (direction -1)
+      navbar.classList.remove('navbar--hidden');
+    }
+  } else {
+    // Mobile - always keep navbar visible
     navbar.classList.remove('navbar--hidden');
   }
   
@@ -124,6 +129,11 @@ function initHeroAnimation() {
       ease: 'power2.out'
     }, 0.1)
     .to('.navbar__menu', {
+      opacity: 1,
+      duration: 0.3,
+      ease: 'power2.out'
+    }, 0.15)
+    .to('.burger-menu', {
       opacity: 1,
       duration: 0.3,
       ease: 'power2.out'

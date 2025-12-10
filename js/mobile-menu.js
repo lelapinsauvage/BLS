@@ -4,7 +4,8 @@
  */
 
 function initMobileMenu() {
-  const burger = document.querySelector('.burger-menu');
+  const burgerOpen = document.querySelector('.burger-menu--open');
+  const burgerClose = document.querySelector('.burger-menu--close');
   const mobileMenu = document.querySelector('.mobile-menu');
   const mobileMenuLinks = document.querySelectorAll('.mobile-menu__link');
   const mobileCTA = document.querySelector('.mobile-menu__cta');
@@ -14,13 +15,14 @@ function initMobileMenu() {
     bottom: document.querySelector('.mobile-menu__panel--bottom')
   };
 
-  if (!burger || !mobileMenu) {
+  if (!burgerOpen || !burgerClose || !mobileMenu) {
     console.error('🍔 Mobile menu elements not found!');
     return;
   }
   
   console.log('🍔 Mobile menu elements found:', {
-    burger,
+    burgerOpen,
+    burgerClose,
     mobileMenu,
     linksCount: mobileMenuLinks.length,
     hasCTA: !!mobileCTA,
@@ -95,7 +97,6 @@ function initMobileMenu() {
   function openMenu() {
     console.log('🎬 Opening menu...');
     isOpen = true;
-    burger.classList.add('is-active');
     mobileMenu.classList.add('is-active');
     document.body.style.overflow = 'hidden';
 
@@ -111,7 +112,6 @@ function initMobileMenu() {
   function closeMenu() {
     console.log('🔒 Closing menu...');
     isOpen = false;
-    burger.classList.remove('is-active');
     
     // Reverse animation
     if (menuTimeline) {
@@ -130,10 +130,16 @@ function initMobileMenu() {
   }
 
   // Event listeners
-  burger.addEventListener('click', (e) => {
+  burgerOpen.addEventListener('click', (e) => {
     e.stopPropagation();
-    console.log('🍔 Burger clicked! Current state:', isOpen ? 'open' : 'closed');
-    toggleMenu();
+    console.log('🍔 Open button clicked!');
+    openMenu();
+  });
+
+  burgerClose.addEventListener('click', (e) => {
+    e.stopPropagation();
+    console.log('❌ Close button clicked!');
+    closeMenu();
   });
 
   // Close menu when clicking on a link (for page transitions)

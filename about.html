@@ -76,17 +76,24 @@
         </div>
       </a>
     </nav>
-  </header>
 
-  <!-- ========== BURGER MENU BUTTON ========== -->
-  <button class="burger-menu" aria-label="Toggle menu">
-    <span class="burger-menu__line"></span>
-    <span class="burger-menu__line"></span>
-    <span class="burger-menu__line"></span>
-  </button>
+    <!-- ========== BURGER MENU BUTTON (Open) ========== -->
+    <button class="burger-menu burger-menu--open" aria-label="Toggle menu">
+      <span class="burger-menu__line"></span>
+      <span class="burger-menu__line"></span>
+      <span class="burger-menu__line"></span>
+    </button>
+  </header>
 
   <!-- ========== MOBILE MENU ========== -->
   <div class="mobile-menu">
+    <!-- Close button inside menu -->
+    <button class="burger-menu burger-menu--close" aria-label="Close menu">
+      <span class="burger-menu__line"></span>
+      <span class="burger-menu__line"></span>
+      <span class="burger-menu__line"></span>
+    </button>
+
     <div class="mobile-menu__panel mobile-menu__panel--top"></div>
     <div class="mobile-menu__panel mobile-menu__panel--bottom"></div>
     

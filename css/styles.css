@@ -243,6 +243,13 @@ body.is-loading {
   transform: translateY(-100%);
 }
 
+/* Desktop only: Burger moves with navbar */
+@media (min-width: 769px) {
+  .navbar--hidden .burger-menu {
+    transform: translateY(-100%);
+  }
+}
+
 /* White background after scrolling past hero */
 .navbar--solid {
   background-color: var(--color-white);
@@ -1351,6 +1358,7 @@ body.is-loading {
   top: var(--navbar-padding-y);
   z-index: 10002;
   padding: 0;
+  opacity: 0; /* Hidden during loader */
   transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
@@ -1365,41 +1373,57 @@ body.is-loading {
 .burger-menu__line {
   width: 26px;
   height: 2px;
-  background: var(--color-white);
+  background: var(--color-white); /* Default: white (homepage hero) */
   border-radius: 2px;
   transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
   transform-origin: center;
 }
 
-/* Light navbar - dark lines */
-.navbar--light ~ .burger-menu .burger-menu__line {
-  background: #111111;
+/* Light navbar (about, services, project pages) - always black */
+.navbar--light .burger-menu__line {
+  background: #111111 !important;
 }
 
-/* X animation when active */
-.burger-menu.is-active {
+/* Homepage after scrolling past hero - black */
+.navbar--solid .burger-menu__line {
+  background: #111111 !important;
+}
+
+/* Close button inside mobile menu */
+.burger-menu--close {
+  position: absolute;
+  top: var(--navbar-padding-y);
+  right: var(--navbar-padding-x);
+  z-index: 10; /* Above panels */
+  opacity: 0;
+  pointer-events: none;
   gap: 0;
   transform: rotate(90deg);
 }
 
-.burger-menu.is-active .burger-menu__line:nth-child(1) {
+.mobile-menu.is-active .burger-menu--close {
+  opacity: 1;
+  pointer-events: all;
+}
+
+/* Close button - always white, X animation */
+.burger-menu--close .burger-menu__line {
+  background: var(--color-white) !important;
+}
+
+.burger-menu--close .burger-menu__line:nth-child(1) {
   transform: translateY(0) rotate(45deg);
   position: absolute;
 }
 
-.burger-menu.is-active .burger-menu__line:nth-child(2) {
+.burger-menu--close .burger-menu__line:nth-child(2) {
   opacity: 0;
   transform: scaleX(0);
 }
 
-.burger-menu.is-active .burger-menu__line:nth-child(3) {
+.burger-menu--close .burger-menu__line:nth-child(3) {
   transform: translateY(0) rotate(-45deg);
   position: absolute;
-}
-
-/* Always white when menu is open */
-.burger-menu.is-active .burger-menu__line {
-  background: var(--color-white);
 }
 
 /* Mobile Menu Overlay */
@@ -1565,7 +1589,8 @@ body.is-loading {
   }
   
   .burger-menu {
-    display: flex;
+    display: flex !important;
+    opacity: 1 !important; /* Always visible on mobile, override loader hide */
   }
   
   /* Numbers section - stack on mobile */
