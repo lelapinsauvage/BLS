@@ -1,0 +1,111 @@
+/* ========================================
+   PROJECTS PAGE
+   ======================================== */
+
+.projects-header {
+  padding-top: 316px;
+  padding-left: var(--navbar-padding-x);
+  padding-right: var(--navbar-padding-x);
+  padding-bottom: 20px;
+  background: white;
+  min-height: 100px;
+}
+
+.projects-header__title {
+  font-family: var(--font-display);
+  font-size: clamp(3rem, 5.73vw, 6.875rem);
+  font-weight: 600;
+  line-height: 1.16;
+  text-transform: uppercase;
+  color: #111111;
+  margin: 0 0 40px 0;
+}
+
+.projects-header__title .reveal {
+  overflow: hidden;
+  display: block;
+}
+
+.projects-header__title .reveal__inner {
+  display: block;
+}
+
+/* Filter Buttons */
+.projects-header__filters {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.filter-btn {
+  height: 40px;
+  padding-left: 28px;
+  padding-right: 28px;
+  border-radius: 40px;
+  outline: 1px #AAAAAA solid;
+  outline-offset: -1px;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  display: inline-flex;
+  
+  /* Typography */
+  font-size: 14px;
+  font-family: var(--font-display);
+  font-weight: 600;
+  text-transform: uppercase;
+  line-height: 14px;
+  
+  /* Reset */
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  
+  /* Default (inactive) state - white bg, black text */
+  background: white;
+  color: #111111;
+}
+
+.filter-btn--active {
+  /* Active state - black bg, white text */
+  background: #111111;
+  color: white;
+}
+
+.filter-btn:hover {
+  background: #111111;
+  color: white;
+}
+
+/* Projects list spacing */
+.projects--page {
+  background: white;
+  padding-top: 0;
+}
+
+.projects--page .projects__list {
+  margin-top: 20px;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .projects-header {
+    padding-top: 160px;
+    padding-bottom: 40px;
+  }
+  
+  .projects-header__title {
+    font-size: clamp(2.5rem, 10vw, 3.5rem);
+    margin-bottom: 30px;
+  }
+  
+  .filter-btn {
+    font-size: 13px;
+    height: 38px;
+    padding-left: 24px;
+    padding-right: 24px;
+  }
+}
+
