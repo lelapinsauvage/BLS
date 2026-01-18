@@ -1,0 +1,76 @@
+backend:
+  name: git-gateway
+  branch: main # or master, depending on your repo
+
+# Local development mode (we'll use this first)
+local_backend: true
+
+media_folder: "images/uploads" # Where uploaded images will be stored
+public_folder: "/images/uploads" # Public URL path
+
+collections:
+  # PROJECTS
+  - name: "projects"
+    label: "Projects"
+    folder: "content/projects"
+    create: true
+    slug: "{{slug}}"
+    fields:
+      - {label: "Project Title", name: "title", widget: "string"}
+      - {label: "Year", name: "year", widget: "string"}
+      - {label: "Category", name: "category", widget: "select", options: ["Commercial", "Residential", "Hospitality"]}
+      - {label: "Description", name: "description", widget: "text"}
+      - {label: "Main Image", name: "image", widget: "image"}
+      - {label: "Project Link", name: "link", widget: "string", required: false}
+
+  # HOMEPAGE SETTINGS
+  - name: "homepage"
+    label: "Homepage"
+    files:
+      - label: "Hero Section"
+        name: "hero"
+        file: "content/homepage/hero.json"
+        fields:
+          - {label: "Eyebrow Text", name: "eyebrow", widget: "string"}
+          - {label: "Title Line 1", name: "title_line_1", widget: "string"}
+          - {label: "Title Line 2", name: "title_line_2", widget: "string"}
+          - {label: "Title Line 3", name: "title_line_3", widget: "string"}
+          - {label: "Description", name: "description", widget: "text"}
+          - {label: "Scroll CTA Text", name: "scroll_cta", widget: "string"}
+      
+      - label: "Numbers Section"
+        name: "numbers"
+        file: "content/homepage/numbers.json"
+        fields:
+          - label: "Numbers"
+            name: "numbers"
+            widget: "list"
+            fields:
+              - {label: "Value", name: "value", widget: "string"}
+              - {label: "Label", name: "label", widget: "string"}
+      
+      - label: "Founders Section"
+        name: "founders"
+        file: "content/homepage/founders.json"
+        fields:
+          - {label: "Eyebrow", name: "eyebrow", widget: "string"}
+          - {label: "Title", name: "title", widget: "string"}
+          - {label: "Paragraph 1", name: "paragraph_1", widget: "text"}
+          - {label: "Paragraph 2", name: "paragraph_2", widget: "text"}
+          - {label: "Image", name: "image", widget: "image"}
+
+  # SITE SETTINGS
+  - name: "settings"
+    label: "Site Settings"
+    files:
+      - label: "Contact Info"
+        name: "contact"
+        file: "content/settings/contact.json"
+        fields:
+          - {label: "Email", name: "email", widget: "string"}
+          - {label: "Phone", name: "phone", widget: "string"}
+          - {label: "WhatsApp Number", name: "whatsapp", widget: "string"}
+          - {label: "Address Line 1", name: "address_1", widget: "string"}
+          - {label: "Address Line 2", name: "address_2", widget: "string"}
+          - {label: "Address Line 3", name: "address_3", widget: "string"}
+          - {label: "Instagram URL", name: "instagram", widget: "string"}
