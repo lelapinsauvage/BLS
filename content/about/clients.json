@@ -3,23 +3,23 @@
   "title": "Our clients",
   "logos": [
     {
-      "image": "images/client-1.png",
+      "image": "/images/client-1.png",
       "alt": "Aventus"
     },
     {
-      "image": "images/client-2.png",
+      "image": "/images/client-2.png",
       "alt": "Harley-Davidson"
     },
     {
-      "image": "images/client-3.png",
+      "image": "/images/client-3.png",
       "alt": "Regional Australia Bank"
     },
     {
-      "image": "images/client-4.png",
+      "image": "/images/client-4.png",
       "alt": "Colliers"
     },
     {
-      "image": "images/client-5.png",
+      "image": "/images/client-5.png",
       "alt": "TD Synnex"
     }
   ]

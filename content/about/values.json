@@ -5,22 +5,22 @@
     {
       "title": "Integrity",
       "description": "We believe in transparency and honesty at every stage of construction. Our commitment to ethical practices ensures trust is built alongside every structure we create.",
-      "image": "images/value-integrity.jpg"
+      "image": "/images/value-integrity.jpg"
     },
     {
       "title": "Precision",
       "description": "Every measurement matters. From initial blueprints to final finishes, we execute with meticulous attention to detail that defines exceptional craftsmanship.",
-      "image": "images/value-precision.jpg"
+      "image": "/images/value-precision.jpg"
     },
     {
       "title": "Collaboration",
       "description": "Great projects emerge from great partnerships. We work closely with architects, designers, and clients to transform collective visions into built reality.",
-      "image": "images/value-collaboration.jpg"
+      "image": "/images/value-collaboration.jpg"
     },
     {
       "title": "Forward-Thinking",
       "description": "Innovation drives our approach to modern construction. We embrace sustainable methods and cutting-edge technologies to build spaces that stand the test of time.",
-      "image": "images/value-forward-thinking.png"
+      "image": "/images/value-forward-thinking.png"
     }
   ]
 }
