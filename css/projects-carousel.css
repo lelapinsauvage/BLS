@@ -1,0 +1,223 @@
+/* ========================================
+   PROJECTS CAROUSEL (GRID VIEW)
+   ======================================== */
+
+.projects__view-toggle {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 2rem;
+  justify-content: center;
+}
+
+.projects__view-btn {
+  padding: 0.75rem 1.5rem;
+  background: transparent;
+  border: 1px solid var(--color-border);
+  border-radius: 2rem;
+  color: var(--color-black);
+  font-family: var(--font-display);
+  font-size: var(--text-cta);
+  font-weight: 600;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.projects__view-btn--active {
+  background: var(--color-black);
+  color: var(--color-white);
+  border-color: var(--color-black);
+}
+
+.projects__view-btn:hover:not(.projects__view-btn--active) {
+  background: rgba(0, 0, 0, 0.05);
+}
+
+/* Carousel Container */
+.projects__carousel {
+  display: none; /* Hidden by default, shown when grid view active */
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: #000;
+  overflow: hidden;
+}
+
+.projects__carousel.is-active,
+.projects__carousel--standalone {
+  display: block;
+}
+
+/* Carousel Slide */
+.carousel-slide {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  will-change: transform;
+}
+
+.carousel-slide__img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+.carousel-slide__img img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  transform: translateZ(0);
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  image-rendering: -webkit-optimize-contrast;
+  image-rendering: crisp-edges;
+}
+
+/* Slide Header (Title, Description, Link) */
+.carousel-slide__header {
+  position: absolute;
+  bottom: 4rem;
+  left: 50%;
+  transform: translate(-50%, 0%);
+  width: 75%;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.5rem;
+  z-index: 10;
+}
+
+.carousel-slide__title {
+  color: var(--color-white);
+  font-family: var(--font-display);
+  font-size: clamp(3rem, 6vw, 6rem);
+  font-weight: 700;
+  text-transform: uppercase;
+  line-height: 0.9;
+  letter-spacing: -0.04em;
+}
+
+.carousel-slide__description {
+  width: 60%;
+  color: var(--color-white);
+  font-family: var(--font-display);
+  font-size: var(--text-body-lg);
+  font-weight: 500;
+  line-height: 1.6;
+  text-align: center;
+  margin-bottom: 1rem;
+}
+
+.carousel-slide__link {
+  display: inline-flex;
+  padding: 0.75rem 2rem;
+  background: var(--color-white);
+  border-radius: 2rem;
+  color: var(--color-black);
+  font-family: var(--font-display);
+  font-size: var(--text-cta);
+  font-weight: 600;
+  text-transform: uppercase;
+  text-decoration: none;
+  transition: all 0.3s ease;
+}
+
+.carousel-slide__link:hover {
+  background: var(--color-accent);
+  color: var(--color-white);
+}
+
+/* Slide Info (Tags + Counter) */
+.carousel-slide__info {
+  position: absolute;
+  left: 0;
+  bottom: 2rem;
+  width: 100vw;
+  padding: 0 var(--navbar-padding-x);
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  z-index: 10;
+}
+
+.carousel-slide__tags {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.carousel-slide__tags p {
+  color: var(--color-white);
+  font-family: var(--font-display);
+  font-size: var(--text-cta);
+  font-weight: 500;
+  text-transform: uppercase;
+}
+
+.carousel-slide__tags p:first-child {
+  margin-bottom: 0.75rem;
+  opacity: 0.6;
+}
+
+.carousel-slide__counter {
+  display: flex;
+  gap: 0.5rem;
+  color: var(--color-white);
+  font-family: var(--font-display);
+  font-size: var(--text-body-lg);
+  font-weight: 600;
+}
+
+.carousel-slide__counter span {
+  min-width: 2rem;
+  text-align: center;
+}
+
+/* Animation helpers */
+.carousel-word,
+.carousel-line {
+  position: relative;
+  display: inline-block;
+  will-change: transform;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .carousel-slide__title {
+    font-size: clamp(2rem, 8vw, 3rem);
+  }
+
+  .carousel-slide__header {
+    top: 50%;
+    bottom: unset;
+    transform: translate(-50%, -50%);
+    width: 90%;
+  }
+
+  .carousel-slide__description {
+    width: 100%;
+  }
+
+  .carousel-slide__info {
+    bottom: 1rem;
+    padding: 0 1.5rem;
+  }
+}
+
+/* Hide list when carousel is active */
+.projects__list.is-hidden {
+  display: none;
+}
+
+.projects__cta.is-hidden {
+  display: none;
+}

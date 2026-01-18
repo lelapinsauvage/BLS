@@ -1,0 +1,19 @@
+{
+  "services": [
+    {
+      "title": "Design-Led Fit-Outs",
+      "description": "Bespoke hospitality and retail interiors, translating creative vision into flawless, functional spaces.",
+      "image": "images/service-fitouts.jpg"
+    },
+    {
+      "title": "Custom Joinery & Fabrication",
+      "description": "In-house millwork and bespoke joinery crafted to mirror your design intent with precision.",
+      "image": "images/service-joinery.jpg"
+    },
+    {
+      "title": "End-to-End Management",
+      "description": "One accountable team orchestrating everything from planning to handover—no gaps, no surprises.",
+      "image": "images/service-management.jpg"
+    }
+  ]
+}

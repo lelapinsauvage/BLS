@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Thank You | Buterin L'Estrange</title>
+  
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Francois+One&display=swap" rel="stylesheet">
+  
+  <!-- Stylesheets -->
+  <link rel="stylesheet" href="css/reset.css">
+  <link rel="stylesheet" href="css/design-system.css">
+  <link rel="stylesheet" href="css/styles.css">
+  
+  <style>
+    .thank-you {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding: 2rem;
+      text-align: center;
+      background: #111;
+      color: #fff;
+    }
+    
+    .thank-you__title {
+      font-family: 'Neue Haas Grotesk Display Pro', sans-serif;
+      font-size: clamp(3rem, 8vw, 6rem);
+      font-weight: 700;
+      text-transform: uppercase;
+      line-height: 0.9;
+      margin-bottom: 2rem;
+    }
+    
+    .thank-you__text {
+      font-family: 'Neue Haas Grotesk Display Pro', sans-serif;
+      font-size: clamp(1rem, 2vw, 1.5rem);
+      font-weight: 500;
+      max-width: 600px;
+      line-height: 1.6;
+      margin-bottom: 3rem;
+    }
+    
+    .thank-you__link {
+      display: inline-flex;
+      padding: 1rem 2.5rem;
+      background: #fff;
+      color: #111;
+      font-family: 'Neue Haas Grotesk Display Pro', sans-serif;
+      font-size: 1rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      text-decoration: none;
+      border-radius: 2rem;
+      transition: all 0.3s ease;
+    }
+    
+    .thank-you__link:hover {
+      background: #f3eeb0;
+      color: #111;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="thank-you">
+    <h1 class="thank-you__title">Thank You!</h1>
+    <p class="thank-you__text">
+      We've received your message and will get back to you within 24 hours. 
+      We look forward to discussing your project with you.
+    </p>
+    <a href="index.html" class="thank-you__link">Back to Home</a>
+  </div>
+
+  <script>
+    // Auto redirect after 5 seconds
+    setTimeout(() => {
+      window.location.href = 'index.html';
+    }, 5000);
+  </script>
+
+</body>
+</html>

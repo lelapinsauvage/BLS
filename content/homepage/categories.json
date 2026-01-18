@@ -1,0 +1,22 @@
+{
+  "categories": [
+    {
+      "title": "Residential",
+      "description": "Luxury homes and apartments crafted with precision.",
+      "image": "images/category-residential.png",
+      "link": "/residential"
+    },
+    {
+      "title": "Hospitality",
+      "description": "Restaurants, cafés, and bars built for impact.",
+      "image": "images/category-hospitality.png",
+      "link": "/hospitality"
+    },
+    {
+      "title": "Commercial",
+      "description": "Office and retail spaces designed to perform.",
+      "image": "images/category-commercial.png",
+      "link": "/commercial"
+    }
+  ]
+}

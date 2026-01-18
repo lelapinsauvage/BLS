@@ -1,29 +1,15 @@
 backend:
   name: git-gateway
-  branch: main # or master, depending on your repo
+  branch: main
 
-# Local development mode (we'll use this first)
+# For local development (comment out when deploying)
 local_backend: true
 
-media_folder: "images/uploads" # Where uploaded images will be stored
-public_folder: "/images/uploads" # Public URL path
+media_folder: "images/uploads"
+public_folder: "images/uploads"
 
 collections:
-  # PROJECTS
-  - name: "projects"
-    label: "Projects"
-    folder: "content/projects"
-    create: true
-    slug: "{{slug}}"
-    fields:
-      - {label: "Project Title", name: "title", widget: "string"}
-      - {label: "Year", name: "year", widget: "string"}
-      - {label: "Category", name: "category", widget: "select", options: ["Commercial", "Residential", "Hospitality"]}
-      - {label: "Description", name: "description", widget: "text"}
-      - {label: "Main Image", name: "image", widget: "image"}
-      - {label: "Project Link", name: "link", widget: "string", required: false}
-
-  # HOMEPAGE SETTINGS
+  # ==================== HOMEPAGE ====================
   - name: "homepage"
     label: "Homepage"
     files:
@@ -36,8 +22,9 @@ collections:
           - {label: "Title Line 2", name: "title_line_2", widget: "string"}
           - {label: "Title Line 3", name: "title_line_3", widget: "string"}
           - {label: "Description", name: "description", widget: "text"}
-          - {label: "Scroll CTA Text", name: "scroll_cta", widget: "string"}
-      
+          - {label: "Background Video", name: "video", widget: "file", required: false, hint: "Upload an MP4 video for the hero background"}
+          - {label: "Scroll CTA Text", name: "scroll_cta", widget: "string", default: "Scroll to discover"}
+
       - label: "Numbers Section"
         name: "numbers"
         file: "content/homepage/numbers.json"
@@ -45,10 +32,35 @@ collections:
           - label: "Numbers"
             name: "numbers"
             widget: "list"
+            min: 1
+            max: 4
             fields:
-              - {label: "Value", name: "value", widget: "string"}
-              - {label: "Label", name: "label", widget: "string"}
-      
+              - {label: "Value", name: "value", widget: "string", hint: "e.g. 25+, 100+, 12"}
+              - {label: "Label", name: "label", widget: "string", hint: "e.g. Years of Experience"}
+
+      - label: "Categories Section"
+        name: "categories"
+        file: "content/homepage/categories.json"
+        fields:
+          - label: "Categories"
+            name: "categories"
+            widget: "list"
+            min: 3
+            max: 3
+            fields:
+              - {label: "Title", name: "title", widget: "string"}
+              - {label: "Description", name: "description", widget: "text"}
+              - {label: "Background Image", name: "image", widget: "image"}
+              - {label: "Link URL", name: "link", widget: "string", hint: "e.g. /residential"}
+
+      - label: "Projects Section Header"
+        name: "projects_header"
+        file: "content/homepage/projects-header.json"
+        fields:
+          - {label: "Title Left", name: "title_left", widget: "string", default: "Selected"}
+          - {label: "Title Right", name: "title_right", widget: "string", default: "Projects"}
+          - {label: "Intro Paragraph", name: "intro", widget: "text"}
+
       - label: "Founders Section"
         name: "founders"
         file: "content/homepage/founders.json"
@@ -57,9 +69,147 @@ collections:
           - {label: "Title", name: "title", widget: "string"}
           - {label: "Paragraph 1", name: "paragraph_1", widget: "text"}
           - {label: "Paragraph 2", name: "paragraph_2", widget: "text"}
-          - {label: "Image", name: "image", widget: "image"}
+          - {label: "Founder Image", name: "image", widget: "image"}
+          - {label: "Background Image", name: "background_image", widget: "image", hint: "Image behind the founder photo"}
 
-  # SITE SETTINGS
+      - label: "Image Separators"
+        name: "image_separators"
+        file: "content/homepage/separators.json"
+        fields:
+          - label: "Separators"
+            name: "separators"
+            widget: "list"
+            fields:
+              - {label: "Image", name: "image", widget: "image"}
+              - {label: "Position", name: "position", widget: "select", options: ["after-projects", "after-founders"]}
+
+  # ==================== ABOUT PAGE ====================
+  - name: "about"
+    label: "About Page"
+    files:
+      - label: "Hero Section"
+        name: "hero"
+        file: "content/about/hero.json"
+        fields:
+          - {label: "Eyebrow", name: "eyebrow", widget: "string"}
+          - {label: "Title Line 1", name: "title_line_1", widget: "string"}
+          - {label: "Title Line 2", name: "title_line_2", widget: "string"}
+          - {label: "Title Line 3", name: "title_line_3", widget: "string"}
+          - {label: "Accent Word (in Title Line 3)", name: "accent_word", widget: "string", hint: "e.g. Integrity"}
+          - {label: "Description", name: "description", widget: "text"}
+          - label: "Anchor Links"
+            name: "anchors"
+            widget: "list"
+            fields:
+              - {label: "Text", name: "text", widget: "string"}
+              - {label: "Link", name: "link", widget: "string", hint: "e.g. #values"}
+
+      - label: "Values Section"
+        name: "values"
+        file: "content/about/values.json"
+        fields:
+          - {label: "Eyebrow", name: "eyebrow", widget: "string"}
+          - {label: "Title", name: "title", widget: "string"}
+          - label: "Value Cards"
+            name: "values"
+            widget: "list"
+            min: 4
+            max: 4
+            fields:
+              - {label: "Title", name: "title", widget: "string"}
+              - {label: "Description", name: "description", widget: "text"}
+              - {label: "Image", name: "image", widget: "image"}
+
+      - label: "Mission & Vision"
+        name: "mission_vision"
+        file: "content/about/mission-vision.json"
+        fields:
+          - {label: "Mission Eyebrow", name: "mission_eyebrow", widget: "string"}
+          - {label: "Mission Text", name: "mission_text", widget: "text"}
+          - {label: "Mission Image", name: "mission_image", widget: "image"}
+          - {label: "Vision Eyebrow", name: "vision_eyebrow", widget: "string"}
+          - {label: "Vision Text", name: "vision_text", widget: "text"}
+          - {label: "Vision Image", name: "vision_image", widget: "image"}
+
+      - label: "Clients Section"
+        name: "clients"
+        file: "content/about/clients.json"
+        fields:
+          - {label: "Eyebrow", name: "eyebrow", widget: "string"}
+          - {label: "Title", name: "title", widget: "string"}
+          - label: "Client Logos"
+            name: "logos"
+            widget: "list"
+            fields:
+              - {label: "Logo Image", name: "image", widget: "image"}
+              - {label: "Client Name", name: "alt", widget: "string", hint: "For accessibility"}
+
+      - label: "Image Separator"
+        name: "separator"
+        file: "content/about/separator.json"
+        fields:
+          - {label: "Top Separator Image", name: "top_image", widget: "image"}
+          - {label: "Bottom Separator Image", name: "bottom_image", widget: "image"}
+
+  # ==================== SERVICES PAGE ====================
+  - name: "services"
+    label: "Services Page"
+    files:
+      - label: "Hero Section"
+        name: "hero"
+        file: "content/services/hero.json"
+        fields:
+          - {label: "Eyebrow", name: "eyebrow", widget: "string"}
+          - {label: "Title", name: "title", widget: "string"}
+
+      - label: "Service Cards"
+        name: "services"
+        file: "content/services/services.json"
+        fields:
+          - label: "Services"
+            name: "services"
+            widget: "list"
+            min: 3
+            max: 3
+            fields:
+              - {label: "Title", name: "title", widget: "string"}
+              - {label: "Description", name: "description", widget: "text"}
+              - {label: "Image", name: "image", widget: "image"}
+
+      - label: "Image Separator"
+        name: "separator"
+        file: "content/services/separator.json"
+        fields:
+          - {label: "Separator Image", name: "image", widget: "image"}
+
+  # ==================== PROJECTS ====================
+  - name: "projects"
+    label: "Projects"
+    folder: "content/projects"
+    create: true
+    slug: "{{slug}}"
+    fields:
+      - {label: "Project Title", name: "title", widget: "string"}
+      - {label: "Year", name: "year", widget: "string"}
+      - {label: "Category", name: "category", widget: "select", options: ["Commercial", "Residential", "Hospitality"]}
+      - {label: "Short Description", name: "description", widget: "text", hint: "Appears on project cards"}
+      - {label: "Main Image", name: "image", widget: "image", hint: "Main project image"}
+      - {label: "Project Link", name: "link", widget: "string", hint: "URL slug, e.g. /project/the-gantry"}
+      - label: "Project Detail Content (Optional)"
+        name: "detail"
+        widget: "object"
+        collapsed: true
+        fields:
+          - {label: "Full Description", name: "full_description", widget: "text", required: false}
+          - label: "Image Gallery"
+            name: "gallery"
+            widget: "list"
+            required: false
+            fields:
+              - {label: "Image", name: "image", widget: "image"}
+              - {label: "Caption", name: "caption", widget: "string", required: false}
+
+  # ==================== SITE SETTINGS ====================
   - name: "settings"
     label: "Site Settings"
     files:
@@ -67,10 +217,23 @@ collections:
         name: "contact"
         file: "content/settings/contact.json"
         fields:
+          - {label: "Company Name", name: "company_name", widget: "string"}
           - {label: "Email", name: "email", widget: "string"}
           - {label: "Phone", name: "phone", widget: "string"}
-          - {label: "WhatsApp Number", name: "whatsapp", widget: "string"}
+          - {label: "WhatsApp Number", name: "whatsapp", widget: "string", hint: "Format: 61422523677"}
           - {label: "Address Line 1", name: "address_1", widget: "string"}
           - {label: "Address Line 2", name: "address_2", widget: "string"}
           - {label: "Address Line 3", name: "address_3", widget: "string"}
+          - {label: "Address Line 4", name: "address_4", widget: "string", required: false}
           - {label: "Instagram URL", name: "instagram", widget: "string"}
+
+      - label: "Footer"
+        name: "footer"
+        file: "content/settings/footer.json"
+        fields:
+          - {label: "Heading Line 1", name: "heading_line_1", widget: "string"}
+          - {label: "Heading Line 2a", name: "heading_line_2a", widget: "string", hint: "e.g. With"}
+          - {label: "Heading Line 2b (Accent)", name: "heading_line_2b", widget: "string", hint: "e.g. Integrity"}
+          - {label: "Copyright Text", name: "copyright", widget: "string"}
+          - {label: "Cookie Policy URL", name: "cookie_policy_url", widget: "string"}
+          - {label: "Privacy Policy URL", name: "privacy_policy_url", widget: "string"}

@@ -1,0 +1,12 @@
+{
+  "separators": [
+    {
+      "image": "images/separator-1.png",
+      "position": "after-projects"
+    },
+    {
+      "image": "images/separator-2.png",
+      "position": "after-founders"
+    }
+  ]
+}
