@@ -1165,6 +1165,14 @@ body.is-loading {
 .footer__form-field input:focus,
 .footer__form-field textarea:focus {
   border-color: var(--color-accent);
+  outline: none;
+}
+
+/* When input has value, change text color to accent */
+.footer__form-field input:not(:placeholder-shown),
+.footer__form-field textarea:not(:placeholder-shown) {
+  color: var(--color-accent);
+  background: transparent;
 }
 
 .footer__form-field textarea {
