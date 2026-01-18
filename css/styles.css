@@ -1175,6 +1175,18 @@ body.is-loading {
   background: transparent;
 }
 
+/* Override browser autofill styles */
+.footer__form-field input:-webkit-autofill,
+.footer__form-field input:-webkit-autofill:hover,
+.footer__form-field input:-webkit-autofill:focus,
+.footer__form-field input:-webkit-autofill:active {
+  -webkit-text-fill-color: var(--color-accent) !important;
+  -webkit-box-shadow: 0 0 0 1000px transparent inset !important;
+  background-color: transparent !important;
+  background-clip: content-box !important;
+  transition: background-color 5000s ease-in-out 0s;
+}
+
 .footer__form-field textarea {
   height: clamp(90px, 7.19vw, 138px); /* 138px */
   resize: none;
