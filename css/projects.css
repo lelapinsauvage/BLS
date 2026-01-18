@@ -7,18 +7,19 @@
   padding-left: var(--navbar-padding-x);
   padding-right: var(--navbar-padding-x);
   padding-bottom: 20px;
-  background: white;
+  background: var(--color-brand);  /* Navy for impact */
   min-height: 100px;
 }
 
 .projects-header__title {
   font-family: var(--font-display);
-  font-size: clamp(3rem, 5.73vw, 6.875rem);
-  font-weight: 600;
-  line-height: 1.16;
+  font-size: clamp(3.5rem, 6.5vw, 7.8rem);  /* Larger */
+  font-weight: 700;  /* Bolder */
+  line-height: 1;
   text-transform: uppercase;
-  color: #111111;
+  color: var(--color-white);  /* White on navy */
   margin: 0 0 40px 0;
+  letter-spacing: -0.03em;
 }
 
 .projects-header__title .reveal {
@@ -44,44 +45,46 @@
   padding-left: 28px;
   padding-right: 28px;
   border-radius: 40px;
-  outline: 1px #AAAAAA solid;
+  outline: 1px rgba(255, 255, 255, 0.3) solid;
   outline-offset: -1px;
   justify-content: center;
   align-items: center;
   gap: 10px;
   display: inline-flex;
-  
+
   /* Typography */
   font-size: 14px;
   font-family: var(--font-display);
   font-weight: 600;
   text-transform: uppercase;
   line-height: 14px;
-  
+
   /* Reset */
   border: none;
   cursor: pointer;
   transition: all 0.3s ease;
-  
-  /* Default (inactive) state - white bg, black text */
-  background: white;
-  color: #111111;
+
+  /* Default (inactive) state - transparent bg, white text */
+  background: transparent;
+  color: var(--color-white);
 }
 
 .filter-btn--active {
-  /* Active state - black bg, white text */
-  background: #111111;
-  color: white;
+  /* Active state - gold bg, navy text */
+  background: var(--color-accent);
+  color: var(--color-brand);
+  outline-color: var(--color-accent);
 }
 
 .filter-btn:hover {
-  background: #111111;
-  color: white;
+  background: var(--color-accent);
+  color: var(--color-brand);
+  outline-color: var(--color-accent);
 }
 
 /* Projects list spacing */
 .projects--page {
-  background: white;
+  background: var(--color-brand);  /* Navy to match header */
   padding-top: 0;
 }
 

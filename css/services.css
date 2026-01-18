@@ -17,16 +17,21 @@ main {
    NAVBAR LIGHT
    ---------------------------------------- */
 
+/* Services page - navbar starts light colored on navy hero */
 .navbar--light .navbar__link-text {
-  color: #111111;
+  color: var(--color-white);
 }
 
 .navbar--light .navbar__link-text--hover {
-  color: var(--color-accent);
+  color: var(--color-white);  /* White for contrast on navy hero */
 }
 
 .navbar--light .navbar__link--active .navbar__link-text {
-  color: var(--color-accent);
+  color: var(--color-accent);  /* Gold works on navy hero */
+}
+
+.navbar--light .navbar__logo svg path {
+  fill: var(--color-white);
 }
 
 /* ----------------------------------------
@@ -62,7 +67,7 @@ main {
   justify-content: center;
   align-items: center;
   padding: clamp(6rem, 16.77vw, 322px) var(--navbar-padding-x) clamp(2rem, 3.49vw, 4.1875rem);
-  background: var(--color-white);
+  background: var(--color-brand);  /* Navy for impact */
 }
 
 .services-hero__content {
@@ -75,7 +80,7 @@ main {
 }
 
 .services-hero__eyebrow {
-  color: var(--color-gray);
+  color: rgba(255, 255, 255, 0.6);  /* Light on navy */
   font-family: var(--font-accent);
   font-size: var(--text-eyebrow);
   font-weight: 400;
@@ -85,19 +90,20 @@ main {
 }
 
 .services-hero__title {
-  color: #1A1A1A;
+  color: var(--color-white);  /* White on navy */
   font-family: var(--font-display);
-  font-size: clamp(2rem, 3.958vw, 4.75rem);
-  font-weight: 600;
+  font-size: clamp(2.25rem, 4.5vw, 5.5rem);  /* Larger */
+  font-weight: 700;  /* Bolder */
   text-transform: uppercase;
-  line-height: 0.9;
+  line-height: 0.88;
+  letter-spacing: -0.03em;
 }
 
 .services-hero__separator {
   width: 100%;
   max-width: clamp(600px, 95.83vw, 1840px);
   height: 1px;
-  background: #BEBEBE;
+  background: rgba(255, 255, 255, 0.2);  /* Light on navy */
   margin-top: clamp(1.75rem, 1.77vw, 2.125rem);
 }
 
@@ -149,7 +155,7 @@ main {
 }
 
 .service-card__title {
-  color: #111111;
+  color: var(--color-brand);
   font-family: var(--font-display);
   font-size: var(--text-nav);
   font-weight: 600;
@@ -159,7 +165,7 @@ main {
 }
 
 .service-card__description {
-  color: #111111;
+  color: var(--color-brand);
   font-family: var(--font-display);
   font-size: var(--text-body-lg);
   font-weight: 500;

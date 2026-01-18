@@ -15,50 +15,66 @@ const lenis = new Lenis({
   touchMultiplier: 2
 });
 
-function raf(time) {
-  lenis.raf(time);
-  requestAnimationFrame(raf);
-}
-requestAnimationFrame(raf);
-
 // Share lenis with transitions.js
 setLenis(lenis);
+
+// RAF loop for Lenis - only used as fallback if GSAP is not available
+// When GSAP is loaded, it takes over via gsap.ticker (see below)
+let rafId = null;
+function raf(time) {
+  lenis.raf(time);
+  rafId = requestAnimationFrame(raf);
+}
+rafId = requestAnimationFrame(raf);
 
 // ========================================
 // NAVBAR SCROLL BEHAVIOR
 // ========================================
 
-let lastScrollY = 0;
 const navbar = document.querySelector('.navbar');
+let isDesktop = window.innerWidth > 768;
+let lastNavbarState = null;
+
+// Update isDesktop on resize (debounced)
+let resizeTimeout;
+window.addEventListener('resize', () => {
+  clearTimeout(resizeTimeout);
+  resizeTimeout = setTimeout(() => {
+    isDesktop = window.innerWidth > 768;
+    if (!isDesktop) navbar.classList.remove('navbar--hidden');
+  }, 150);
+}, { passive: true });
 
 // Hook into Lenis scroll event for smooth integration
 lenis.on('scroll', ({ scroll, direction }) => {
-  const currentScrollY = scroll;
-  
-  // Hide/show navbar based on scroll direction (desktop only)
-  if (window.innerWidth > 768) {
-    if (direction === 1 && currentScrollY > 100) {
-      // Scrolling down (direction 1)
+  if (!isDesktop) return;
+
+  const shouldHide = direction === 1 && scroll > 100;
+
+  // Only update DOM if state changed
+  if (shouldHide !== lastNavbarState) {
+    lastNavbarState = shouldHide;
+    if (shouldHide) {
       navbar.classList.add('navbar--hidden');
-    } else if (direction === -1) {
-      // Scrolling up (direction -1)
+    } else {
       navbar.classList.remove('navbar--hidden');
     }
-  } else {
-    // Mobile - always keep navbar visible
-    navbar.classList.remove('navbar--hidden');
   }
-  
-  lastScrollY = currentScrollY;
 });
 
 // Check if GSAP is available
 if (typeof gsap !== 'undefined') {
   console.log('✅ GSAP loaded');
-  
+
+  // Cancel the fallback RAF loop - GSAP ticker will handle Lenis updates
+  if (rafId) {
+    cancelAnimationFrame(rafId);
+    rafId = null;
+  }
+
   // Register GSAP plugins
   gsap.registerPlugin(ScrollTrigger);
-  
+
   // Integrate Lenis with GSAP ScrollTrigger
   lenis.on('scroll', ScrollTrigger.update);
   gsap.ticker.add((time) => {
@@ -80,6 +96,34 @@ if (typeof gsap !== 'undefined') {
 function initPageAnimations() {
   initHeroAnimation();
   initImageParallax();
+  initValuesAnimation();
+  initMissionAnimation();
+  initClientsAnimation();
+  initNavbarColorChange();
+}
+
+// ========================================
+// NAVBAR COLOR CHANGE AFTER HERO
+// ========================================
+
+function initNavbarColorChange() {
+  const hero = document.querySelector('.hero--light');
+  const navbar = document.querySelector('.navbar');
+
+  if (!hero || !navbar) return;
+
+  ScrollTrigger.create({
+    trigger: hero,
+    start: 'bottom top+=80',
+    onEnter: () => {
+      navbar.classList.remove('navbar--light');
+      navbar.classList.add('navbar--solid');
+    },
+    onLeaveBack: () => {
+      navbar.classList.remove('navbar--solid');
+      navbar.classList.add('navbar--light');
+    }
+  });
 }
 
 // ========================================
@@ -150,8 +194,14 @@ function typeWord(element, word, callback) {
 }
 
 function initHeroAnimation() {
+  // Split hero description into lines
+  const heroDesc = document.querySelector('.hero__description--about');
+  if (heroDesc) {
+    splitTextIntoLines(heroDesc);
+  }
+
   const heroTl = gsap.timeline();
-  
+
   // Navbar - starts immediately
   heroTl
     .to('.navbar--light .navbar__logo', {
@@ -174,14 +224,14 @@ function initHeroAnimation() {
       duration: 0.3,
       ease: 'power2.out'
     }, 0.15)
-    
+
     // Eyebrow
     .to('.hero--light .hero__eyebrow', {
       opacity: 1,
       duration: 0.4,
       ease: 'power2.out'
     }, 0.2)
-    
+
     // Title lines - masked reveal
     .to('.hero__title--about .reveal:nth-child(1) .reveal__inner', {
       y: '0%',
@@ -192,7 +242,7 @@ function initHeroAnimation() {
       opacity: 1,
       duration: 0.01
     }, '<')
-    
+
     .to('.hero__title--about .reveal:nth-child(2) .reveal__inner', {
       y: '0%',
       duration: 0.75,
@@ -202,7 +252,7 @@ function initHeroAnimation() {
       opacity: 1,
       duration: 0.01
     }, '<')
-    
+
     .to('.hero__title--about .reveal:nth-child(3) .reveal__inner', {
       y: '0%',
       duration: 0.75,
@@ -212,14 +262,15 @@ function initHeroAnimation() {
       opacity: 1,
       duration: 0.01
     }, '<')
-    
-    // Description
-    .to('.hero--light .hero__description', {
-      opacity: 1,
-      duration: 0.4,
-      ease: 'power2.out'
+
+    // Description lines reveal
+    .to('.hero__description--about .line-inner', {
+      y: '0%',
+      duration: 0.7,
+      stagger: 0.06,
+      ease: 'power4.out'
     }, 0.7)
-    
+
     // Anchor links
     .to('.hero__anchor', {
       opacity: 1,
@@ -227,7 +278,61 @@ function initHeroAnimation() {
       stagger: 0.08,
       ease: 'power2.out',
       onComplete: initTypewriter
-    }, 0.8);
+    }, 0.95);
+}
+
+// Helper function to split text into lines
+function splitTextIntoLines(element) {
+  const text = element.textContent;
+  const words = text.split(' ');
+
+  // Temporarily make element visible to measure
+  element.style.visibility = 'hidden';
+  element.style.position = 'absolute';
+
+  // Create a test container
+  const testDiv = document.createElement('div');
+  testDiv.style.cssText = window.getComputedStyle(element).cssText;
+  testDiv.style.width = element.offsetWidth + 'px';
+  testDiv.style.position = 'absolute';
+  testDiv.style.visibility = 'hidden';
+  document.body.appendChild(testDiv);
+
+  const lines = [];
+  let currentLine = [];
+  let lastHeight = 0;
+
+  words.forEach((word, i) => {
+    currentLine.push(word);
+    testDiv.textContent = currentLine.join(' ');
+    const newHeight = testDiv.offsetHeight;
+
+    if (newHeight > lastHeight && currentLine.length > 1) {
+      currentLine.pop();
+      lines.push(currentLine.join(' '));
+      currentLine = [word];
+      lastHeight = 0;
+      testDiv.textContent = word;
+      lastHeight = testDiv.offsetHeight;
+    } else {
+      lastHeight = newHeight;
+    }
+  });
+
+  if (currentLine.length > 0) {
+    lines.push(currentLine.join(' '));
+  }
+
+  document.body.removeChild(testDiv);
+
+  // Reset element styles
+  element.style.visibility = '';
+  element.style.position = '';
+
+  // Build the HTML
+  element.innerHTML = lines.map(line =>
+    `<span class="line"><span class="line-inner">${line}</span></span>`
+  ).join(' ');
 }
 
 // ========================================
@@ -236,15 +341,16 @@ function initHeroAnimation() {
 
 function initImageParallax() {
   const separators = document.querySelectorAll('.image-separator');
-  
+
   if (separators.length === 0) return;
-  
+
   separators.forEach(separator => {
     const img = separator.querySelector('.image-separator__img');
-    
+
     if (!img) return;
-    
-    gsap.fromTo(img, 
+
+    // Parallax effect only
+    gsap.fromTo(img,
       { yPercent: -10 },
       {
         yPercent: 10,
@@ -253,11 +359,342 @@ function initImageParallax() {
           trigger: separator,
           start: 'top bottom',
           end: 'bottom top',
-          scrub: true
+          scrub: 0.5
         }
       }
     );
   });
+}
+
+// ========================================
+// VALUES SECTION - Award-Winning Animation
+// ========================================
+
+function initValuesAnimation() {
+  const valuesSection = document.querySelector('.values');
+  if (!valuesSection) return;
+
+  // Split title into characters
+  const title = valuesSection.querySelector('.values__title');
+  if (title) {
+    const text = title.textContent;
+    title.innerHTML = text.split('').map(char =>
+      char === ' ' ? ' ' : `<span class="char">${char}</span>`
+    ).join('');
+  }
+
+  const chars = valuesSection.querySelectorAll('.values__title .char');
+  const eyebrow = valuesSection.querySelector('.values__eyebrow');
+  const line = valuesSection.querySelector('.values__line');
+  const bottomLine = valuesSection.querySelector('.values__bottom-line');
+  const cards = valuesSection.querySelectorAll('.values__card');
+
+  // Header animation timeline
+  const headerTl = gsap.timeline({
+    scrollTrigger: {
+      trigger: valuesSection,
+      start: 'top 90%',
+      toggleActions: 'play none none reverse'
+    }
+  });
+
+  // Eyebrow fade in
+  headerTl.to(eyebrow, {
+    opacity: 1,
+    duration: 0.6,
+    ease: 'power2.out'
+  });
+
+  // Characters reveal with stagger
+  headerTl.to(chars, {
+    opacity: 1,
+    y: 0,
+    duration: 0.7,
+    stagger: 0.025,
+    ease: 'power3.out'
+  }, '-=0.4');
+
+  // Line expand
+  headerTl.to(line, {
+    scaleX: 1,
+    duration: 1,
+    ease: 'power2.inOut'
+  }, '-=0.5');
+
+  // Cards animation with staggered reveal
+  cards.forEach((card, index) => {
+    const imgWrap = card.querySelector('.values__card-img-wrap');
+    const img = card.querySelector('.values__card-img');
+    const number = card.querySelector('.values__card-number');
+    const cardTitle = card.querySelector('.values__card-title');
+    const cardText = card.querySelector('.values__card-text');
+
+    // Create timeline for each card
+    const cardTl = gsap.timeline({
+      scrollTrigger: {
+        trigger: card,
+        start: 'top 95%',
+        toggleActions: 'play none none reverse'
+      }
+    });
+
+    // Image clip-path reveal
+    cardTl.to(imgWrap, {
+      clipPath: 'inset(0% 0 0 0)',
+      duration: 1,
+      ease: 'power3.inOut',
+      delay: index * 0.08
+    });
+
+    // Number reveal
+    cardTl.to(number, {
+      opacity: 1,
+      y: 0,
+      duration: 0.7,
+      ease: 'power2.out'
+    }, '-=0.7');
+
+    // Title reveal
+    cardTl.to(cardTitle, {
+      opacity: 1,
+      y: 0,
+      duration: 0.6,
+      ease: 'power2.out'
+    }, '-=0.5');
+
+    // Text reveal
+    cardTl.to(cardText, {
+      opacity: 1,
+      y: 0,
+      duration: 0.6,
+      ease: 'power2.out'
+    }, '-=0.4');
+
+    // Image parallax on scroll
+    gsap.to(img, {
+      yPercent: 10,
+      ease: 'none',
+      scrollTrigger: {
+        trigger: card,
+        start: 'top bottom',
+        end: 'bottom top',
+        scrub: 0.5
+      }
+    });
+  });
+
+  // Bottom line animation
+  gsap.to(bottomLine, {
+    scaleX: 1,
+    duration: 1.2,
+    ease: 'power2.inOut',
+    scrollTrigger: {
+      trigger: valuesSection,
+      start: 'bottom 95%',
+      toggleActions: 'play none none reverse'
+    }
+  });
+}
+
+// ========================================
+// MISSION SECTION - Cinematic Animation
+// ========================================
+
+function initMissionAnimation() {
+  const missionSection = document.querySelector('.mission');
+  if (!missionSection) return;
+
+  // Split text into words for both columns
+  const textElements = missionSection.querySelectorAll('.mission__text');
+  textElements.forEach(textEl => {
+    const words = textEl.textContent.trim().split(/\s+/);
+    textEl.innerHTML = words.map(word =>
+      `<span class="word"><span class="word-inner">${word}</span></span>`
+    ).join(' ');
+  });
+
+  // Left column animation
+  const leftCol = missionSection.querySelector('.mission__col--left');
+  if (leftCol) {
+    const leftEyebrow = leftCol.querySelector('.mission__eyebrow');
+    const leftText = leftCol.querySelector('.mission__text');
+    const leftWords = leftText ? leftText.querySelectorAll('.word-inner') : [];
+    const leftImgWrap = leftCol.querySelector('.mission__img-wrap');
+    const leftImg = leftCol.querySelector('.mission__img');
+
+    const leftTl = gsap.timeline({
+      scrollTrigger: {
+        trigger: leftCol,
+        start: 'top 85%',
+        toggleActions: 'play none none reverse'
+      }
+    });
+
+    // Eyebrow
+    leftTl.to(leftEyebrow, {
+      opacity: 1,
+      y: 0,
+      duration: 0.7,
+      ease: 'power2.out'
+    });
+
+    // Words reveal with stagger
+    leftTl.to(leftWords, {
+      y: 0,
+      duration: 0.9,
+      stagger: 0.012,
+      ease: 'power3.out'
+    }, '-=0.4');
+
+    // Image reveal
+    if (leftImg) {
+      leftTl.to(leftImg, {
+        opacity: 1,
+        scale: 1,
+        duration: 1.2,
+        ease: 'power2.out'
+      }, '-=0.7');
+
+      // Image parallax
+      gsap.to(leftImg, {
+        yPercent: 15,
+        ease: 'none',
+        scrollTrigger: {
+          trigger: leftImgWrap,
+          start: 'top bottom',
+          end: 'bottom top',
+          scrub: 0.5
+        }
+      });
+    }
+  }
+
+  // Right column animation (delayed)
+  const rightCol = missionSection.querySelector('.mission__col--right');
+  if (rightCol) {
+    const rightEyebrow = rightCol.querySelector('.mission__eyebrow');
+    const rightText = rightCol.querySelector('.mission__text');
+    const rightWords = rightText ? rightText.querySelectorAll('.word-inner') : [];
+    const rightImgWrap = rightCol.querySelector('.mission__img-wrap');
+    const rightImg = rightCol.querySelector('.mission__img');
+
+    const rightTl = gsap.timeline({
+      scrollTrigger: {
+        trigger: rightCol,
+        start: 'top 85%',
+        toggleActions: 'play none none reverse'
+      }
+    });
+
+    // Eyebrow
+    rightTl.to(rightEyebrow, {
+      opacity: 1,
+      y: 0,
+      duration: 0.7,
+      ease: 'power2.out'
+    });
+
+    // Words reveal
+    rightTl.to(rightWords, {
+      y: 0,
+      duration: 0.9,
+      stagger: 0.015,
+      ease: 'power3.out'
+    }, '-=0.4');
+
+    // Image reveal
+    if (rightImg) {
+      rightTl.to(rightImg, {
+        opacity: 1,
+        scale: 1,
+        duration: 1.2,
+        ease: 'power2.out'
+      }, '-=0.6');
+
+      // Image parallax
+      gsap.to(rightImg, {
+        yPercent: 12,
+        ease: 'none',
+        scrollTrigger: {
+          trigger: rightImgWrap,
+          start: 'top bottom',
+          end: 'bottom top',
+          scrub: 0.5
+        }
+      });
+    }
+  }
+}
+
+// ========================================
+// CLIENTS SECTION - Elegant Animation
+// ========================================
+
+function initClientsAnimation() {
+  const clientsSection = document.querySelector('.clients');
+  if (!clientsSection) return;
+
+  // Split title into characters
+  const title = clientsSection.querySelector('.clients__title');
+  if (title) {
+    const text = title.textContent;
+    title.innerHTML = text.split('').map(char =>
+      char === ' ' ? ' ' : `<span class="char">${char}</span>`
+    ).join('');
+  }
+
+  const line = clientsSection.querySelector('.clients__line');
+  const eyebrow = clientsSection.querySelector('.clients__eyebrow');
+  const chars = clientsSection.querySelectorAll('.clients__title .char');
+  const marquee = clientsSection.querySelector('.clients__marquee');
+
+  // Header animation timeline
+  const headerTl = gsap.timeline({
+    scrollTrigger: {
+      trigger: clientsSection,
+      start: 'top 90%',
+      toggleActions: 'play none none reverse'
+    }
+  });
+
+  // Line expand
+  if (line) {
+    headerTl.to(line, {
+      scaleX: 1,
+      duration: 1,
+      ease: 'power2.inOut'
+    });
+  }
+
+  // Eyebrow
+  headerTl.to(eyebrow, {
+    opacity: 1,
+    y: 0,
+    duration: 0.6,
+    ease: 'power2.out'
+  }, '-=0.6');
+
+  // Title characters
+  headerTl.to(chars, {
+    opacity: 1,
+    y: 0,
+    duration: 0.6,
+    stagger: 0.025,
+    ease: 'power3.out'
+  }, '-=0.4');
+
+  // Marquee reveal
+  if (marquee) {
+    headerTl.to(marquee, {
+      opacity: 1,
+      y: 0,
+      duration: 0.8,
+      ease: 'power2.out',
+      onComplete: () => {
+        marquee.classList.add('is-animating');
+      }
+    }, '-=0.3');
+  }
 }
 
 // ========================================

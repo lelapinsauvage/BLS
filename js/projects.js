@@ -15,15 +15,16 @@ const lenis = new Lenis({
   touchMultiplier: 2
 });
 
-function raf(time) {
-  lenis.raf(time);
-  requestAnimationFrame(raf);
-}
-
-requestAnimationFrame(raf);
-
 // Share lenis with transitions.js
 setLenis(lenis);
+
+// RAF loop for Lenis - only used as fallback if GSAP is not available
+let rafId = null;
+function raf(time) {
+  lenis.raf(time);
+  rafId = requestAnimationFrame(raf);
+}
+rafId = requestAnimationFrame(raf);
 
 // ========================================
 // INITIALIZE
@@ -33,17 +34,23 @@ if (typeof gsap === 'undefined') {
   console.error('❌ GSAP not loaded!');
 } else {
   console.log('✅ GSAP loaded');
-  
+
+  // Cancel the fallback RAF loop - GSAP ticker will handle Lenis updates
+  if (rafId) {
+    cancelAnimationFrame(rafId);
+    rafId = null;
+  }
+
   // Register GSAP plugins
   gsap.registerPlugin(ScrollTrigger);
-  
+
   // Integrate Lenis with GSAP ScrollTrigger
   lenis.on('scroll', ScrollTrigger.update);
-  
+
   gsap.ticker.add((time) => {
     lenis.raf(time * 1000);
   });
-  
+
   gsap.ticker.lagSmoothing(0);
   
   // Set initial states for header elements

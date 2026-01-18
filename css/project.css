@@ -86,13 +86,14 @@
 
 /* Project Title */
 .project__title {
-  color: #111111;
+  color: var(--color-brand);
   font-family: var(--font-display);
-  font-size: clamp(3rem, 5.73vw, 6.875rem);
-  font-weight: 600;
+  font-size: clamp(3.5rem, 6.5vw, 7.8rem);  /* Larger */
+  font-weight: 700;  /* Bolder */
   text-transform: uppercase;
-  line-height: 1.16;
+  line-height: 1;
   max-width: 100%;
+  letter-spacing: -0.03em;
 }
 
 /* Project Meta */
@@ -119,7 +120,7 @@
 }
 
 .project__meta-value {
-  color: #111111;
+  color: var(--color-brand);
   font-family: var(--font-display);
   font-size: var(--text-body-lg);
   font-weight: 500;
@@ -146,7 +147,7 @@
 }
 
 .project__description-text {
-  color: #111111;
+  color: var(--color-brand);
   font-family: var(--font-display);
   font-size: var(--text-nav);
   font-weight: 500;
@@ -186,12 +187,13 @@
 }
 
 .project-next__title {
-  color: #111111;
+  color: var(--color-brand);
   font-family: var(--font-display);
-  font-size: clamp(2rem, 3.33vw, 4rem);
+  font-size: clamp(2.25rem, 3.8vw, 4.5rem);  /* Larger */
   font-weight: 700;
   text-transform: uppercase;
-  line-height: 1.16;
+  line-height: 1;
+  letter-spacing: -0.02em;
 }
 
 .project-next__image-wrap {
