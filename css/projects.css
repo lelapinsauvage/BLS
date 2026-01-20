@@ -2,13 +2,87 @@
    PROJECTS PAGE
    ======================================== */
 
+/* ----------------------------------------
+   DARK NAVBAR
+   ---------------------------------------- */
+
+.navbar--dark {
+  background: var(--color-brand);
+  border-bottom: 1px solid transparent;
+}
+
+.navbar--dark .navbar__logo svg path {
+  fill: var(--color-white);
+}
+
+.navbar--dark .navbar__link-text {
+  color: var(--color-white);
+}
+
+.navbar--dark .navbar__link-text--hover {
+  color: var(--color-accent);
+}
+
+.navbar--dark .navbar__link--active .navbar__link-text {
+  color: var(--color-accent);
+}
+
+.navbar--dark .navbar__line {
+  background: rgba(255, 255, 255, 0.15);
+}
+
+.navbar--dark .navbar__cta {
+  background: var(--color-white);
+}
+
+.navbar--dark .navbar__cta-text div:first-child {
+  color: var(--color-brand);
+}
+
+.navbar--dark .navbar__cta-text div:last-child {
+  color: var(--color-brand);
+}
+
+.navbar--dark .navbar__cta-arrow {
+  color: var(--color-brand);
+}
+
+.navbar--dark .burger-menu__line {
+  background: var(--color-white);
+}
+
+/* Hide navbar elements initially for animation */
+.navbar--dark .navbar__logo,
+.navbar--dark .navbar__menu {
+  opacity: 0;
+}
+
+.navbar--dark .navbar__line {
+  transform: scaleX(0);
+  transform-origin: left center;
+  opacity: 0;
+}
+
+/* Hide project items initially for animation */
+.projects--page .projects__item {
+  opacity: 0;
+}
+
+/* Hide filter buttons initially */
+.projects-header .filter-btn {
+  opacity: 0;
+}
+
+/* ----------------------------------------
+   PROJECTS HEADER
+   ---------------------------------------- */
+
 .projects-header {
-  padding-top: 316px;
+  padding-top: clamp(160px, 20vw, 240px);
   padding-left: var(--navbar-padding-x);
   padding-right: var(--navbar-padding-x);
-  padding-bottom: 20px;
-  background: var(--color-brand);  /* Navy for impact */
-  min-height: 100px;
+  padding-bottom: clamp(40px, 5vw, 60px);
+  background: var(--color-brand);
 }
 
 .projects-header__title {
@@ -25,10 +99,12 @@
 .projects-header__title .reveal {
   overflow: hidden;
   display: block;
+  opacity: 0;
 }
 
 .projects-header__title .reveal__inner {
   display: block;
+  transform: translateY(120%);
 }
 
 /* Filter Buttons */
@@ -82,33 +158,106 @@
   outline-color: var(--color-accent);
 }
 
-/* Projects list spacing */
+/* Projects page (Navy Background) */
 .projects--page {
-  background: var(--color-brand);  /* Navy to match header */
+  background: var(--color-brand);
   padding-top: 0;
+  padding-bottom: clamp(60px, 8vw, 120px);
 }
 
 .projects--page .projects__list {
-  margin-top: 20px;
+  margin-top: 0;
+  border-top: 1px solid transparent;
+}
+
+.projects--page .projects__item {
+  border-top: 1px solid transparent;
+  border-bottom: 1px solid transparent;
+}
+
+.projects--page .projects__item-year,
+.projects--page .projects__item-type {
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.projects--page .projects__item-title {
+  color: var(--color-white);
+}
+
+.projects--page .projects__item-title--hover {
+  color: var(--color-accent);
+}
+
+.projects--page .projects__item-arrow {
+  color: var(--color-white);
+  opacity: 0;
+  transform: translateX(-20px);
+  transition: all 0.35s ease;
+}
+
+.projects--page .projects__item:hover .projects__item-arrow {
+  color: var(--color-accent);
+  opacity: 1;
+  transform: translateX(0);
+}
+
+/* Title hover for dark page */
+.projects--page .projects__item-title {
+  transition: transform 0.35s ease;
+}
+
+.projects--page .projects__item-title--hover {
+  transform: translateY(100%);
+  transition: transform 0.35s ease;
+}
+
+.projects--page .projects__item:hover .projects__item-title:not(.projects__item-title--hover) {
+  transform: translateY(-100%);
+}
+
+.projects--page .projects__item:hover .projects__item-title--hover {
+  transform: translateY(0);
+}
+
+/* Image shift on hover */
+.projects--page .projects__item-image-wrap {
+  transition: transform 0.35s ease;
+}
+
+.projects--page .projects__item:hover .projects__item-image-wrap {
+  transform: translateX(-20px);
+}
+
+/* Image overlay for dark page */
+.projects--page .projects__list:hover .projects__item:not(:hover) .projects__item-image-wrap::after {
+  background: rgba(2, 5, 36, 0.6);
+}
+
+.projects--page .projects__list:hover .projects__item:not(:hover) .projects__item-image {
+  filter: grayscale(100%);
 }
 
 /* Responsive */
 @media (max-width: 768px) {
   .projects-header {
-    padding-top: 160px;
-    padding-bottom: 40px;
+    padding-top: 140px;
+    padding-bottom: 32px;
   }
-  
+
   .projects-header__title {
     font-size: clamp(2.5rem, 10vw, 3.5rem);
-    margin-bottom: 30px;
+    margin-bottom: 24px;
   }
-  
+
+  .projects-header__filters {
+    gap: 10px;
+  }
+
   .filter-btn {
-    font-size: 13px;
-    height: 38px;
-    padding-left: 24px;
-    padding-right: 24px;
+    font-size: 12px;
+    height: 36px;
+    padding-left: 20px;
+    padding-right: 20px;
   }
 }
 

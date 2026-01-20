@@ -5,7 +5,7 @@ const projectsCarouselData = [
   {
     title: "The Gantry",
     description: "A modern workspace transformation bringing industrial heritage into contemporary commercial design.",
-    url: "/project/the-gantry",
+    url: "projects-list.html",
     category: "Commercial",
     year: "2025",
     image: "images/project-gantry.png"
@@ -13,7 +13,7 @@ const projectsCarouselData = [
   {
     title: "Lumos",
     description: "Premium office fitout combining cutting-edge design with functional elegance for the modern workplace.",
-    url: "/project/lumos",
+    url: "projects-list.html",
     category: "Commercial",
     year: "2025",
     image: "images/project-lumos.png"
@@ -21,7 +21,7 @@ const projectsCarouselData = [
   {
     title: "Deux Frères",
     description: "A sophisticated hospitality space where French culinary tradition meets Sydney's design-led aesthetic.",
-    url: "/project/deux-freres",
+    url: "projects-list.html",
     category: "Hospitality",
     year: "2025",
     image: "images/project-deux-freres.png"
@@ -29,7 +29,7 @@ const projectsCarouselData = [
   {
     title: "Tradies",
     description: "Bold commercial fitout celebrating authentic craftsmanship with a contemporary edge.",
-    url: "/project/tradies",
+    url: "projects-list.html",
     category: "Commercial",
     year: "2025",
     image: "images/project-tradies.png"
@@ -37,7 +37,7 @@ const projectsCarouselData = [
   {
     title: "Coffee Emporium",
     description: "A warm, inviting café space designed for community connection and exceptional coffee experiences.",
-    url: "/project/coffee-emporium",
+    url: "projects-list.html",
     category: "Hospitality",
     year: "2025",
     image: "images/project-coffee-emporium.png"
@@ -66,14 +66,26 @@ function createSlide(slideIndex) {
     <div class="carousel-slide__header">
       <h2 class="carousel-slide__title">${slideData.title}</h2>
       <p class="carousel-slide__description">${slideData.description}</p>
-      <a href="${slideData.url}" class="carousel-slide__link">View Project</a>
+      <a href="${slideData.url}" class="carousel-slide__link">
+        <svg width="24" height="24" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="5.25" cy="5.25" r="2.625" fill="currentColor"/>
+          <circle cx="14" cy="5.25" r="2.625" fill="currentColor"/>
+          <circle cx="22.75" cy="5.25" r="2.625" fill="currentColor"/>
+          <circle cx="5.25" cy="14" r="2.625" fill="currentColor"/>
+          <circle cx="14" cy="14" r="2.625" fill="currentColor"/>
+          <circle cx="22.75" cy="14" r="2.625" fill="currentColor"/>
+          <circle cx="5.25" cy="22.75" r="2.625" fill="currentColor"/>
+          <circle cx="14" cy="22.75" r="2.625" fill="currentColor"/>
+          <circle cx="22.75" cy="22.75" r="2.625" fill="currentColor"/>
+        </svg>
+        <span>All Projects</span>
+      </a>
     </div>
 
     <div class="carousel-slide__info">
       <div class="carousel-slide__tags">
-        <p>Project Info</p>
-        <p>${slideData.category}</p>
-        <p>${slideData.year}</p>
+        <p>Category / Year</p>
+        <p>${slideData.category}, ${slideData.year}</p>
       </div>
       <div class="carousel-slide__counter">
         <span>${slideIndex.toString().padStart(2, '0')}</span>
@@ -95,7 +107,7 @@ function splitText(slide) {
     });
   }
 
-  const slideContent = slide.querySelectorAll('.carousel-slide__description, .carousel-slide__link, .carousel-slide__tags p, .carousel-slide__counter span');
+  const slideContent = slide.querySelectorAll('.carousel-slide__description, .carousel-slide__tags p, .carousel-slide__counter span');
   slideContent.forEach((element) => {
     if (typeof SplitText !== 'undefined') {
       new SplitText(element, {
@@ -120,31 +132,27 @@ function animateSlide(direction) {
     currentSlide = currentSlide === 1 ? totalSlides : currentSlide - 1;
   }
 
-  const exitY = direction === 'down' ? '-200vh' : '200vh';
+  const exitY = direction === 'down' ? '-100vh' : '100vh';
   const entryY = direction === 'down' ? '100vh' : '-100vh';
-  const entryClipPath = direction === 'down'
-    ? 'polygon(20% 20%, 80% 20%, 80% 100%, 20% 100%)'
-    : 'polygon(20% 0%, 80% 0%, 80% 80%, 20% 80%)';
 
+  // Fast, smooth exit animation
   gsap.to(currentSlideElement, {
-    scale: 0.25,
-    opacity: 0,
-    rotation: 30,
     y: exitY,
-    duration: 2,
-    ease: 'power4.inOut',
+    opacity: 0,
+    duration: 0.8,
+    ease: 'power3.inOut',
     force3D: true,
     onComplete: () => {
       currentSlideElement.remove();
     }
   });
 
+  // Create and animate in new slide with slight delay
   setTimeout(() => {
     const newSlide = createSlide(currentSlide);
 
     gsap.set(newSlide, {
       y: entryY,
-      clipPath: entryClipPath,
       force3D: true
     });
 
@@ -159,84 +167,99 @@ function animateSlide(direction) {
       force3D: true
     });
 
+    // Smooth entry animation
     gsap.to(newSlide, {
       y: 0,
-      clipPath: 'polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%)',
-      duration: 1.5,
-      ease: 'power4.out',
+      duration: 0.8,
+      ease: 'power3.out',
       force3D: true,
       onStart: () => {
         const tl = gsap.timeline();
 
+        // Animate title words
         const titleWords = newSlide.querySelectorAll('.carousel-slide__title .carousel-word');
         tl.to(titleWords, {
           y: '0%',
-          duration: 1,
-          ease: 'power4.out',
-          stagger: 0.1,
+          duration: 0.6,
+          ease: 'power3.out',
+          stagger: 0.05,
           force3D: true
-        }, 0.75);
+        }, 0.2);
 
+        // Animate info and description
         const infoLines = newSlide.querySelectorAll('.carousel-slide__info .carousel-line');
         const descLines = newSlide.querySelectorAll('.carousel-slide__description .carousel-line');
-        const linkLines = newSlide.querySelectorAll('.carousel-slide__link .carousel-line');
 
         tl.to([...infoLines, ...descLines], {
           y: '0%',
-          duration: 1,
-          ease: 'power4.out',
-          stagger: 0.05
-        }, '-=0.75');
+          duration: 0.5,
+          ease: 'power3.out',
+          stagger: 0.03
+        }, 0.3);
 
-        tl.to(linkLines, {
-          y: '0%',
-          duration: 1,
-          ease: 'power4.out'
-        }, '-=0.5');
+        // Animate link button
+        const linkBtn = newSlide.querySelector('.carousel-slide__link');
+        gsap.fromTo(linkBtn,
+          { opacity: 0, y: 20 },
+          { opacity: 1, y: 0, duration: 0.5, ease: 'power3.out', delay: 0.4 }
+        );
       },
       onComplete: () => {
         isAnimating = false;
         setTimeout(() => {
           scrollAllowed = true;
           lastScrollTime = Date.now();
-        }, 100);
+        }, 50);
       }
     });
-  }, 750);
+  }, 300);
 }
 
 function handleScroll(direction) {
   const now = Date.now();
   if (isAnimating || !scrollAllowed) return;
-  if (now - lastScrollTime < 1000) return;
+  if (now - lastScrollTime < 600) return;
 
   lastScrollTime = now;
   animateSlide(direction);
 }
 
-// Initialize first slide
+// Initialize first slide - no scale animation, just fade in
 const firstSlide = createSlide(1);
 carouselContainer.appendChild(firstSlide);
 splitText(firstSlide);
 
+// Simple fade in for first slide (no scale)
+gsap.set(firstSlide, { opacity: 0 });
+
+const words = firstSlide.querySelectorAll('.carousel-word');
+const lines = firstSlide.querySelectorAll('.carousel-line');
+const linkBtn = firstSlide.querySelector('.carousel-slide__link');
+
+gsap.set([...words, ...lines], { y: '100%' });
+gsap.set(linkBtn, { opacity: 0, y: 20 });
+
 // Animate first slide in
-gsap.set(firstSlide, { opacity: 0, y: 50 });
 gsap.to(firstSlide, {
   opacity: 1,
-  y: 0,
-  duration: 1,
-  ease: 'power4.out',
-  onStart: () => {
-    const words = firstSlide.querySelectorAll('.carousel-word');
-    const lines = firstSlide.querySelectorAll('.carousel-line');
-    
-    gsap.set([...words, ...lines], { y: '100%' });
+  duration: 0.6,
+  ease: 'power2.out',
+  delay: 0.2,
+  onComplete: () => {
+    // Animate text elements
     gsap.to([...words, ...lines], {
       y: '0%',
-      duration: 1,
-      ease: 'power4.out',
-      stagger: 0.05,
-      delay: 0.3
+      duration: 0.6,
+      ease: 'power3.out',
+      stagger: 0.03
+    });
+
+    gsap.to(linkBtn, {
+      opacity: 1,
+      y: 0,
+      duration: 0.5,
+      ease: 'power3.out',
+      delay: 0.2
     });
   }
 });
@@ -275,4 +298,13 @@ window.addEventListener('touchend', () => {
   isTouchActive = false;
 });
 
-console.log('✅ Projects Carousel (Standalone) initialized');
+// Keyboard navigation
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'ArrowDown' || e.key === 'ArrowRight') {
+    handleScroll('down');
+  } else if (e.key === 'ArrowUp' || e.key === 'ArrowLeft') {
+    handleScroll('up');
+  }
+});
+
+console.log('Projects Carousel initialized');

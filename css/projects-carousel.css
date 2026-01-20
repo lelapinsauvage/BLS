@@ -84,22 +84,23 @@
 /* Slide Header (Title, Description, Link) */
 .carousel-slide__header {
   position: absolute;
-  bottom: 4rem;
+  bottom: 6rem;
   left: 50%;
   transform: translate(-50%, 0%);
   width: 75%;
+  max-width: 700px;
   text-align: center;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 1.5rem;
+  gap: 1rem;
   z-index: 10;
 }
 
 .carousel-slide__title {
   color: var(--color-white);
   font-family: var(--font-display);
-  font-size: clamp(3rem, 6vw, 6rem);
+  font-size: clamp(2.5rem, 5vw, 4.5rem);
   font-weight: 700;
   text-transform: uppercase;
   line-height: 0.9;
@@ -119,10 +120,12 @@
 
 .carousel-slide__link {
   display: inline-flex;
-  padding: 0.75rem 2rem;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 1rem 2rem;
   background: var(--color-white);
   border-radius: 2rem;
-  color: var(--color-black);
+  color: var(--color-brand);
   font-family: var(--font-display);
   font-size: var(--text-cta);
   font-weight: 600;
@@ -131,9 +134,14 @@
   transition: all 0.3s ease;
 }
 
+.carousel-slide__link svg {
+  width: 22px;
+  height: 22px;
+}
+
 .carousel-slide__link:hover {
   background: var(--color-accent);
-  color: var(--color-white);
+  color: var(--color-brand);
 }
 
 /* Slide Info (Tags + Counter) */

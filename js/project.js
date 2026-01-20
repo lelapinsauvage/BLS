@@ -184,3 +184,19 @@ if (typeof gsap !== 'undefined') {
 } else {
   console.error('❌ GSAP not loaded');
 }
+
+// ========================================
+// SMOOTH SCROLL TO ANCHORS
+// ========================================
+
+document.addEventListener('DOMContentLoaded', () => {
+  document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+    anchor.addEventListener('click', function(e) {
+      e.preventDefault();
+      const target = document.querySelector(this.getAttribute('href'));
+      if (target) {
+        lenis.scrollTo(target, { duration: 1.5 });
+      }
+    });
+  });
+});

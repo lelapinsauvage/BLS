@@ -18,6 +18,30 @@ const lenis = new Lenis({
 // Share lenis with transitions.js
 setLenis(lenis);
 
+// Navbar scroll behavior
+const navbar = document.querySelector('.navbar');
+let lastScrollY = 0;
+
+lenis.on('scroll', ({ scroll, direction }) => {
+  const currentScrollY = scroll;
+
+  // Hide/show navbar based on scroll direction (desktop only)
+  if (window.innerWidth > 768) {
+    if (direction === 1 && currentScrollY > 100) {
+      // Scrolling down
+      navbar.classList.add('navbar--hidden');
+    } else if (direction === -1) {
+      // Scrolling up
+      navbar.classList.remove('navbar--hidden');
+    }
+  } else {
+    // Mobile - always keep navbar visible
+    navbar.classList.remove('navbar--hidden');
+  }
+
+  lastScrollY = currentScrollY;
+});
+
 // RAF loop for Lenis - only used as fallback if GSAP is not available
 let rafId = null;
 function raf(time) {
@@ -65,9 +89,12 @@ if (typeof gsap === 'undefined') {
   
   // Initialize projects hover
   initProjectsHover();
-  
+
   // Initialize filter buttons
   initFilterButtons();
+
+  // Initialize image parallax
+  initImageParallax();
 }
 
 // ========================================
@@ -76,17 +103,23 @@ if (typeof gsap === 'undefined') {
 
 function initHeaderAnimation() {
   console.log('🎬 Starting header animation...');
-  
+
+  // Set initial states for project items
+  gsap.set('.projects__item', { opacity: 0, y: 40 });
+
   const master = gsap.timeline();
 
   master
     .to('.navbar__logo', { opacity: 1, duration: 0.4, ease: 'power2.out' }, 0)
-    .to('.navbar__line', { scaleX: 1, duration: 0.45, ease: 'power2.out' }, 0.1)
+    .to('.navbar__line', { scaleX: 1, opacity: 1, duration: 0.45, ease: 'power2.out' }, 0.1)
+    .to('.navbar--dark', { borderColor: 'rgba(255, 255, 255, 0.15)', duration: 0.3, ease: 'power2.out' }, 0.1)
     .to('.navbar__menu', { opacity: 1, duration: 0.3, ease: 'power2.out' }, 0.15)
     .to('.burger-menu', { opacity: 1, duration: 0.3, ease: 'power2.out' }, 0.15)
     .to('.projects-header__title .reveal__inner', { y: '0%', duration: 0.75, ease: 'power4.out' }, 0.25)
     .to('.projects-header__title .reveal', { opacity: 1, duration: 0.01 }, '<')
-    .to('.filter-btn', { opacity: 1, y: 0, duration: 0.4, stagger: 0.08, ease: 'power2.out' }, 0.5);
+    .to('.filter-btn', { opacity: 1, y: 0, duration: 0.4, stagger: 0.08, ease: 'power2.out' }, 0.5)
+    .to('.projects--page .projects__list', { borderColor: 'rgba(255, 255, 255, 0.15)', duration: 0.3 }, 0.55)
+    .to('.projects__item', { opacity: 1, y: 0, borderColor: 'rgba(255, 255, 255, 0.15)', duration: 0.5, stagger: 0.1, ease: 'power2.out' }, 0.6);
 }
 
 // ========================================
@@ -147,6 +180,36 @@ function initFilterButtons() {
       // TODO: Add filtering logic here if needed
       // For now, just update the active state
     });
+  });
+}
+
+// ========================================
+// IMAGE PARALLAX
+// ========================================
+
+function initImageParallax() {
+  const separators = document.querySelectorAll('.image-separator');
+
+  if (separators.length === 0) return;
+
+  separators.forEach(separator => {
+    const img = separator.querySelector('.image-separator__img');
+
+    if (!img) return;
+
+    gsap.fromTo(img,
+      { yPercent: -10 },
+      {
+        yPercent: 10,
+        ease: 'none',
+        scrollTrigger: {
+          trigger: separator,
+          start: 'top bottom',
+          end: 'bottom top',
+          scrub: true
+        }
+      }
+    );
   });
 }
 

@@ -389,7 +389,7 @@ document.addEventListener('DOMContentLoaded', () => {
       e.preventDefault();
       const target = document.querySelector(this.getAttribute('href'));
       if (target) {
-        lenis.scrollTo(target);
+        lenis.scrollTo(target, { duration: 1.5 });
       }
     });
   });

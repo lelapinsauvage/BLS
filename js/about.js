@@ -80,7 +80,6 @@ if (typeof gsap !== 'undefined') {
   gsap.ticker.add((time) => {
     lenis.raf(time * 1000);
   });
-  gsap.ticker.lagSmoothing(0);
   
   // Initialize loader (from transitions.js) with page animations as callback
   initLoader(initPageAnimations);
@@ -374,124 +373,100 @@ function initValuesAnimation() {
   const valuesSection = document.querySelector('.values');
   if (!valuesSection) return;
 
-  // Split title into characters
   const title = valuesSection.querySelector('.values__title');
-  if (title) {
-    const text = title.textContent;
-    title.innerHTML = text.split('').map(char =>
-      char === ' ' ? ' ' : `<span class="char">${char}</span>`
-    ).join('');
-  }
-
-  const chars = valuesSection.querySelectorAll('.values__title .char');
   const eyebrow = valuesSection.querySelector('.values__eyebrow');
   const line = valuesSection.querySelector('.values__line');
   const bottomLine = valuesSection.querySelector('.values__bottom-line');
   const cards = valuesSection.querySelectorAll('.values__card');
 
-  // Header animation timeline
+  // Single header animation timeline
   const headerTl = gsap.timeline({
     scrollTrigger: {
       trigger: valuesSection,
-      start: 'top 90%',
-      toggleActions: 'play none none reverse'
+      start: 'top 100%',
+      toggleActions: 'play none none none'
     }
   });
 
   // Eyebrow fade in
   headerTl.to(eyebrow, {
     opacity: 1,
-    duration: 0.6,
+    duration: 0.5,
     ease: 'power2.out'
   });
 
-  // Characters reveal with stagger
-  headerTl.to(chars, {
+  // Title simple fade in (no character splitting)
+  headerTl.to(title, {
     opacity: 1,
     y: 0,
-    duration: 0.7,
-    stagger: 0.025,
-    ease: 'power3.out'
-  }, '-=0.4');
+    duration: 0.6,
+    ease: 'power2.out'
+  }, '-=0.3');
 
   // Line expand
   headerTl.to(line, {
     scaleX: 1,
-    duration: 1,
+    duration: 0.8,
     ease: 'power2.inOut'
+  }, '-=0.4');
+
+  // Single timeline for ALL cards (batched for performance)
+  const cardsTl = gsap.timeline({
+    scrollTrigger: {
+      trigger: '.values__cards',
+      start: 'top 100%',
+      toggleActions: 'play none none none'
+    }
+  });
+
+  // Batch all card reveals - using transforms (GPU accelerated)
+  const cardImgs = valuesSection.querySelectorAll('.values__card-img');
+  const numbers = valuesSection.querySelectorAll('.values__card-number');
+  const cardTitles = valuesSection.querySelectorAll('.values__card-title');
+  const cardTexts = valuesSection.querySelectorAll('.values__card-text');
+
+  // Image reveals using translateY (GPU accelerated, no clip-path)
+  cardsTl.to(cardImgs, {
+    y: 0,
+    duration: 0.8,
+    stagger: 0.1,
+    ease: 'power2.out'
+  });
+
+  // Numbers, titles, texts in parallel
+  cardsTl.to(numbers, {
+    opacity: 1,
+    y: 0,
+    duration: 0.5,
+    stagger: 0.1,
+    ease: 'power2.out'
+  }, '-=0.6');
+
+  cardsTl.to(cardTitles, {
+    opacity: 1,
+    y: 0,
+    duration: 0.5,
+    stagger: 0.1,
+    ease: 'power2.out'
   }, '-=0.5');
 
-  // Cards animation with staggered reveal
-  cards.forEach((card, index) => {
-    const imgWrap = card.querySelector('.values__card-img-wrap');
-    const img = card.querySelector('.values__card-img');
-    const number = card.querySelector('.values__card-number');
-    const cardTitle = card.querySelector('.values__card-title');
-    const cardText = card.querySelector('.values__card-text');
-
-    // Create timeline for each card
-    const cardTl = gsap.timeline({
-      scrollTrigger: {
-        trigger: card,
-        start: 'top 95%',
-        toggleActions: 'play none none reverse'
-      }
-    });
-
-    // Image clip-path reveal
-    cardTl.to(imgWrap, {
-      clipPath: 'inset(0% 0 0 0)',
-      duration: 1,
-      ease: 'power3.inOut',
-      delay: index * 0.08
-    });
-
-    // Number reveal
-    cardTl.to(number, {
-      opacity: 1,
-      y: 0,
-      duration: 0.7,
-      ease: 'power2.out'
-    }, '-=0.7');
-
-    // Title reveal
-    cardTl.to(cardTitle, {
-      opacity: 1,
-      y: 0,
-      duration: 0.6,
-      ease: 'power2.out'
-    }, '-=0.5');
-
-    // Text reveal
-    cardTl.to(cardText, {
-      opacity: 1,
-      y: 0,
-      duration: 0.6,
-      ease: 'power2.out'
-    }, '-=0.4');
-
-    // Image parallax on scroll
-    gsap.to(img, {
-      yPercent: 10,
-      ease: 'none',
-      scrollTrigger: {
-        trigger: card,
-        start: 'top bottom',
-        end: 'bottom top',
-        scrub: 0.5
-      }
-    });
-  });
+  cardsTl.to(cardTexts, {
+    opacity: 1,
+    y: 0,
+    duration: 0.5,
+    stagger: 0.1,
+    ease: 'power2.out'
+  }, '-=0.4');
 
   // Bottom line animation
   gsap.to(bottomLine, {
     scaleX: 1,
-    duration: 1.2,
+    duration: 1,
     ease: 'power2.inOut',
     scrollTrigger: {
       trigger: valuesSection,
-      start: 'bottom 95%',
-      toggleActions: 'play none none reverse'
+      start: 'bottom 100%',
+      toggleActions: 'play none none none'
     }
   });
 }
@@ -525,7 +500,7 @@ function initMissionAnimation() {
     const leftTl = gsap.timeline({
       scrollTrigger: {
         trigger: leftCol,
-        start: 'top 85%',
+        start: 'top 100%',
         toggleActions: 'play none none reverse'
       }
     });
@@ -581,7 +556,7 @@ function initMissionAnimation() {
     const rightTl = gsap.timeline({
       scrollTrigger: {
         trigger: rightCol,
-        start: 'top 85%',
+        start: 'top 100%',
         toggleActions: 'play none none reverse'
       }
     });
@@ -652,7 +627,7 @@ function initClientsAnimation() {
   const headerTl = gsap.timeline({
     scrollTrigger: {
       trigger: clientsSection,
-      start: 'top 90%',
+      start: 'top 100%',
       toggleActions: 'play none none reverse'
     }
   });
@@ -687,12 +662,8 @@ function initClientsAnimation() {
   if (marquee) {
     headerTl.to(marquee, {
       opacity: 1,
-      y: 0,
       duration: 0.8,
-      ease: 'power2.out',
-      onComplete: () => {
-        marquee.classList.add('is-animating');
-      }
+      ease: 'power2.out'
     }, '-=0.3');
   }
 }
@@ -707,7 +678,7 @@ document.addEventListener('DOMContentLoaded', () => {
       e.preventDefault();
       const target = document.querySelector(this.getAttribute('href'));
       if (target) {
-        lenis.scrollTo(target, { offset: -50 });
+        lenis.scrollTo(target, { duration: 1.5, offset: -50 });
       }
     });
   });

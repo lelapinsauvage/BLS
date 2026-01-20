@@ -64,29 +64,31 @@ if (typeof gsap !== 'undefined') {
     rafId = null;
   }
 
+  // Register GSAP plugins
+  gsap.registerPlugin(ScrollTrigger);
+
   // Integrate GSAP with Lenis
+  lenis.on('scroll', ScrollTrigger.update);
   gsap.ticker.add((time) => {
     lenis.raf(time * 1000);
   });
   gsap.ticker.lagSmoothing(0);
-  
+
   // ========================================
   // HERO ANIMATION
   // ========================================
-  
+
   function initHeroAnimation() {
     console.log('🎬 Initializing Services hero animation');
-    
-    // Set initial states (most are set in CSS)
-    gsap.set('.services-hero__title', { y: 60 });
+
+    // Set initial states
     gsap.set('.navbar__line', { scaleX: 0, transformOrigin: 'left center' });
-    gsap.set('.service-card__image', { y: 40 });
-    
-    // Create timeline matching about.js structure
+
+    // Create timeline
     const tl = gsap.timeline();
-    
-    // Navbar - starts immediately (same as about.js)
-    tl.to('.navbar--light .navbar__logo', {
+
+    // Navbar - starts immediately
+    tl.to('.navbar--services .navbar__logo', {
       opacity: 1,
       duration: 0.4,
       ease: 'power2.out'
@@ -96,7 +98,7 @@ if (typeof gsap !== 'undefined') {
       duration: 0.45,
       ease: 'power2.out'
     }, 0.1)
-    .to('.navbar--light .navbar__menu', {
+    .to('.navbar--services .navbar__menu', {
       opacity: 1,
       duration: 0.3,
       ease: 'power2.out'
@@ -106,81 +108,231 @@ if (typeof gsap !== 'undefined') {
       duration: 0.3,
       ease: 'power2.out'
     }, 0.15)
-    
-    // Eyebrow - starts at 0.2 (overlapping with navbar)
+
+    // Eyebrow - fade in
     .to('.services-hero__eyebrow', {
       opacity: 1,
-      duration: 0.4,
+      duration: 0.5,
       ease: 'power2.out'
     }, 0.2)
-    
-    // Title - starts at 0.25
+
+    // Title - smooth reveal
     .to('.services-hero__title', {
       opacity: 1,
       y: 0,
-      duration: 0.75,
-      ease: 'power4.out'
-    }, 0.25)
-    
-    // Separator - starts at 0.4
+      duration: 0.8,
+      ease: 'power3.out'
+    }, 0.3)
+
+    // Separator - elegant line reveal
     .to('.services-hero__separator', {
       scaleX: 1,
-      duration: 0.6,
-      ease: 'power2.inOut'
-    }, 0.4)
-    
-    // Service images - starts at 0.8 (after text content)
-    .to('.service-card__image', {
-      opacity: 1,
-      y: 0,
       duration: 0.8,
-      stagger: 0.15,
-      ease: 'power3.out'
-    }, 0.8);
-    
+      ease: 'power2.inOut'
+    }, 0.5);
+
     console.log('✅ Services hero animation complete');
   }
-  
+
+  // ========================================
+  // SERVICE CARDS ANIMATION
+  // ========================================
+
+  function initServiceCardsAnimation() {
+    const cards = document.querySelectorAll('.service-card');
+
+    if (cards.length === 0) return;
+
+    cards.forEach((card, index) => {
+      const image = card.querySelector('.service-card__image');
+      const title = card.querySelector('.service-card__title');
+      const description = card.querySelector('.service-card__description');
+
+      // Create timeline for each card
+      const tl = gsap.timeline({
+        scrollTrigger: {
+          trigger: card,
+          start: 'top 90%',
+          once: true
+        }
+      });
+
+      // Image fade and slide up
+      if (image) {
+        tl.to(image, {
+          opacity: 1,
+          y: 0,
+          duration: 0.8,
+          ease: 'power2.out'
+        }, index * 0.1);
+      }
+
+      // Title fade and slide up
+      if (title) {
+        tl.to(title, {
+          opacity: 1,
+          y: 0,
+          duration: 0.6,
+          ease: 'power2.out'
+        }, index * 0.1 + 0.2);
+      }
+
+      // Description fade and slide up
+      if (description) {
+        tl.to(description, {
+          opacity: 1,
+          y: 0,
+          duration: 0.5,
+          ease: 'power2.out'
+        }, index * 0.1 + 0.3);
+      }
+    });
+
+    console.log('✅ Service cards animation initialized');
+  }
+
+  // ========================================
+  // NAVBAR COLOR CHANGE
+  // ========================================
+
+  function initNavbarColorChange() {
+    // Navbar stays white throughout services page since whole section is navy
+    // Only transition to solid when reaching the footer
+    const footer = document.querySelector('.footer');
+    const navbar = document.querySelector('.navbar');
+
+    if (!footer || !navbar) return;
+
+    ScrollTrigger.create({
+      trigger: footer,
+      start: 'top top+=80',
+      onEnter: () => {
+        navbar.classList.remove('navbar--services');
+        navbar.classList.add('navbar--solid');
+      },
+      onLeaveBack: () => {
+        navbar.classList.remove('navbar--solid');
+        navbar.classList.add('navbar--services');
+      }
+    });
+
+    console.log('✅ Navbar color change initialized');
+  }
+
   // ========================================
   // IMAGE SEPARATOR PARALLAX
   // ========================================
-  
+
   function initImageParallax() {
     const separators = gsap.utils.toArray('.image-separator');
-    
+
     separators.forEach((separator) => {
       const img = separator.querySelector('.image-separator__img');
-      
-      gsap.to(img, {
-        yPercent: -10,
-        ease: 'none',
-        scrollTrigger: {
-          trigger: separator,
-          start: 'top bottom',
-          end: 'bottom top',
-          scrub: true
+
+      if (!img) return;
+
+      gsap.fromTo(img,
+        { yPercent: -10 },
+        {
+          yPercent: 10,
+          ease: 'none',
+          scrollTrigger: {
+            trigger: separator,
+            start: 'top bottom',
+            end: 'bottom top',
+            scrub: true
+          }
         }
-      });
+      );
     });
-    
+
     console.log('✅ Image parallax initialized');
   }
-  
+
+  // ========================================
+  // FOOTER ANIMATION
+  // ========================================
+
+  function initFooterAnimation() {
+    const footer = document.querySelector('.footer');
+    if (!footer) return;
+
+    // Animate heading lines
+    const headingLine1 = footer.querySelector('.footer__heading-line1');
+    const headingLine2 = footer.querySelector('.footer__heading-line2');
+
+    if (headingLine1) {
+      gsap.set(headingLine1, { opacity: 0, y: 30 });
+      ScrollTrigger.create({
+        trigger: footer,
+        start: 'top 90%',
+        once: true,
+        onEnter: () => {
+          gsap.to(headingLine1, {
+            opacity: 1,
+            y: 0,
+            duration: 0.7,
+            ease: 'power2.out'
+          });
+        }
+      });
+    }
+
+    if (headingLine2) {
+      gsap.set(headingLine2, { opacity: 0, y: 25 });
+      ScrollTrigger.create({
+        trigger: footer,
+        start: 'top 85%',
+        once: true,
+        onEnter: () => {
+          gsap.to(headingLine2, {
+            opacity: 1,
+            y: 0,
+            duration: 0.6,
+            delay: 0.15,
+            ease: 'power2.out'
+          });
+        }
+      });
+    }
+
+    console.log('✅ Footer animation initialized');
+  }
+
   // ========================================
   // INITIALIZE ALL ANIMATIONS
   // ========================================
-  
+
   // Initialize loader (from transitions.js) with hero animation as callback
   initLoader(() => {
     console.log('🎬 Loader complete, starting Services animations');
     initHeroAnimation();
+    initServiceCardsAnimation();
+    initNavbarColorChange();
     initImageParallax();
+    initFooterAnimation();
   });
-  
+
   // Initialize page transitions (from transitions.js)
   initPageTransitions();
-  
+
 } else {
   console.error('❌ GSAP not loaded');
 }
+
+// ========================================
+// SMOOTH SCROLL TO ANCHORS
+// ========================================
+
+document.addEventListener('DOMContentLoaded', () => {
+  document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+    anchor.addEventListener('click', function(e) {
+      e.preventDefault();
+      const target = document.querySelector(this.getAttribute('href'));
+      if (target) {
+        lenis.scrollTo(target, { duration: 1.5 });
+      }
+    });
+  });
+});
 

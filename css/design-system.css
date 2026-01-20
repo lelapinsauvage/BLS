@@ -7,13 +7,14 @@
    CSS VARIABLES (Design Tokens)
    ---------------------------------------- */
 :root {
-  /* Colors */
-  --color-black: #111111;
+  /* Colors - Brand Palette */
+  --color-black: #000000;
+  --color-brand: #020524;           /* Navy blue - primary brand color */
   --color-white: #FFFFFF;
   --color-off-white: #E3E3E3;
   --color-gray: #999999;
   --color-gray-light: #AAAAAA;
-  --color-accent: #FF6A47;
+  --color-accent: #f3eeb0;          /* Gold/Yellow - selective emphasis */
   
   /* Typography - Fonts */
   --font-display: 'Neue Haas Grotesk Display Pro', sans-serif;
@@ -29,7 +30,7 @@
   --text-cta: clamp(0.75rem, 0.9375vw, 1.125rem);      /* 18px */
   
   /* Letter Spacing */
-  --tracking-eyebrow: -0.06em;
+  --tracking-eyebrow: -0.04em;
   --tracking-links: -0.02em;
   --tracking-tight: -0.04em;
   
