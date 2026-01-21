@@ -20,6 +20,16 @@ async function loadHomepageContent() {
       
       const scrollCta = document.querySelector('.hero__scroll-cta');
       if (scrollCta) scrollCta.textContent = hero.scroll_cta || 'Scroll to discover';
+
+      // Update hero video
+      if (hero.video) {
+        const videoSource = document.querySelector('.hero__video source');
+        const video = document.querySelector('.hero__video');
+        if (videoSource && video) {
+          videoSource.src = hero.video;
+          video.load(); // Reload video with new source
+        }
+      }
     } catch (err) {
       console.log('Hero content not loaded:', err.message);
     }
@@ -97,6 +107,12 @@ async function loadHomepageContent() {
       if (founderParagraphs[0]) founderParagraphs[0].textContent = founders.paragraph_1;
       if (founderParagraphs[1]) founderParagraphs[1].textContent = founders.paragraph_2;
       if (founderImage && founders.image) founderImage.src = founders.image;
+
+      // Update founders background image
+      const founderBackImage = document.querySelector('.founders__image--back');
+      if (founderBackImage && founders.background_image) {
+        founderBackImage.src = founders.background_image;
+      }
     } catch (err) {
       console.log('Founders content not loaded:', err.message);
     }

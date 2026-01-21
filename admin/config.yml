@@ -96,6 +96,11 @@ collections:
           - {label: "Title Line 2", name: "title_line_2", widget: "string"}
           - {label: "Title Line 3", name: "title_line_3", widget: "string"}
           - {label: "Accent Word (in Title Line 3)", name: "accent_word", widget: "string", hint: "e.g. Integrity"}
+          - label: "Typewriter Words"
+            name: "typewriter_words"
+            widget: "list"
+            hint: "Words that cycle in the typewriter animation (e.g. Integrity., Precision., Collaboration.)"
+            field: {label: "Word", name: "word", widget: "string"}
           - {label: "Description", name: "description", widget: "text"}
           - label: "Anchor Links"
             name: "anchors"
@@ -170,7 +175,7 @@ collections:
             name: "services"
             widget: "list"
             min: 3
-            max: 3
+            hint: "Add as many services as needed (minimum 3). Services display in rows of 3."
             fields:
               - {label: "Title", name: "title", widget: "string"}
               - {label: "Description", name: "description", widget: "text"}
@@ -188,26 +193,51 @@ collections:
     folder: "content/projects"
     create: true
     slug: "{{slug}}"
+    extension: "json"
+    format: "json"
+    sortable_fields: ["title", "year", "homepage_order", "selected_order"]
+    summary: "{{title}} ({{year}}) - {{category}}"
     fields:
-      - {label: "Project Title", name: "title", widget: "string"}
-      - {label: "Year", name: "year", widget: "string"}
-      - {label: "Category", name: "category", widget: "select", options: ["Commercial", "Residential", "Hospitality"]}
-      - {label: "Short Description", name: "description", widget: "text", hint: "Appears on project cards"}
-      - {label: "Main Image", name: "image", widget: "image", hint: "Main project image"}
-      - {label: "Project Link", name: "link", widget: "string", hint: "URL slug, e.g. /project/the-gantry"}
-      - label: "Project Detail Content (Optional)"
-        name: "detail"
+      # === REQUIRED FIELDS ===
+      - {label: "Project Title", name: "title", widget: "string", hint: "Required - The project name"}
+      - {label: "Year", name: "year", widget: "string", hint: "Required - e.g. 2025"}
+      - {label: "Category", name: "category", widget: "select", options: ["Commercial", "Residential", "Hospitality"], hint: "Required - Project category"}
+      - {label: "Short Description", name: "description", widget: "text", hint: "Required - Appears on project cards and lists"}
+      - {label: "Main Image", name: "image", widget: "image", hint: "Required - Main project image (used as thumbnail and background)"}
+
+      # === GALLERY (Required - minimum 3 images) ===
+      - label: "Image Gallery"
+        name: "gallery"
+        widget: "list"
+        min: 3
+        hint: "Required - At least 3 images for the project gallery. Drag to reorder."
+        fields:
+          - {label: "Image", name: "image", widget: "image"}
+          - {label: "Caption", name: "caption", widget: "string", required: false}
+
+      # === DISPLAY OPTIONS ===
+      - label: "Display Options"
+        name: "display"
+        widget: "object"
+        collapsed: false
+        fields:
+          - {label: "Feature on Homepage", name: "feature_homepage", widget: "boolean", default: false, hint: "Show this project on the homepage"}
+          - {label: "Homepage Order", name: "homepage_order", widget: "number", default: 99, value_type: "int", min: 1, hint: "Order on homepage (lower = first). Only applies if featured on homepage."}
+          - {label: "Feature on Selected Projects", name: "feature_selected", widget: "boolean", default: false, hint: "Show this project on the Selected Projects slider (projects.html)"}
+          - {label: "Selected Projects Order", name: "selected_order", widget: "number", default: 99, value_type: "int", min: 1, hint: "Order on Selected Projects page (lower = first). Only applies if featured."}
+
+      # === OPTIONAL PROJECT DETAILS (for project detail page) ===
+      - label: "Project Details (Optional)"
+        name: "details"
         widget: "object"
         collapsed: true
+        hint: "Additional details shown on the individual project page"
         fields:
-          - {label: "Full Description", name: "full_description", widget: "text", required: false}
-          - label: "Image Gallery"
-            name: "gallery"
-            widget: "list"
-            required: false
-            fields:
-              - {label: "Image", name: "image", widget: "image"}
-              - {label: "Caption", name: "caption", widget: "string", required: false}
+          - {label: "Location", name: "location", widget: "string", required: false, hint: "e.g. Sydney, Australia"}
+          - {label: "Year Completed", name: "year_completed", widget: "string", required: false, hint: "e.g. 2025"}
+          - {label: "Scope of Work", name: "scope", widget: "string", required: false, hint: "e.g. Full build, Renovation, Fit-out"}
+          - {label: "Size / Levels", name: "size", widget: "string", required: false, hint: "e.g. 2 levels, 350 sqm"}
+          - {label: "Detailed Description", name: "full_description", widget: "text", required: false, hint: "Full description shown on project detail page"}
 
   # ==================== SITE SETTINGS ====================
   - name: "settings"
@@ -219,13 +249,15 @@ collections:
         fields:
           - {label: "Company Name", name: "company_name", widget: "string"}
           - {label: "Email", name: "email", widget: "string"}
-          - {label: "Phone", name: "phone", widget: "string"}
-          - {label: "WhatsApp Number", name: "whatsapp", widget: "string", hint: "Format: 61422523677"}
+          - {label: "Phone Number", name: "phone", widget: "string", hint: "Full phone number for tel: links, e.g. +61 422 523 677"}
+          - {label: "Phone Display Text", name: "phone_display", widget: "string", hint: "Text shown on navbar CTA button, e.g. +61 422 523 677"}
+          - {label: "WhatsApp Number", name: "whatsapp", widget: "string", hint: "Format: 61422523677 (no spaces or +)"}
           - {label: "Address Line 1", name: "address_1", widget: "string"}
           - {label: "Address Line 2", name: "address_2", widget: "string"}
           - {label: "Address Line 3", name: "address_3", widget: "string"}
           - {label: "Address Line 4", name: "address_4", widget: "string", required: false}
-          - {label: "Instagram URL", name: "instagram", widget: "string"}
+          - {label: "Instagram URL", name: "instagram", widget: "string", hint: "Full Instagram URL, e.g. https://instagram.com/yourprofile"}
+          - {label: "Instagram Link Text", name: "instagram_text", widget: "string", hint: "Text shown on Instagram link in footer, e.g. Instagram"}
 
       - label: "Footer"
         name: "footer"
@@ -237,3 +269,23 @@ collections:
           - {label: "Copyright Text", name: "copyright", widget: "string"}
           - {label: "Cookie Policy URL", name: "cookie_policy_url", widget: "string"}
           - {label: "Privacy Policy URL", name: "privacy_policy_url", widget: "string"}
+
+  # ==================== LEGAL PAGES ====================
+  - name: "legal"
+    label: "Legal Pages"
+    files:
+      - label: "Privacy Policy"
+        name: "privacy_policy"
+        file: "content/legal/privacy-policy.json"
+        fields:
+          - {label: "Page Title", name: "title", widget: "string"}
+          - {label: "Last Updated", name: "last_updated", widget: "string", hint: "e.g. January 2025"}
+          - {label: "Content", name: "body", widget: "markdown", hint: "Use ## for main headings, ### for subheadings, - for bullet points, **text** for bold"}
+
+      - label: "Cookie Policy"
+        name: "cookie_policy"
+        file: "content/legal/cookie-policy.json"
+        fields:
+          - {label: "Page Title", name: "title", widget: "string"}
+          - {label: "Last Updated", name: "last_updated", widget: "string", hint: "e.g. January 2025"}
+          - {label: "Content", name: "body", widget: "markdown", hint: "Use ## for main headings, ### for subheadings, - for bullet points, **text** for bold"}

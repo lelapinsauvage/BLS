@@ -107,7 +107,7 @@
           <span class="mobile-menu__link-text">Services</span>
           <span class="mobile-menu__link-text mobile-menu__link-text--hover">Services</span>
         </a>
-        <a href="projects.html" class="mobile-menu__link mobile-menu__link--active" data-transition>
+        <a href="projects-list.html" class="mobile-menu__link mobile-menu__link--active" data-transition>
           <span class="mobile-menu__link-text">Projects</span>
           <span class="mobile-menu__link-text mobile-menu__link-text--hover">Projects</span>
         </a>
@@ -126,15 +126,9 @@
   <div class="slider"></div>
 
 
-  <!-- Project Data -->
+  <!-- Project Data (fallback, will be replaced by CMS) -->
   <script>
-    window.projectsData = [
-      { title: "The Gantry", category: "Commercial", year: "2025", description: "A bold commercial space designed with precision and purpose.", image: "images/project-gantry.png", url: "project.html?project=the-gantry" },
-      { title: "Lumos", category: "Commercial", year: "2025", description: "Illuminating modern design with functional elegance.", image: "images/project-lumos.png", url: "project.html?project=lumos" },
-      { title: "Deux Freres", category: "Hospitality", year: "2024", description: "A refined hospitality experience built on craftsmanship.", image: "images/project-deux-freres.png", url: "project.html?project=deux-freres" },
-      { title: "Tradies", category: "Commercial", year: "2025", description: "We design and build purposeful spaces that last — led by craftsmanship, collaboration, and clarity.", image: "images/project-tradies.png", url: "project.html?project=tradies" },
-      { title: "Coffee Emporium", category: "Hospitality", year: "2024", description: "Where coffee culture meets architectural innovation.", image: "images/project-coffee-emporium.png", url: "project.html?project=coffee-emporium" }
-    ];
+    window.projectsData = [];
   </script>
 
   <!-- Scripts -->
@@ -145,6 +139,8 @@
   <script src="js/mobile-menu.js"></script>
   <script src="js/transitions.js"></script>
   <script src="js/cursor.js"></script>
+  <script src="js/cms-loader-global.js"></script>
+  <script src="js/cms-loader-projects-unified.js"></script>
   <script src="js/projects-grid.js"></script>
 
 </body>

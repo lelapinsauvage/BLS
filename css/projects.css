@@ -188,45 +188,21 @@
   color: var(--color-accent);
 }
 
+/* Arrow - GSAP handles animation, CSS only sets color */
 .projects--page .projects__item-arrow {
   color: var(--color-white);
-  opacity: 0;
-  transform: translateX(-20px);
-  transition: all 0.35s ease;
 }
 
 .projects--page .projects__item:hover .projects__item-arrow {
   color: var(--color-accent);
-  opacity: 1;
-  transform: translateX(0);
 }
 
-/* Title hover for dark page */
-.projects--page .projects__item-title {
-  transition: transform 0.35s ease;
-}
-
+/* Title hover - GSAP handles transforms */
 .projects--page .projects__item-title--hover {
-  transform: translateY(100%);
-  transition: transform 0.35s ease;
+  color: var(--color-accent);
 }
 
-.projects--page .projects__item:hover .projects__item-title:not(.projects__item-title--hover) {
-  transform: translateY(-100%);
-}
-
-.projects--page .projects__item:hover .projects__item-title--hover {
-  transform: translateY(0);
-}
-
-/* Image shift on hover */
-.projects--page .projects__item-image-wrap {
-  transition: transform 0.35s ease;
-}
-
-.projects--page .projects__item:hover .projects__item-image-wrap {
-  transform: translateX(-20px);
-}
+/* Image wrap - GSAP handles transform */
 
 /* Image overlay for dark page */
 .projects--page .projects__list:hover .projects__item:not(:hover) .projects__item-image-wrap::after {
@@ -237,7 +213,112 @@
   filter: grayscale(100%);
 }
 
-/* Responsive */
+/* ----------------------------------------
+   STICKY PROJECT PREVIEW
+   ---------------------------------------- */
+
+.project-preview {
+  position: fixed;
+  bottom: 40px;
+  right: 40px;
+  z-index: 50;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(20px) scale(0.95);
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  pointer-events: none;
+}
+
+.project-preview.is-visible {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0) scale(1);
+}
+
+.project-preview__image-wrap {
+  width: clamp(280px, 20vw, 380px);
+  height: clamp(180px, 13vw, 250px);
+  overflow: hidden;
+  border-radius: 8px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
+}
+
+.project-preview__image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.project-preview.is-visible .project-preview__image {
+  transform: scale(1.05);
+}
+
+.project-preview__info {
+  display: flex;
+  gap: 16px;
+  justify-content: flex-end;
+}
+
+.project-preview__category,
+.project-preview__year {
+  font-family: var(--font-display);
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.6);
+  letter-spacing: 0.02em;
+}
+
+/* Hide on mobile/tablet */
+@media (max-width: 1024px) {
+  .project-preview {
+    display: none;
+  }
+}
+
+/* ----------------------------------------
+   STICKY SELECTED PROJECTS BUTTON
+   ---------------------------------------- */
+
+.slide-link--sticky {
+  position: fixed;
+  bottom: 40px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 100;
+  opacity: 0;
+  visibility: hidden;
+}
+
+.slide-link--sticky a {
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+}
+
+.slide-link--sticky.is-visible {
+  opacity: 1;
+  visibility: visible;
+}
+
+.slide-link--sticky.is-hidden {
+  opacity: 0 !important;
+  visibility: hidden !important;
+  transition: opacity 0.4s ease, visibility 0.4s ease;
+}
+
+@media (max-width: 768px) {
+  .slide-link--sticky {
+    bottom: 24px;
+  }
+}
+
+/* ----------------------------------------
+   RESPONSIVE
+   ---------------------------------------- */
+
 @media (max-width: 768px) {
   .projects-header {
     padding-top: 140px;

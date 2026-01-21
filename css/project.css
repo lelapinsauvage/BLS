@@ -6,9 +6,94 @@
    INITIAL STATES (Hidden until GSAP animates)
    ---------------------------------------- */
 
-.navbar--light .navbar__logo,
-.navbar--light .navbar__menu {
+/* Hide navbar elements initially for animation */
+.navbar--project .navbar__logo,
+.navbar--project .navbar__actions {
   opacity: 0;
+}
+
+/* Project page navbar styling */
+.navbar--project {
+  background: var(--color-white);
+  justify-content: space-between;
+}
+
+/* Navbar Actions (Next + Close buttons) */
+.navbar__actions {
+  display: flex;
+  align-items: center;
+  gap: clamp(0.75rem, 1.5vw, 1.5rem);
+}
+
+.navbar__action-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.25rem;
+  border-radius: 100px;
+  text-decoration: none;
+  font-family: var(--font-display);
+  font-size: var(--text-nav);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-links);
+  transition: all 0.3s ease;
+}
+
+.navbar__action-btn--next {
+  background: var(--color-brand);
+  color: var(--color-white);
+}
+
+.navbar__action-btn--next:hover {
+  background: var(--color-accent);
+  color: var(--color-brand);
+}
+
+.navbar__action-btn--next svg {
+  transition: transform 0.3s ease;
+}
+
+.navbar__action-btn--next:hover svg {
+  transform: translateX(4px);
+}
+
+.navbar__action-btn--close {
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  justify-content: center;
+  background: transparent;
+  border: 1px solid rgba(0, 0, 0, 0.15);
+  color: var(--color-brand);
+}
+
+.navbar__action-btn--close:hover {
+  background: var(--color-brand);
+  color: var(--color-white);
+  border-color: var(--color-brand);
+}
+
+.navbar__action-btn--close svg {
+  transition: transform 0.3s ease;
+}
+
+.navbar__action-btn--close:hover svg {
+  transform: rotate(90deg);
+}
+
+/* Mobile responsive */
+@media (max-width: 768px) {
+  .navbar__action-btn--next .navbar__action-text {
+    display: none;
+  }
+
+  .navbar__action-btn--next {
+    width: 44px;
+    height: 44px;
+    padding: 0;
+    justify-content: center;
+  }
 }
 
 .project__title,
@@ -248,11 +333,31 @@
   .project {
     padding-top: 6rem;
   }
-  
+
+  /* Reorder: Info (title/description) before Gallery on mobile */
+  .project__container {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .project__info {
+    order: -1;
+    margin-bottom: 2rem;
+  }
+
+  .project__gallery {
+    order: 1;
+  }
+
+  .project__description {
+    width: 100%;
+    align-self: flex-start;
+  }
+
   .project__image-row {
     flex-direction: column;
   }
-  
+
   .project__image--half {
     width: 100%;
   }

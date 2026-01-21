@@ -31,6 +31,11 @@ async function loadAboutContent() {
           linkTexts.forEach(text => text.textContent = anchor.text);
         }
       });
+
+      // Expose typewriter words for about.js to use
+      if (hero.typewriter_words && hero.typewriter_words.length > 0) {
+        window.cmsTypewriterWords = hero.typewriter_words;
+      }
     } catch (err) {
       console.log('Hero content not loaded:', err.message);
     }

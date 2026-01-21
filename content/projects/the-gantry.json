@@ -1,0 +1,25 @@
+{
+  "title": "The Gantry",
+  "year": "2025",
+  "category": "Commercial",
+  "description": "A bold commercial space designed with precision and purpose.",
+  "image": "/images/project-gantry.png",
+  "gallery": [
+    {"image": "/images/project-gantry.png", "caption": "Main entrance"},
+    {"image": "/images/project-gantry.png", "caption": "Interior view"},
+    {"image": "/images/project-gantry.png", "caption": "Detail work"}
+  ],
+  "display": {
+    "feature_homepage": true,
+    "homepage_order": 1,
+    "feature_selected": true,
+    "selected_order": 1
+  },
+  "details": {
+    "location": "Sydney, Australia",
+    "year_completed": "2025",
+    "scope": "Full build",
+    "size": "3 levels, 850 sqm",
+    "full_description": "The Gantry represents the pinnacle of commercial construction excellence. This project showcases our commitment to precision engineering and thoughtful design, creating a space that serves both form and function with equal measure."
+  }
+}

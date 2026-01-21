@@ -1,0 +1,25 @@
+{
+  "title": "Lumos",
+  "year": "2025",
+  "category": "Commercial",
+  "description": "Illuminating modern design with functional elegance.",
+  "image": "/images/project-lumos.png",
+  "gallery": [
+    {"image": "/images/project-lumos.png", "caption": "Exterior facade"},
+    {"image": "/images/project-lumos.png", "caption": "Reception area"},
+    {"image": "/images/project-lumos.png", "caption": "Office space"}
+  ],
+  "display": {
+    "feature_homepage": true,
+    "homepage_order": 2,
+    "feature_selected": true,
+    "selected_order": 2
+  },
+  "details": {
+    "location": "North Sydney, Australia",
+    "year_completed": "2025",
+    "scope": "Commercial fit-out",
+    "size": "2 levels, 620 sqm",
+    "full_description": "Lumos brings light and clarity to modern commercial spaces. This project demonstrates our ability to transform conventional office environments into inspiring workplaces that promote productivity and well-being."
+  }
+}

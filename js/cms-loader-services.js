@@ -20,19 +20,28 @@ async function loadServicesContent() {
     try {
       const servicesRes = await fetch('/content/services/services.json');
       const servicesData = await servicesRes.json();
-      
-      const serviceCards = document.querySelectorAll('.service-card');
-      servicesData.services.forEach((service, index) => {
-        if (serviceCards[index]) {
-          const title = serviceCards[index].querySelector('.service-card__title');
-          const description = serviceCards[index].querySelector('.service-card__description');
-          const img = serviceCards[index].querySelector('.service-card__image');
-          
-          if (title) title.textContent = service.title;
-          if (description) description.textContent = service.description;
-          if (img && service.image) img.src = service.image;
-        }
-      });
+
+      const container = document.getElementById('services-container');
+      if (container && servicesData.services) {
+        // Clear any existing content
+        container.innerHTML = '';
+
+        // Create service cards dynamically
+        servicesData.services.forEach((service) => {
+          const card = document.createElement('div');
+          card.className = 'service-card';
+
+          card.innerHTML = `
+            <img src="${service.image}" alt="${service.title}" class="service-card__image">
+            <div class="service-card__content">
+              <h3 class="service-card__title">${service.title}</h3>
+              <p class="service-card__description">${service.description}</p>
+            </div>
+          `;
+
+          container.appendChild(card);
+        });
+      }
     } catch (err) {
       console.log('Services content not loaded:', err.message);
     }
@@ -49,8 +58,13 @@ async function loadServicesContent() {
     }
 
     console.log('✅ Services page content loaded from CMS');
+
+    // Dispatch event to signal content is ready for animations
+    window.dispatchEvent(new CustomEvent('servicesContentLoaded'));
   } catch (error) {
     console.error('❌ Error loading services content:', error);
+    // Still dispatch event so animations don't hang
+    window.dispatchEvent(new CustomEvent('servicesContentLoaded'));
   }
 }
 

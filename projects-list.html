@@ -15,6 +15,7 @@
   <link rel="stylesheet" href="css/design-system.css">
   <link rel="stylesheet" href="css/styles.css">
   <link rel="stylesheet" href="css/projects.css">
+  <link rel="stylesheet" href="css/projects-grid.css">
 </head>
 <body class="is-loading">
 
@@ -108,7 +109,7 @@
           <span class="mobile-menu__link-text">Services</span>
           <span class="mobile-menu__link-text mobile-menu__link-text--hover">Services</span>
         </a>
-        <a href="projects.html" class="mobile-menu__link mobile-menu__link--active" data-transition>
+        <a href="projects-list.html" class="mobile-menu__link mobile-menu__link--active" data-transition>
           <span class="mobile-menu__link-text">Projects</span>
           <span class="mobile-menu__link-text mobile-menu__link-text--hover">Projects</span>
         </a>
@@ -139,102 +140,48 @@
   <!-- ========== PROJECTS SECTION ========== -->
   <section class="projects projects--page">
     <div class="projects__list">
-      <a href="project.html?project=the-gantry" class="projects__item" data-category="commercial" data-transition>
-        <div class="projects__item-info">
-          <div class="projects__item-meta">
-            <div class="projects__item-year">2025</div>
-            <div class="projects__item-type">Commercial</div>
-          </div>
-          <div class="projects__item-title-wrap">
-            <h3 class="projects__item-title">The Gantry</h3>
-            <h3 class="projects__item-title projects__item-title--hover">The Gantry</h3>
-          </div>
-        </div>
-        <div class="projects__item-visual">
-          <div class="projects__item-image-wrap">
-            <img src="images/project-gantry.png" alt="The Gantry project" class="projects__item-image" loading="lazy" width="348" height="230">
-          </div>
-          <div class="projects__item-arrow">→</div>
-        </div>
-      </a>
-
-      <a href="project.html?project=lumos" class="projects__item" data-category="commercial" data-transition>
-        <div class="projects__item-info">
-          <div class="projects__item-meta">
-            <div class="projects__item-year">2025</div>
-            <div class="projects__item-type">Commercial</div>
-          </div>
-          <div class="projects__item-title-wrap">
-            <h3 class="projects__item-title">Lumos</h3>
-            <h3 class="projects__item-title projects__item-title--hover">Lumos</h3>
-          </div>
-        </div>
-        <div class="projects__item-visual">
-          <div class="projects__item-image-wrap">
-            <img src="images/project-lumos.png" alt="Lumos project" class="projects__item-image" loading="lazy" width="348" height="230">
-          </div>
-          <div class="projects__item-arrow">→</div>
-        </div>
-      </a>
-
-      <a href="project.html?project=deux-freres" class="projects__item" data-category="hospitality" data-transition>
-        <div class="projects__item-info">
-          <div class="projects__item-meta">
-            <div class="projects__item-year">2024</div>
-            <div class="projects__item-type">Hospitality</div>
-          </div>
-          <div class="projects__item-title-wrap">
-            <h3 class="projects__item-title">Deux Freres</h3>
-            <h3 class="projects__item-title projects__item-title--hover">Deux Freres</h3>
-          </div>
-        </div>
-        <div class="projects__item-visual">
-          <div class="projects__item-image-wrap">
-            <img src="images/project-deux-freres.png" alt="Deux Freres project" class="projects__item-image" loading="lazy" width="348" height="230">
-          </div>
-          <div class="projects__item-arrow">→</div>
-        </div>
-      </a>
-
-      <a href="project.html?project=tradies" class="projects__item" data-category="commercial" data-transition>
-        <div class="projects__item-info">
-          <div class="projects__item-meta">
-            <div class="projects__item-year">2025</div>
-            <div class="projects__item-type">Commercial</div>
-          </div>
-          <div class="projects__item-title-wrap">
-            <h3 class="projects__item-title">Tradies</h3>
-            <h3 class="projects__item-title projects__item-title--hover">Tradies</h3>
-          </div>
-        </div>
-        <div class="projects__item-visual">
-          <div class="projects__item-image-wrap">
-            <img src="images/project-tradies.png" alt="Tradies project" class="projects__item-image" loading="lazy" width="348" height="230">
-          </div>
-          <div class="projects__item-arrow">→</div>
-        </div>
-      </a>
-
-      <a href="project.html?project=coffee-emporium" class="projects__item" data-category="hospitality" data-transition>
-        <div class="projects__item-info">
-          <div class="projects__item-meta">
-            <div class="projects__item-year">2024</div>
-            <div class="projects__item-type">Hospitality</div>
-          </div>
-          <div class="projects__item-title-wrap">
-            <h3 class="projects__item-title">Coffee Emporium</h3>
-            <h3 class="projects__item-title projects__item-title--hover">Coffee Emporium</h3>
-          </div>
-        </div>
-        <div class="projects__item-visual">
-          <div class="projects__item-image-wrap">
-            <img src="images/project-coffee-emporium.png" alt="Coffee Emporium project" class="projects__item-image" loading="lazy" width="348" height="230">
-          </div>
-          <div class="projects__item-arrow">→</div>
-        </div>
-      </a>
+      <!-- Projects are dynamically loaded from CMS -->
     </div>
   </section>
+
+  <!-- ========== STICKY PROJECT PREVIEW ========== -->
+  <div class="project-preview">
+    <div class="project-preview__image-wrap">
+      <img src="images/project-gantry.png" alt="" class="project-preview__image">
+    </div>
+    <div class="project-preview__info">
+      <span class="project-preview__category">Commercial</span>
+      <span class="project-preview__year">2025</span>
+    </div>
+  </div>
+
+  <!-- Sticky Selected Projects Button -->
+  <div class="slide-link slide-link--sticky">
+    <a href="projects.html" data-transition>
+      <div class="slide-link__icons">
+        <svg class="slide-link__grid" width="22" height="22" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect x="2" y="4" width="24" height="3" rx="1.5" fill="currentColor"/>
+          <rect x="2" y="12.5" width="24" height="3" rx="1.5" fill="currentColor"/>
+          <rect x="2" y="21" width="24" height="3" rx="1.5" fill="currentColor"/>
+        </svg>
+        <svg class="slide-link__list" width="22" height="22" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="5.25" cy="5.25" r="2.625" fill="currentColor"/>
+          <circle cx="14" cy="5.25" r="2.625" fill="currentColor"/>
+          <circle cx="22.75" cy="5.25" r="2.625" fill="currentColor"/>
+          <circle cx="5.25" cy="14" r="2.625" fill="currentColor"/>
+          <circle cx="14" cy="14" r="2.625" fill="currentColor"/>
+          <circle cx="22.75" cy="14" r="2.625" fill="currentColor"/>
+          <circle cx="5.25" cy="22.75" r="2.625" fill="currentColor"/>
+          <circle cx="14" cy="22.75" r="2.625" fill="currentColor"/>
+          <circle cx="22.75" cy="22.75" r="2.625" fill="currentColor"/>
+        </svg>
+      </div>
+      <div class="slide-link__text">
+        <span>Selected Projects</span>
+        <span>Selected Projects</span>
+      </div>
+    </a>
+  </div>
 
   <!-- ========== IMAGE SEPARATOR ========== -->
   <div class="image-separator">
@@ -322,7 +269,7 @@
                 <span class="link-text">Home</span>
                 <span class="link-text link-text--hover">Home</span>
               </a>
-              <a href="projects.html" class="footer__nav-link footer__nav-link--active" data-transition>
+              <a href="projects-list.html" class="footer__nav-link footer__nav-link--active" data-transition>
                 <span class="link-text">• Projects</span>
                 <span class="link-text link-text--hover">• Projects</span>
               </a>
@@ -347,11 +294,11 @@
           <span class="footer__copyright">2025 © Buterin L'Estrange</span>
           
           <div class="footer__legal">
-            <a href="#" onclick="return false;">
+            <a href="cookie-policy.html" data-transition>
               <span class="link-text">Cookie Policy</span>
               <span class="link-text link-text--hover">Cookie Policy</span>
             </a>
-            <a href="#" onclick="return false;">
+            <a href="privacy-policy.html" data-transition>
               <span class="link-text">Privacy Policy</span>
               <span class="link-text link-text--hover">Privacy Policy</span>
             </a>
@@ -363,8 +310,6 @@
   </footer>
 
   <!-- Scripts -->
-  <script src="js/cms-loader-global.js"></script>
-  <script src="js/cms-loader-projects.js"></script>
   <script src="https://unpkg.com/lenis@1.1.13/dist/lenis.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
@@ -374,6 +319,8 @@
   <script src="js/transitions.js"></script>
   <script src="js/cursor.js"></script>
   <script src="js/projects.js"></script>
+  <script src="js/cms-loader-global.js"></script>
+  <script src="js/cms-loader-projects-unified.js"></script>
 
 </body>
 </html>

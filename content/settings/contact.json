@@ -2,10 +2,12 @@
   "company_name": "Buterin L'Estrange",
   "email": "admin@blprojects.com.au",
   "phone": "+61 422 523 677",
+  "phone_display": "+61 422 523 677",
   "whatsapp": "61422523677",
   "address_1": "Buterin L'Estrange",
   "address_2": "1800 BL PROJECTS",
   "address_3": "Unit 1 / 5–6 Luke Close",
   "address_4": "West Gosford, NSW 2250",
-  "instagram": "https://instagram.com"
+  "instagram": "https://instagram.com",
+  "instagram_text": "Instagram"
 }

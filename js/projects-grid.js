@@ -7,11 +7,12 @@
 // CAROUSEL STATE
 // ========================================
 
-const totalSlides = window.projectsData?.length || 5;
+let totalSlides = window.projectsData?.length || 5;
 let currentSlide = 1;
 let isAnimating = false;
 let scrollAllowed = true;
 let lastScrollTime = 0;
+let hasInitialized = false;
 
 // ========================================
 // CREATE SLIDE
@@ -480,5 +481,46 @@ function init() {
   });
 }
 
-// Start
-document.addEventListener('DOMContentLoaded', init);
+// Start - wait for CMS data or fallback
+function startSlider() {
+  // Update totalSlides with current data
+  totalSlides = window.projectsData?.length || 5;
+
+  if (totalSlides > 0 && !hasInitialized) {
+    hasInitialized = true;
+    init();
+  }
+}
+
+// Wait for CMS data to load
+window.addEventListener('selectedProjectsLoaded', () => {
+  console.log('CMS projects loaded for slider');
+  totalSlides = window.projectsData?.length || 5;
+  if (!hasInitialized) {
+    startSlider();
+  }
+});
+
+// Check if data is already loaded (CMS loader ran before this script)
+if (window.projectsData?.length > 0 && !hasInitialized) {
+  console.log('Projects data already available');
+  startSlider();
+}
+
+// Also try on DOMContentLoaded as fallback
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', () => {
+    setTimeout(() => {
+      if (!hasInitialized && window.projectsData?.length > 0) {
+        startSlider();
+      }
+    }, 100);
+  });
+} else {
+  // DOM already loaded, check after a short delay
+  setTimeout(() => {
+    if (!hasInitialized && window.projectsData?.length > 0) {
+      startSlider();
+    }
+  }, 100);
+}

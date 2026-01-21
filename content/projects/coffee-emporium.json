@@ -1,0 +1,25 @@
+{
+  "title": "Coffee Emporium",
+  "year": "2024",
+  "category": "Hospitality",
+  "description": "Where coffee culture meets architectural innovation.",
+  "image": "/images/project-coffee-emporium.png",
+  "gallery": [
+    {"image": "/images/project-coffee-emporium.png", "caption": "Coffee bar"},
+    {"image": "/images/project-coffee-emporium.png", "caption": "Seating area"},
+    {"image": "/images/project-coffee-emporium.png", "caption": "Roasting room"}
+  ],
+  "display": {
+    "feature_homepage": true,
+    "homepage_order": 5,
+    "feature_selected": true,
+    "selected_order": 5
+  },
+  "details": {
+    "location": "Barangaroo, Sydney",
+    "year_completed": "2024",
+    "scope": "Specialty cafe fit-out",
+    "size": "Single level, 180 sqm",
+    "full_description": "Coffee Emporium blends the art of coffee making with thoughtful architectural design. This specialty cafe features custom-built roasting equipment integration and creates an immersive experience for coffee enthusiasts."
+  }
+}

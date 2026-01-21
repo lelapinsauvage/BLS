@@ -103,8 +103,18 @@ if (typeof gsap === 'undefined') {
   // Initialize other animations
   initNumbersAnimation();
   initCategoriesHover();
+
+  // Initialize hover for existing projects (static HTML)
   initProjectsHover();
-  initImageParallax();
+
+  // NOTE: initImageParallax() is called in initHeroAnimation() after loader completes
+  // This ensures ScrollTrigger calculates positions when page is fully visible
+
+  // Also listen for CMS-loaded projects
+  window.addEventListener('homepageProjectsLoaded', () => {
+    console.log('📦 Homepage CMS projects loaded, re-initializing hover');
+    initProjectsHover();
+  });
 }
 
 // ========================================
@@ -113,7 +123,14 @@ if (typeof gsap === 'undefined') {
 
 function initHeroAnimation() {
   console.log('🎬 Starting hero animation...');
-  
+
+  // Initialize parallax with delay - loader callback fires early (75% open)
+  // Wait for loader to fully hide before calculating ScrollTrigger positions
+  gsap.delayedCall(0.5, () => {
+    ScrollTrigger.refresh();
+    initImageParallax();
+  });
+
   // Start video playback with hero animation
   const heroVideo = document.querySelector('.hero__video');
   if (heroVideo) {
@@ -321,18 +338,22 @@ function initCategoriesHover() {
 
 function initProjectsHover() {
   const items = document.querySelectorAll('.projects__item');
-  
+
   if (items.length === 0) return;
-  
+
   items.forEach(item => {
+    // Skip if already initialized (prevent duplicate listeners)
+    if (item.dataset.hoverInit) return;
+    item.dataset.hoverInit = 'true';
+
     const titleDefault = item.querySelector('.projects__item-title:not(.projects__item-title--hover)');
     const titleHover = item.querySelector('.projects__item-title--hover');
     const imageWrap = item.querySelector('.projects__item-image-wrap');
     const arrow = item.querySelector('.projects__item-arrow');
-    
+
     gsap.set(titleHover, { y: '100%' });
     gsap.set(arrow, { opacity: 0, x: -20 });
-    
+
     item.addEventListener('mouseenter', () => {
       gsap.to(titleDefault, { y: '-100%', duration: 0.35, ease: 'power2.out' });
       gsap.to(titleHover, { y: '0%', duration: 0.35, ease: 'power2.out' });
@@ -355,27 +376,34 @@ function initProjectsHover() {
 
 function initImageParallax() {
   const separators = document.querySelectorAll('.image-separator');
-  
+
   if (separators.length === 0) return;
-  
-  separators.forEach(separator => {
+
+  console.log('🖼️ Initializing parallax for', separators.length, 'separators');
+
+  separators.forEach((separator, index) => {
     const img = separator.querySelector('.image-separator__img');
-    
+
     if (!img) return;
-    
-    gsap.fromTo(img, 
-      { yPercent: -10 },
-      {
-        yPercent: 10,
-        ease: 'none',
-        scrollTrigger: {
-          trigger: separator,
-          start: 'top bottom',
-          end: 'bottom top',
-          scrub: true
-        }
+
+    // Create ScrollTrigger with onUpdate for reliable position control
+    const st = ScrollTrigger.create({
+      trigger: separator,
+      start: 'top bottom',
+      end: 'bottom top',
+      scrub: true,
+      onUpdate: (self) => {
+        // Calculate yPercent: -10 at progress 0, +10 at progress 1
+        const yPercent = -10 + (self.progress * 20);
+        gsap.set(img, { yPercent: yPercent });
       }
-    );
+    });
+
+    // Force immediate position update based on current progress
+    const initialYPercent = -10 + (st.progress * 20);
+    gsap.set(img, { yPercent: initialYPercent });
+
+    console.log(`🖼️ Separator ${index + 1}: progress=${st.progress.toFixed(2)}, yPercent=${initialYPercent.toFixed(1)}`);
   });
 }
 

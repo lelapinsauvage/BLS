@@ -43,7 +43,7 @@
         <div class="navbar__link-text">Home</div>
         <div class="navbar__link-text navbar__link-text--hover">Home</div>
       </a>
-      <a href="projects.html" class="navbar__link" data-transition>
+      <a href="projects-list.html" class="navbar__link" data-transition>
         <div class="navbar__link-text">Projects</div>
         <div class="navbar__link-text navbar__link-text--hover">Projects</div>
       </a>
@@ -110,7 +110,7 @@
           <span class="mobile-menu__link-text">Services</span>
           <span class="mobile-menu__link-text mobile-menu__link-text--hover">Services</span>
         </a>
-        <a href="projects.html" class="mobile-menu__link" data-transition>
+        <a href="projects-list.html" class="mobile-menu__link" data-transition>
           <span class="mobile-menu__link-text">Projects</span>
           <span class="mobile-menu__link-text mobile-menu__link-text--hover">Projects</span>
         </a>
@@ -142,30 +142,8 @@
 
     <!-- SERVICES GRID -->
     <section class="services-grid">
-      <div class="services-grid__inner">
-        <div class="service-card">
-          <img src="images/service-fitouts.jpg" alt="Design-Led Fit-Outs" class="service-card__image">
-          <div class="service-card__content">
-            <h3 class="service-card__title">Design-Led Fit-Outs</h3>
-            <p class="service-card__description">Bespoke hospitality and retail interiors, translating creative vision into flawless, functional spaces.</p>
-          </div>
-        </div>
-
-        <div class="service-card">
-          <img src="images/service-joinery.jpg" alt="Custom Joinery & Fabrication" class="service-card__image">
-          <div class="service-card__content">
-            <h3 class="service-card__title">Custom Joinery & Fabrication</h3>
-            <p class="service-card__description">In-house millwork and bespoke joinery crafted to mirror your design intent with precision.</p>
-          </div>
-        </div>
-
-        <div class="service-card">
-          <img src="images/service-management.jpg" alt="End-to-End Management" class="service-card__image">
-          <div class="service-card__content">
-            <h3 class="service-card__title">End-to-End Management</h3>
-            <p class="service-card__description">One accountable team orchestrating everything from planning to handover—no gaps, no surprises.</p>
-          </div>
-        </div>
+      <div class="services-grid__inner" id="services-container">
+        <!-- Service cards are dynamically loaded from CMS -->
       </div>
     </section>
 
@@ -256,7 +234,7 @@
                 <span class="link-text">Home</span>
                 <span class="link-text link-text--hover">Home</span>
               </a>
-              <a href="projects.html" class="footer__nav-link" data-transition>
+              <a href="projects-list.html" class="footer__nav-link" data-transition>
                 <span class="link-text">Projects</span>
                 <span class="link-text link-text--hover">Projects</span>
               </a>
@@ -281,11 +259,11 @@
           <span class="footer__copyright">2025 © Buterin L'Estrange</span>
           
           <div class="footer__legal">
-            <a href="#" onclick="return false;">
+            <a href="cookie-policy.html" data-transition>
               <span class="link-text">Cookie Policy</span>
               <span class="link-text link-text--hover">Cookie Policy</span>
             </a>
-            <a href="#" onclick="return false;">
+            <a href="privacy-policy.html" data-transition>
               <span class="link-text">Privacy Policy</span>
               <span class="link-text link-text--hover">Privacy Policy</span>
             </a>

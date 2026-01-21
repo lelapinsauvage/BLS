@@ -64,6 +64,12 @@ if (typeof gsap !== 'undefined') {
     rafId = null;
   }
 
+  // Register GSAP plugins
+  if (typeof ScrollTrigger !== 'undefined') {
+    gsap.registerPlugin(ScrollTrigger);
+    lenis.on('scroll', ScrollTrigger.update);
+  }
+
   // Integrate GSAP with Lenis
   gsap.ticker.add((time) => {
     lenis.raf(time * 1000);
@@ -76,7 +82,12 @@ if (typeof gsap !== 'undefined') {
   
   function initProjectAnimations() {
     console.log('🎬 Initializing Project animations');
-    
+
+    // Refresh ScrollTrigger after loader reveals the page
+    if (typeof ScrollTrigger !== 'undefined') {
+      ScrollTrigger.refresh();
+    }
+
     // Set initial states
     gsap.set('.navbar__line', { scaleX: 0, transformOrigin: 'left center' });
     gsap.set('.project__title, .project__meta-item, .project__description', { y: 40 });
@@ -86,7 +97,7 @@ if (typeof gsap !== 'undefined') {
     const tl = gsap.timeline();
     
     // Navbar - starts immediately (same as about.js)
-    tl.to('.navbar--light .navbar__logo', {
+    tl.to('.navbar--project .navbar__logo', {
       opacity: 1,
       duration: 0.4,
       ease: 'power2.out'
@@ -96,12 +107,7 @@ if (typeof gsap !== 'undefined') {
       duration: 0.45,
       ease: 'power2.out'
     }, 0.1)
-    .to('.navbar--light .navbar__menu', {
-      opacity: 1,
-      duration: 0.3,
-      ease: 'power2.out'
-    }, 0.15)
-    .to('.burger-menu', {
+    .to('.navbar--project .navbar__actions', {
       opacity: 1,
       duration: 0.3,
       ease: 'power2.out'
@@ -170,14 +176,23 @@ if (typeof gsap !== 'undefined') {
   // ========================================
   // INITIALIZE ALL ANIMATIONS
   // ========================================
-  
-  // Initialize loader (from transitions.js) with project animation as callback
-  initLoader(() => {
-    console.log('🎬 Loader complete, starting Project animations');
-    initProjectAnimations();
+
+  let cmsContentLoaded = false;
+
+  // Wait for CMS content to load (for content-specific animations)
+  window.addEventListener('projectPageLoaded', () => {
+    console.log('📦 Project CMS content loaded');
+    cmsContentLoaded = true;
     initNextProjectParallax();
   });
-  
+
+  // Initialize loader (from transitions.js) with callback
+  // Navbar animations run immediately after loader, content animations wait for CMS
+  initLoader(() => {
+    console.log('🎬 Loader complete, starting animations');
+    initProjectAnimations();
+  });
+
   // Initialize page transitions (from transitions.js)
   initPageTransitions();
   

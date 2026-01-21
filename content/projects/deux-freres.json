@@ -1,0 +1,25 @@
+{
+  "title": "Deux Freres",
+  "year": "2024",
+  "category": "Hospitality",
+  "description": "A refined hospitality experience built on craftsmanship.",
+  "image": "/images/project-deux-freres.png",
+  "gallery": [
+    {"image": "/images/project-deux-freres.png", "caption": "Restaurant interior"},
+    {"image": "/images/project-deux-freres.png", "caption": "Bar area"},
+    {"image": "/images/project-deux-freres.png", "caption": "Private dining"}
+  ],
+  "display": {
+    "feature_homepage": true,
+    "homepage_order": 3,
+    "feature_selected": true,
+    "selected_order": 3
+  },
+  "details": {
+    "location": "Surry Hills, Sydney",
+    "year_completed": "2024",
+    "scope": "Full hospitality fit-out",
+    "size": "Single level, 280 sqm",
+    "full_description": "Deux Freres showcases our expertise in hospitality construction. Every detail, from the custom joinery to the lighting design, was carefully considered to create an atmosphere that elevates the dining experience."
+  }
+}

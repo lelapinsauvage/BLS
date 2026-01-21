@@ -129,13 +129,19 @@ function initNavbarColorChange() {
 // TYPEWRITER EFFECT
 // ========================================
 
-const typewriterWords = ['Integrity.', 'Precision.', 'Collaboration.'];
+// Default words, can be overridden by CMS via window.cmsTypewriterWords
+let typewriterWords = ['Integrity.', 'Precision.', 'Collaboration.'];
 let currentWordIndex = 0;
 
 function initTypewriter() {
   const wordElement = document.querySelector('.typewriter-word');
   if (!wordElement) return;
-  
+
+  // Use CMS-loaded words if available
+  if (window.cmsTypewriterWords && window.cmsTypewriterWords.length > 0) {
+    typewriterWords = window.cmsTypewriterWords;
+  }
+
   // Start the loop
   setTimeout(() => {
     typewriterLoop(wordElement);

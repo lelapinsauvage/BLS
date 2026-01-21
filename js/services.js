@@ -138,15 +138,26 @@ if (typeof gsap !== 'undefined') {
   // SERVICE CARDS ANIMATION
   // ========================================
 
+  let serviceCardsAnimationInitialized = false;
+
   function initServiceCardsAnimation() {
+    if (serviceCardsAnimationInitialized) return;
+
     const cards = document.querySelectorAll('.service-card');
 
     if (cards.length === 0) return;
+
+    serviceCardsAnimationInitialized = true;
 
     cards.forEach((card, index) => {
       const image = card.querySelector('.service-card__image');
       const title = card.querySelector('.service-card__title');
       const description = card.querySelector('.service-card__description');
+
+      // Set initial states for animation
+      if (image) gsap.set(image, { opacity: 0, y: 30 });
+      if (title) gsap.set(title, { opacity: 0, y: 20 });
+      if (description) gsap.set(description, { opacity: 0, y: 15 });
 
       // Create timeline for each card
       const tl = gsap.timeline({
@@ -303,14 +314,33 @@ if (typeof gsap !== 'undefined') {
   // INITIALIZE ALL ANIMATIONS
   // ========================================
 
+  // Track if CMS content has loaded
+  let cmsContentLoaded = false;
+  let loaderComplete = false;
+
+  // Listen for CMS content loaded event
+  window.addEventListener('servicesContentLoaded', () => {
+    cmsContentLoaded = true;
+    // If loader already complete, init card animations now
+    if (loaderComplete) {
+      initServiceCardsAnimation();
+    }
+  });
+
   // Initialize loader (from transitions.js) with hero animation as callback
   initLoader(() => {
     console.log('🎬 Loader complete, starting Services animations');
+    loaderComplete = true;
     initHeroAnimation();
-    initServiceCardsAnimation();
     initNavbarColorChange();
     initImageParallax();
     initFooterAnimation();
+
+    // If CMS content already loaded, init card animations
+    // Otherwise, the event listener above will handle it
+    if (cmsContentLoaded) {
+      initServiceCardsAnimation();
+    }
   });
 
   // Initialize page transitions (from transitions.js)

@@ -28,11 +28,11 @@ async function loadGlobalContent() {
       
       // Update ALL phone links (navbar CTA)
       document.querySelectorAll('a[href^="tel:"]').forEach(link => {
-        link.href = `tel:+${contact.phone}`;
+        link.href = `tel:${contact.phone.replace(/\s/g, '')}`;
         const textDivs = link.querySelectorAll('.navbar__cta-text div, .mobile-menu__cta');
         textDivs.forEach(div => {
           if (div.textContent.includes('+61')) {
-            div.textContent = contact.phone;
+            div.textContent = contact.phone_display || contact.phone;
           }
         });
       });
@@ -48,6 +48,13 @@ async function loadGlobalContent() {
       if (instagramLinks.length > 0 && contact.instagram) {
         instagramLinks.forEach(link => {
           link.href = contact.instagram;
+          // Update Instagram link text
+          const linkTexts = link.querySelectorAll('.link-text');
+          linkTexts.forEach(text => {
+            if (text.textContent.toLowerCase().includes('instagram') && contact.instagram_text) {
+              text.textContent = contact.instagram_text;
+            }
+          });
         });
       }
     } catch (err) {

@@ -1,0 +1,27 @@
+{
+  "title": "Tradies",
+  "year": "2025",
+  "category": "Hospitality",
+  "description": "We design and build purposeful spaces that last.",
+  "image": "/images/project-tradies.png",
+  "gallery": [
+    {"image": "/images/project-tradies-1.jpg", "caption": "Main bar area"},
+    {"image": "/images/project-tradies-2.jpg", "caption": "Dining space"},
+    {"image": "/images/project-tradies-3.jpg", "caption": "Outdoor terrace"},
+    {"image": "/images/project-tradies-4.jpg", "caption": "Private function room"},
+    {"image": "/images/project-tradies-5.jpg", "caption": "Kitchen view"}
+  ],
+  "display": {
+    "feature_homepage": true,
+    "homepage_order": 4,
+    "feature_selected": true,
+    "selected_order": 4
+  },
+  "details": {
+    "location": "Sydney, Australia",
+    "year_completed": "2025",
+    "scope": "Full build",
+    "size": "2 levels, 350 sqm",
+    "full_description": "Buterin L'Estrange is an independent builder and development company based in Australia, known for delivering high-end residential builds, thoughtful renovations, and boutique commercial projects."
+  }
+}
