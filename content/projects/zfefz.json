@@ -1,0 +1,29 @@
+{
+  "display": {
+    "feature_homepage": true,
+    "homepage_order": 99,
+    "feature_selected": true,
+    "selected_order": 99
+  },
+  "title": "zfefz",
+  "year": "zfzeef",
+  "category": "Hospitality",
+  "description": "fzefzefze",
+  "image": "/images/category-residential.png",
+  "gallery": [
+    {
+      "image": "/images/category-residential.png"
+    },
+    {
+      "image": "/images/category-residential.png"
+    },
+    {
+      "image": "/images/category-hospitality.png"
+    }
+  ],
+  "details": {
+    "location": "fzfe",
+    "year_completed": "fzef",
+    "full_description": "fzefefzefzef"
+  }
+}
