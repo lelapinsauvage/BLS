@@ -23,6 +23,37 @@ function createSlide(slideIndex) {
 
   const slide = document.createElement('div');
   slide.className = 'slide';
+  slide.style.cursor = 'pointer';
+  slide.setAttribute('data-url', slideData.url);
+
+  // Make whole slide clickable
+  slide.addEventListener('click', (e) => {
+    // Don't trigger if clicking on the "All Projects" button
+    if (e.target.closest('.slide-link')) return;
+    window.location.href = slideData.url;
+  });
+
+  // Cursor: show "Visit" on slide, but not on the button
+  slide.addEventListener('mousemove', (e) => {
+    if (!window.customCursor) return;
+
+    const isOverButton = e.target.closest('.slide-link');
+    if (isOverButton) {
+      window.customCursor.removeText();
+    } else {
+      // Only set text if not already set
+      const cursorEl = document.querySelector('.mf-cursor');
+      if (cursorEl && !cursorEl.classList.contains('-text')) {
+        window.customCursor.setText('Visit');
+      }
+    }
+  });
+
+  slide.addEventListener('mouseleave', () => {
+    if (window.customCursor) {
+      window.customCursor.removeText();
+    }
+  });
 
   // Background image
   const slideImg = document.createElement('div');
@@ -71,8 +102,18 @@ function createSlide(slideIndex) {
   const slideLink = document.createElement('div');
   slideLink.className = 'slide-link';
   const a = document.createElement('a');
-  a.href = 'projects-list.html';
+  a.href = '#';
   a.setAttribute('data-transition', '');
+  a.onclick = function(e) {
+    e.preventDefault();
+    e.stopPropagation();
+    if (typeof navigateWithTransition === 'function') {
+      navigateWithTransition('projects-list.html');
+    } else {
+      window.location.href = 'projects-list.html';
+    }
+    return false;
+  };
   a.innerHTML = `
     <div class="slide-link__icons">
       <svg class="slide-link__grid" width="22" height="22" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">

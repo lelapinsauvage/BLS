@@ -100,7 +100,7 @@
     
     <div class="mobile-menu__content">
       <nav class="mobile-menu__nav">
-        <a href="index.html" class="mobile-menu__link mobile-menu__link--active">
+        <a href="index.html" class="mobile-menu__link mobile-menu__link--active" data-transition>
           <span class="mobile-menu__link-text">Home</span>
           <span class="mobile-menu__link-text mobile-menu__link-text--hover">Home</span>
         </a>
@@ -179,17 +179,17 @@
 
   <!-- ========== CATEGORIES SECTION ========== -->
   <section class="categories">
-    <a href="projects.html?category=residential" class="categories__item" style="background-image: url('images/category-residential.png');">
+    <a href="projects.html?category=residential" class="categories__item" data-transition style="background-image: url('images/category-residential.png');">
       <div class="categories__title">Residential</div>
       <div class="categories__description">Luxury homes and apartments crafted with precision.</div>
     </a>
-    
-    <a href="projects.html?category=hospitality" class="categories__item" style="background-image: url('images/category-hospitality.png');">
+
+    <a href="projects.html?category=hospitality" class="categories__item" data-transition style="background-image: url('images/category-hospitality.png');">
       <div class="categories__title">Hospitality</div>
       <div class="categories__description">Restaurants, cafés, and bars built for impact.</div>
     </a>
-    
-    <a href="projects.html?category=commercial" class="categories__item" style="background-image: url('images/category-commercial.png');">
+
+    <a href="projects.html?category=commercial" class="categories__item" data-transition style="background-image: url('images/category-commercial.png');">
       <div class="categories__title">Commercial</div>
       <div class="categories__description">Office and retail spaces designed to perform.</div>
     </a>
@@ -206,7 +206,7 @@
     </header>
 
     <div class="projects__list">
-      <a href="project.html?project=the-gantry" class="projects__item">
+      <a href="project.html?project=the-gantry" class="projects__item" data-transition>
         <div class="projects__item-info">
           <div class="projects__item-meta">
             <div class="projects__item-year">2025</div>
@@ -225,7 +225,7 @@
         </div>
       </a>
 
-      <a href="project.html?project=lumos" class="projects__item">
+      <a href="project.html?project=lumos" class="projects__item" data-transition>
         <div class="projects__item-info">
           <div class="projects__item-meta">
             <div class="projects__item-year">2025</div>
@@ -244,7 +244,7 @@
         </div>
       </a>
 
-      <a href="project.html?project=deux-freres" class="projects__item">
+      <a href="project.html?project=deux-freres" class="projects__item" data-transition>
         <div class="projects__item-info">
           <div class="projects__item-meta">
             <div class="projects__item-year">2025</div>
@@ -263,7 +263,7 @@
         </div>
       </a>
 
-      <a href="project.html?project=tradies" class="projects__item">
+      <a href="project.html?project=tradies" class="projects__item" data-transition>
         <div class="projects__item-info">
           <div class="projects__item-meta">
             <div class="projects__item-year">2025</div>
@@ -282,7 +282,7 @@
         </div>
       </a>
 
-      <a href="project.html?project=coffee-emporium" class="projects__item">
+      <a href="project.html?project=coffee-emporium" class="projects__item" data-transition>
         <div class="projects__item-info">
           <div class="projects__item-meta">
             <div class="projects__item-year">2025</div>
@@ -467,6 +467,7 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollToPlugin.min.js"></script>
   <script src="js/mobile-menu.js"></script>
   <script src="js/transitions.js"></script>
+  <script src="js/cursor.js"></script>
   <script src="js/main.js"></script>
   <script defer src="js/cms-loader-global.js"></script>
   <script defer src="js/cms-loader-homepage.js"></script>

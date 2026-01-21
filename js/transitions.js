@@ -87,56 +87,66 @@ function initPageTransitions() {
   const panelTop = document.querySelector('.loader__panel--top');
   const panelBottom = document.querySelector('.loader__panel--bottom');
   const loader = document.querySelector('.loader');
-  
+
   if (!loader) return;
-  
+
   transitionLinks.forEach(link => {
     link.addEventListener('click', (e) => {
       e.preventDefault();
-      const href = link.getAttribute('href');
-      
-      // Stop smooth scroll
-      if (lenisInstance) lenisInstance.stop();
-      
-      // Show loader
-      loader.style.display = 'flex';
-      loader.style.pointerEvents = 'auto';
-      
-      // First ensure panels are at open position (off-screen)
-      gsap.set(panelTop, { 
-        yPercent: -100, 
-        xPercent: 100,
-        clearProps: 'none'
-      });
-      gsap.set(panelBottom, { 
-        yPercent: 100, 
-        xPercent: -100,
-        clearProps: 'none'
-      });
-      
-      // Force browser to register the position
-      loader.offsetHeight;
-      
-      // Animate diagonal closing
-      gsap.to(panelTop, {
-        yPercent: 0,
-        xPercent: 0,
-        duration: 1,
-        ease: 'power2.inOut'
-      });
-      
-      gsap.to(panelBottom, {
-        yPercent: 0,
-        xPercent: 0,
-        duration: 1,
-        ease: 'power2.inOut',
-        onComplete: () => {
-          // Navigate after animation finishes
-          sessionStorage.setItem('pageTransition', 'true');
-          window.location.href = href;
-        }
-      });
+      navigateWithTransition(link.getAttribute('href'));
     });
+  });
+}
+
+// Exported function for dynamic links
+function navigateWithTransition(href) {
+  const panelTop = document.querySelector('.loader__panel--top');
+  const panelBottom = document.querySelector('.loader__panel--bottom');
+  const loader = document.querySelector('.loader');
+
+  if (!loader) {
+    window.location.href = href;
+    return;
+  }
+
+  // Stop smooth scroll
+  if (lenisInstance) lenisInstance.stop();
+
+  // Show loader
+  loader.style.display = 'flex';
+  loader.style.pointerEvents = 'auto';
+
+  // First ensure panels are at open position (off-screen)
+  gsap.set(panelTop, {
+    yPercent: -100,
+    xPercent: 100
+  });
+  gsap.set(panelBottom, {
+    yPercent: 100,
+    xPercent: -100
+  });
+
+  // Force browser to register the position
+  loader.offsetHeight;
+
+  // Animate diagonal closing
+  gsap.to(panelTop, {
+    yPercent: 0,
+    xPercent: 0,
+    duration: 1,
+    ease: 'power2.inOut'
+  });
+
+  gsap.to(panelBottom, {
+    yPercent: 0,
+    xPercent: 0,
+    duration: 1,
+    ease: 'power2.inOut',
+    onComplete: () => {
+      // Navigate after animation finishes
+      sessionStorage.setItem('pageTransition', 'true');
+      window.location.href = href;
+    }
   });
 }
 
