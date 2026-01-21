@@ -929,9 +929,13 @@ body.is-loading {
 }
 
 .image-separator__img {
+  display: block;
   width: 100%;
-  height: 120%;
+  height: 130%;
   object-fit: cover;
+  position: absolute;
+  top: -15%;
+  left: 0;
   will-change: transform;
 }
 

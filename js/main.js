@@ -381,30 +381,76 @@ function initImageParallax() {
 
   console.log('🖼️ Initializing parallax for', separators.length, 'separators');
 
-  separators.forEach((separator, index) => {
-    const img = separator.querySelector('.image-separator__img');
+  // Collect all separator images
+  const images = [];
+  separators.forEach(sep => {
+    const img = sep.querySelector('.image-separator__img');
+    if (img) images.push(img);
+  });
 
-    if (!img) return;
+  // Function to create ScrollTriggers
+  function createParallaxTriggers() {
+    separators.forEach((separator, index) => {
+      const img = separator.querySelector('.image-separator__img');
 
-    // Create ScrollTrigger with onUpdate for reliable position control
-    const st = ScrollTrigger.create({
-      trigger: separator,
-      start: 'top bottom',
-      end: 'bottom top',
-      scrub: true,
-      onUpdate: (self) => {
-        // Calculate yPercent: -10 at progress 0, +10 at progress 1
-        const yPercent = -10 + (self.progress * 20);
-        gsap.set(img, { yPercent: yPercent });
-      }
+      if (!img) return;
+
+      // Parallax: image moves slower than scroll, creating depth effect
+      gsap.to(img, {
+        yPercent: 10,
+        ease: 'none',
+        scrollTrigger: {
+          trigger: separator,
+          start: 'top bottom',
+          end: 'bottom top',
+          scrub: 0.5,
+          invalidateOnRefresh: true
+        }
+      });
+
+      console.log(`🖼️ Parallax initialized for separator ${index + 1}`);
     });
 
-    // Force immediate position update based on current progress
-    const initialYPercent = -10 + (st.progress * 20);
-    gsap.set(img, { yPercent: initialYPercent });
+    // Final refresh after all triggers are created
+    ScrollTrigger.refresh();
+  }
 
-    console.log(`🖼️ Separator ${index + 1}: progress=${st.progress.toFixed(2)}, yPercent=${initialYPercent.toFixed(1)}`);
+  // Wait for all images to load before creating triggers
+  let loadedCount = 0;
+  const totalImages = images.length;
+
+  if (totalImages === 0) return;
+
+  images.forEach(img => {
+    if (img.complete) {
+      loadedCount++;
+      if (loadedCount === totalImages) {
+        createParallaxTriggers();
+      }
+    } else {
+      img.addEventListener('load', () => {
+        loadedCount++;
+        if (loadedCount === totalImages) {
+          createParallaxTriggers();
+        }
+      });
+      // Also handle error case
+      img.addEventListener('error', () => {
+        loadedCount++;
+        if (loadedCount === totalImages) {
+          createParallaxTriggers();
+        }
+      });
+    }
   });
+
+  // Fallback: if images don't trigger load events (cached), create after short delay
+  setTimeout(() => {
+    if (loadedCount < totalImages) {
+      console.log('🖼️ Fallback: creating parallax triggers');
+      createParallaxTriggers();
+    }
+  }, 500);
 }
 
 // ========================================

@@ -1,0 +1,11 @@
+# Robots.txt for Buterin L'Estrange
+
+User-agent: *
+Allow: /
+
+# Disallow admin and CMS areas
+Disallow: /admin/
+Disallow: /content/
+
+# Sitemap location
+Sitemap: https://blprojects.com.au/sitemap.xml

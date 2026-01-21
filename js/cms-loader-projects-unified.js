@@ -179,7 +179,8 @@
    * Render project item HTML (for list views)
    */
   function renderProjectItem(project, options = {}) {
-    const { linkPrefix = 'project.html?project=' } = options;
+    const { linkPrefix = 'project.html?project=', lazy = true } = options;
+    const loadingAttr = lazy ? 'loading="lazy"' : '';
 
     return `
       <a href="${linkPrefix}${project.slug}" class="projects__item" data-category="${project.category.toLowerCase()}" data-transition>
@@ -195,7 +196,7 @@
         </div>
         <div class="projects__item-visual">
           <div class="projects__item-image-wrap">
-            <img src="${project.image}" alt="${project.title} project" class="projects__item-image" loading="lazy">
+            <img src="${project.image}" alt="${project.title} project" class="projects__item-image" ${loadingAttr}>
           </div>
           <div class="projects__item-arrow">→</div>
         </div>
@@ -213,7 +214,8 @@
     const projects = await getHomepageProjects();
     if (projects.length === 0) return;
 
-    container.innerHTML = projects.map(p => renderProjectItem(p)).join('');
+    // Load homepage images eagerly (no lazy loading) for faster display
+    container.innerHTML = projects.map(p => renderProjectItem(p, { lazy: false })).join('');
 
     // Dispatch event for animations
     window.dispatchEvent(new CustomEvent('homepageProjectsLoaded', { detail: { projects } }));
@@ -230,7 +232,10 @@
     const projects = await getAllProjects();
     if (projects.length === 0) return;
 
-    container.innerHTML = projects.map(p => renderProjectItem(p)).join('');
+    // First 4 projects load eagerly (visible above fold), rest lazy load
+    container.innerHTML = projects.map((p, index) =>
+      renderProjectItem(p, { lazy: index >= 4 })
+    ).join('');
 
     // Re-initialize filter functionality if it exists
     if (window.initProjectFilters) {
@@ -283,7 +288,34 @@
     }
 
     // Update page title
-    document.title = `${project.title} - Buterin L'Estrange`;
+    document.title = `${project.title} | Buterin L'Estrange`;
+
+    // Update SEO meta tags for this project
+    const projectDescription = project.description || `${project.title} - ${project.category} project by Buterin L'Estrange`;
+    const projectUrl = `https://blprojects.com.au/project?project=${projectSlug}`;
+    const projectImage = project.image ? `https://blprojects.com.au${project.image}` : 'https://blprojects.com.au/images/og-image.jpg';
+
+    // Update meta description
+    const metaDesc = document.querySelector('meta[name="description"]');
+    if (metaDesc) metaDesc.setAttribute('content', projectDescription);
+
+    // Update Open Graph tags
+    const ogTitle = document.querySelector('meta[property="og:title"]');
+    const ogDesc = document.querySelector('meta[property="og:description"]');
+    const ogUrl = document.querySelector('meta[property="og:url"]');
+    const ogImage = document.querySelector('meta[property="og:image"]');
+    if (ogTitle) ogTitle.setAttribute('content', `${project.title} | Buterin L'Estrange`);
+    if (ogDesc) ogDesc.setAttribute('content', projectDescription);
+    if (ogUrl) ogUrl.setAttribute('content', projectUrl);
+    if (ogImage) ogImage.setAttribute('content', projectImage);
+
+    // Update Twitter Card tags
+    const twTitle = document.querySelector('meta[name="twitter:title"]');
+    const twDesc = document.querySelector('meta[name="twitter:description"]');
+    const twImage = document.querySelector('meta[name="twitter:image"]');
+    if (twTitle) twTitle.setAttribute('content', `${project.title} | Buterin L'Estrange`);
+    if (twDesc) twDesc.setAttribute('content', projectDescription);
+    if (twImage) twImage.setAttribute('content', projectImage);
 
     // Update project title
     const titleEl = document.querySelector('.project__title');
@@ -322,6 +354,9 @@
     const galleryContainer = document.querySelector('.project__gallery');
     if (galleryContainer && project.gallery && project.gallery.length > 0) {
       galleryContainer.innerHTML = project.gallery.map((item, index) => {
+        // First 2 images load eagerly, rest lazy load
+        const loadingAttr = index >= 2 ? 'loading="lazy"' : '';
+
         // Create different layouts for visual interest
         if (index === 2 && project.gallery.length > 3) {
           // Check if we can make a row of two
@@ -329,8 +364,8 @@
           if (nextItem) {
             return `
               <div class="project__image-row">
-                <img src="${item.image}" alt="${item.caption || project.title + ' Image ' + (index + 1)}" class="project__image project__image--half">
-                <img src="${nextItem.image}" alt="${nextItem.caption || project.title + ' Image ' + (index + 2)}" class="project__image project__image--half">
+                <img src="${item.image}" alt="${item.caption || project.title + ' Image ' + (index + 1)}" class="project__image project__image--half" ${loadingAttr}>
+                <img src="${nextItem.image}" alt="${nextItem.caption || project.title + ' Image ' + (index + 2)}" class="project__image project__image--half" loading="lazy">
               </div>
             `;
           }
@@ -339,7 +374,7 @@
         if (index === 3 && project.gallery.length > 4) {
           return '';
         }
-        return `<img src="${item.image}" alt="${item.caption || project.title + ' Image ' + (index + 1)}" class="project__image">`;
+        return `<img src="${item.image}" alt="${item.caption || project.title + ' Image ' + (index + 1)}" class="project__image" ${loadingAttr}>`;
       }).join('');
     }
 

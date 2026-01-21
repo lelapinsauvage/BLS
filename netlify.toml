@@ -3,15 +3,103 @@
 [build]
   publish = "."
 
-# Headers for JSON files
+# ========================================
+# SEO & SECURITY HEADERS
+# ========================================
+
+# Global security and SEO headers for all pages
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Frame-Options = "SAMEORIGIN"
+    X-Content-Type-Options = "nosniff"
+    X-XSS-Protection = "1; mode=block"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+
+# Cache static assets for better performance (helps SEO)
+[[headers]]
+  for = "/images/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+[[headers]]
+  for = "/css/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+[[headers]]
+  for = "/js/*"
+  [headers.values]
+    Cache-Control = "public, max-age=86400"
+
+# Headers for JSON/CMS files
 [[headers]]
   for = "/content/*"
   [headers.values]
     Access-Control-Allow-Origin = "*"
     Content-Type = "application/json"
+    Cache-Control = "public, max-age=300"
 
 [[headers]]
   for = "/*.json"
   [headers.values]
     Access-Control-Allow-Origin = "*"
     Content-Type = "application/json"
+
+# ========================================
+# SEO REDIRECTS
+# ========================================
+
+# Redirect www to non-www (or vice versa - adjust as needed)
+[[redirects]]
+  from = "https://www.blprojects.com.au/*"
+  to = "https://blprojects.com.au/:splat"
+  status = 301
+  force = true
+
+# Pretty URLs - redirect .html to clean URLs
+[[redirects]]
+  from = "/index.html"
+  to = "/"
+  status = 301
+
+# Handle clean URLs (serve .html files without extension)
+[[redirects]]
+  from = "/about"
+  to = "/about.html"
+  status = 200
+
+[[redirects]]
+  from = "/services"
+  to = "/services.html"
+  status = 200
+
+[[redirects]]
+  from = "/projects"
+  to = "/projects.html"
+  status = 200
+
+[[redirects]]
+  from = "/projects-list"
+  to = "/projects-list.html"
+  status = 200
+
+[[redirects]]
+  from = "/project"
+  to = "/project.html"
+  status = 200
+
+[[redirects]]
+  from = "/privacy-policy"
+  to = "/privacy-policy.html"
+  status = 200
+
+[[redirects]]
+  from = "/cookie-policy"
+  to = "/cookie-policy.html"
+  status = 200
+
+[[redirects]]
+  from = "/thank-you"
+  to = "/thank-you.html"
+  status = 200

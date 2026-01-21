@@ -289,3 +289,85 @@ collections:
           - {label: "Page Title", name: "title", widget: "string"}
           - {label: "Last Updated", name: "last_updated", widget: "string", hint: "e.g. January 2025"}
           - {label: "Content", name: "body", widget: "markdown", hint: "Use ## for main headings, ### for subheadings, - for bullet points, **text** for bold"}
+
+  # ==================== SEO SETTINGS ====================
+  - name: "seo"
+    label: "SEO Settings"
+    files:
+      - label: "Global SEO"
+        name: "global"
+        file: "content/seo/global.json"
+        fields:
+          - {label: "Site Name", name: "site_name", widget: "string", default: "Buterin L'Estrange", hint: "Your brand/company name"}
+          - {label: "Site URL", name: "site_url", widget: "string", default: "https://blprojects.com.au", hint: "Your website URL (no trailing slash)"}
+          - {label: "Default Meta Description", name: "default_description", widget: "text", hint: "Default description used when page-specific one is not set"}
+          - {label: "Keywords", name: "keywords", widget: "string", hint: "Comma-separated keywords for SEO"}
+          - {label: "OG Image (Social Sharing)", name: "og_image", widget: "image", hint: "Default image for social sharing (1200x630px recommended)"}
+          - {label: "Favicon", name: "favicon", widget: "file", required: false, hint: "Site favicon (.ico or .png)"}
+          - {label: "Apple Touch Icon", name: "apple_touch_icon", widget: "image", required: false, hint: "iOS home screen icon (180x180px)"}
+          - label: "Local Business Info"
+            name: "local_business"
+            widget: "object"
+            collapsed: true
+            hint: "For Google local business SEO"
+            fields:
+              - {label: "Business Type", name: "type", widget: "string", default: "LocalBusiness"}
+              - {label: "Phone", name: "phone", widget: "string"}
+              - {label: "Email", name: "email", widget: "string"}
+              - {label: "Street Address", name: "street", widget: "string"}
+              - {label: "City", name: "city", widget: "string"}
+              - {label: "State/Region", name: "region", widget: "string"}
+              - {label: "Postal Code", name: "postal_code", widget: "string"}
+              - {label: "Country", name: "country", widget: "string", default: "AU"}
+              - {label: "Latitude", name: "latitude", widget: "string", required: false}
+              - {label: "Longitude", name: "longitude", widget: "string", required: false}
+              - {label: "Price Range", name: "price_range", widget: "string", default: "$$$"}
+              - {label: "Opening Hours", name: "opening_hours", widget: "string", default: "Mo-Fr 07:00-17:00"}
+          - label: "Social Media"
+            name: "social"
+            widget: "object"
+            collapsed: true
+            fields:
+              - {label: "Instagram URL", name: "instagram", widget: "string", required: false}
+              - {label: "Facebook URL", name: "facebook", widget: "string", required: false}
+              - {label: "LinkedIn URL", name: "linkedin", widget: "string", required: false}
+
+      - label: "Homepage SEO"
+        name: "homepage"
+        file: "content/seo/homepage.json"
+        fields:
+          - {label: "Page Title", name: "title", widget: "string", hint: "Shows in browser tab and search results"}
+          - {label: "Meta Description", name: "description", widget: "text", hint: "Shows in search results (150-160 chars ideal)"}
+          - {label: "OG Image", name: "og_image", widget: "image", required: false, hint: "Override default social image for this page"}
+
+      - label: "About Page SEO"
+        name: "about"
+        file: "content/seo/about.json"
+        fields:
+          - {label: "Page Title", name: "title", widget: "string"}
+          - {label: "Meta Description", name: "description", widget: "text"}
+          - {label: "OG Image", name: "og_image", widget: "image", required: false}
+
+      - label: "Services Page SEO"
+        name: "services"
+        file: "content/seo/services.json"
+        fields:
+          - {label: "Page Title", name: "title", widget: "string"}
+          - {label: "Meta Description", name: "description", widget: "text"}
+          - {label: "OG Image", name: "og_image", widget: "image", required: false}
+
+      - label: "Projects Page SEO"
+        name: "projects"
+        file: "content/seo/projects.json"
+        fields:
+          - {label: "Page Title", name: "title", widget: "string"}
+          - {label: "Meta Description", name: "description", widget: "text"}
+          - {label: "OG Image", name: "og_image", widget: "image", required: false}
+
+      - label: "Projects List Page SEO"
+        name: "projects_list"
+        file: "content/seo/projects-list.json"
+        fields:
+          - {label: "Page Title", name: "title", widget: "string"}
+          - {label: "Meta Description", name: "description", widget: "text"}
+          - {label: "OG Image", name: "og_image", widget: "image", required: false}

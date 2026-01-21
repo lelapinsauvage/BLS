@@ -1,0 +1,28 @@
+{
+  "site_name": "Buterin L'Estrange",
+  "site_url": "https://blprojects.com.au",
+  "default_description": "Sydney's premier design-led construction partner for 25+ years. Specializing in hospitality, commercial, residential, and retail fit-outs with precision craftsmanship.",
+  "keywords": "construction Sydney, fit-out Sydney, hospitality construction, commercial construction, residential construction, retail fit-out, design-led construction, Sydney builder, Central Coast builder",
+  "og_image": "/images/og-image.jpg",
+  "favicon": "/favicon.ico",
+  "apple_touch_icon": "/apple-touch-icon.png",
+  "local_business": {
+    "type": "LocalBusiness",
+    "phone": "+61422523677",
+    "email": "admin@blprojects.com.au",
+    "street": "Unit 1 / 5-6 Luke Close",
+    "city": "West Gosford",
+    "region": "NSW",
+    "postal_code": "2250",
+    "country": "AU",
+    "latitude": "-33.4389",
+    "longitude": "151.3417",
+    "price_range": "$$$",
+    "opening_hours": "Mo-Fr 07:00-17:00"
+  },
+  "social": {
+    "instagram": "https://www.instagram.com/buterinlestrange/",
+    "facebook": "",
+    "linkedin": ""
+  }
+}
