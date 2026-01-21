@@ -370,17 +370,18 @@
    */
   async function init() {
     const path = window.location.pathname;
+    console.log('📦 Projects CMS init, path:', path);
 
     if (path === '/' || path === '/index.html' || path.endsWith('index.html')) {
       // Homepage - load featured projects
       await populateHomepageProjects();
-    } else if (path.includes('projects-list.html')) {
+    } else if (path.includes('projects-list') || path.endsWith('projects-list')) {
       // Projects list page - load all projects
       await populateProjectsList();
-    } else if (path.includes('projects.html') && !path.includes('projects-list')) {
+    } else if ((path.includes('projects') || path.endsWith('projects')) && !path.includes('projects-list') && !path.includes('project.html') && !path.endsWith('project')) {
       // Selected projects slider - load selected projects
       await populateSelectedProjects();
-    } else if (path.includes('project.html')) {
+    } else if (path.includes('project.html') || path.endsWith('project') || path.match(/\/project($|\?)/)) {
       // Single project page - load specific project
       await populateProjectPage();
     }
