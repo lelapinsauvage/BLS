@@ -191,11 +191,9 @@ main {
 .services-grid__inner {
   max-width: clamp(900px, 95.83vw, 1840px);
   margin: 0 auto;
-  display: flex;
-  justify-content: center;
-  align-items: flex-start;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
   gap: clamp(2rem, 4vw, 5rem);
-  flex-wrap: wrap;
 }
 
 /* ----------------------------------------
@@ -206,8 +204,6 @@ main {
   display: flex;
   flex-direction: column;
   gap: clamp(1.25rem, 1.5vw, 1.75rem);
-  flex: 1;
-  min-width: 280px;
   cursor: pointer;
 }
 
@@ -265,12 +261,15 @@ main {
 
 @media (max-width: 1024px) {
   .services-grid__inner {
+    grid-template-columns: repeat(2, 1fr);
     gap: 3rem;
   }
+}
 
-  .service-card {
-    max-width: 100%;
-    flex: 1 1 calc(50% - 1.5rem);
+@media (max-width: 600px) {
+  .services-grid__inner {
+    grid-template-columns: 1fr;
+    gap: 2.5rem;
   }
 }
 
@@ -283,16 +282,6 @@ main {
 
   .services-hero__title {
     font-size: clamp(2rem, 10vw, 3rem);
-  }
-
-  .services-grid__inner {
-    flex-direction: column;
-    gap: 3rem;
-  }
-
-  .service-card {
-    max-width: 100%;
-    flex: 1 1 100%;
   }
 
   .service-card__image {
