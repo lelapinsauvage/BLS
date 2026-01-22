@@ -75,7 +75,6 @@ async function loadLegalContent() {
       content.innerHTML = markdownToHtml(data.body);
     }
 
-    console.log(`✅ ${data.title} content loaded from CMS`);
   } catch (error) {
     console.log('Legal content not loaded:', error.message);
   }

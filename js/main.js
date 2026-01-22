@@ -2,7 +2,6 @@
    BUTERIN L'ESTRANGE - Home Page
    ======================================== */
 
-console.log('🚀 BLS Home loaded');
 
 // ========================================
 // LENIS SMOOTH SCROLL
@@ -72,7 +71,6 @@ lenis.on('scroll', ({ scroll, direction }) => {
 if (typeof gsap === 'undefined') {
   console.error('❌ GSAP not loaded!');
 } else {
-  console.log('✅ GSAP loaded');
 
   // Cancel the fallback RAF loop - GSAP ticker will handle Lenis updates
   if (rafId) {
@@ -112,7 +110,6 @@ if (typeof gsap === 'undefined') {
 
   // Also listen for CMS-loaded projects
   window.addEventListener('homepageProjectsLoaded', () => {
-    console.log('📦 Homepage CMS projects loaded, re-initializing hover');
     initProjectsHover();
   });
 }
@@ -122,7 +119,6 @@ if (typeof gsap === 'undefined') {
 // ========================================
 
 function initHeroAnimation() {
-  console.log('🎬 Starting hero animation...');
 
   // Initialize parallax with delay - loader callback fires early (75% open)
   // Wait for loader to fully hide before calculating ScrollTrigger positions
@@ -379,8 +375,6 @@ function initImageParallax() {
 
   if (separators.length === 0) return;
 
-  console.log('🖼️ Initializing parallax for', separators.length, 'separators');
-
   // Collect all separator images
   const images = [];
   separators.forEach(sep => {
@@ -407,8 +401,6 @@ function initImageParallax() {
           invalidateOnRefresh: true
         }
       });
-
-      console.log(`🖼️ Parallax initialized for separator ${index + 1}`);
     });
 
     // Final refresh after all triggers are created
@@ -447,7 +439,6 @@ function initImageParallax() {
   // Fallback: if images don't trigger load events (cached), create after short delay
   setTimeout(() => {
     if (loadedCount < totalImages) {
-      console.log('🖼️ Fallback: creating parallax triggers');
       createParallaxTriggers();
     }
   }, 500);

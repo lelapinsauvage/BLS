@@ -49,7 +49,6 @@ function initCursor() {
     });
 
 
-    console.log('✅ Custom cursor initialized');
   };
 }
 

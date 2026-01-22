@@ -133,7 +133,6 @@ async function loadAboutContent() {
       console.log('Separator content not loaded:', err.message);
     }
 
-    console.log('✅ About page content loaded from CMS');
   } catch (error) {
     console.error('❌ Error loading about content:', error);
   }

@@ -16,19 +16,8 @@ function initMobileMenu() {
   };
 
   if (!burgerOpen || !burgerClose || !mobileMenu) {
-    console.error('🍔 Mobile menu elements not found!');
     return;
   }
-  
-  console.log('🍔 Mobile menu elements found:', {
-    burgerOpen,
-    burgerClose,
-    mobileMenu,
-    linksCount: mobileMenuLinks.length,
-    hasCTA: !!mobileCTA,
-    hasSeparator: !!separator,
-    hasPanels: !!panels.top && !!panels.bottom
-  });
 
   let isOpen = false;
   let menuTimeline;
@@ -95,7 +84,6 @@ function initMobileMenu() {
 
   // Open menu
   function openMenu() {
-    console.log('🎬 Opening menu...');
     isOpen = true;
     mobileMenu.classList.add('is-active');
     document.body.style.overflow = 'hidden';
@@ -105,40 +93,34 @@ function initMobileMenu() {
       menuTimeline = createMenuTimeline();
     }
     menuTimeline.play();
-    console.log('✅ Menu opened');
   }
 
   // Close menu
   function closeMenu() {
-    console.log('🔒 Closing menu...');
     isOpen = false;
-    
+
     // Reverse animation
     if (menuTimeline) {
       menuTimeline.eventCallback('onReverseComplete', () => {
         mobileMenu.classList.remove('is-active');
         document.body.style.overflow = '';
-        menuTimeline.eventCallback('onReverseComplete', null); // Clear callback
-        console.log('✅ Menu closed');
+        menuTimeline.eventCallback('onReverseComplete', null);
       });
       menuTimeline.reverse();
     } else {
       mobileMenu.classList.remove('is-active');
       document.body.style.overflow = '';
-      console.log('✅ Menu closed (no timeline)');
     }
   }
 
   // Event listeners
   burgerOpen.addEventListener('click', (e) => {
     e.stopPropagation();
-    console.log('🍔 Open button clicked!');
     openMenu();
   });
 
   burgerClose.addEventListener('click', (e) => {
     e.stopPropagation();
-    console.log('❌ Close button clicked!');
     closeMenu();
   });
 
@@ -146,7 +128,6 @@ function initMobileMenu() {
   mobileMenuLinks.forEach(link => {
     link.addEventListener('click', () => {
       if (!link.classList.contains('mobile-menu__link--active')) {
-        // Small delay to see the click effect before closing
         setTimeout(() => {
           closeMenu();
         }, 150);
@@ -160,8 +141,6 @@ function initMobileMenu() {
       closeMenu();
     }
   });
-
-  console.log('🍔 Mobile menu initialized');
 }
 
 // Initialize when DOM is ready
@@ -170,4 +149,3 @@ if (document.readyState === 'loading') {
 } else {
   initMobileMenu();
 }
-

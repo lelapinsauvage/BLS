@@ -22,7 +22,6 @@ async function loadProjectsFromCMS() {
     // If we have projects from CMS, render them
     if (projects.length > 0) {
       renderProjects(projects);
-      console.log(`✅ Loaded ${projects.length} projects from CMS`);
     } else {
       console.log('⚠️ No projects found in CMS, showing hardcoded projects');
     }

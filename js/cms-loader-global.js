@@ -91,7 +91,6 @@ async function loadGlobalContent() {
       console.log('Footer content not loaded:', err.message);
     }
 
-    console.log('✅ Global content loaded from CMS');
   } catch (error) {
     console.error('❌ Error loading global content:', error);
   }

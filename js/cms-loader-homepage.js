@@ -132,7 +132,6 @@ async function loadHomepageContent() {
       console.log('Separators content not loaded:', err.message);
     }
 
-    console.log('✅ Homepage content loaded from CMS');
   } catch (error) {
     console.error('❌ Error loading homepage content:', error);
   }

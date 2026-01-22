@@ -177,15 +177,13 @@
           // Update canonical URL
           const canonicalPath = currentPage === 'homepage' ? '' : `/${currentPage.replace('-', '-')}`;
           setMetaTag('link[rel="canonical"]', 'href', `${global.site_url}${canonicalPath}`);
-
-          console.log(`SEO loaded for: ${currentPage}`);
         } catch (err) {
-          console.log(`Page SEO not found for: ${currentPage}`);
+          // Page-specific SEO not found, using global defaults
         }
       }
 
     } catch (err) {
-      console.log('Global SEO settings not loaded:', err.message);
+      // Global SEO settings not loaded
     }
   }
 

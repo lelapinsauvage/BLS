@@ -494,7 +494,6 @@ function startSlider() {
 
 // Wait for CMS data to load
 window.addEventListener('selectedProjectsLoaded', () => {
-  console.log('CMS projects loaded for slider');
   totalSlides = window.projectsData?.length || 5;
   if (!hasInitialized) {
     startSlider();
@@ -503,7 +502,6 @@ window.addEventListener('selectedProjectsLoaded', () => {
 
 // Check if data is already loaded (CMS loader ran before this script)
 if (window.projectsData?.length > 0 && !hasInitialized) {
-  console.log('Projects data already available');
   startSlider();
 }
 

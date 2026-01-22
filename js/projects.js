@@ -2,7 +2,6 @@
    BUTERIN L'ESTRANGE - Projects Page
    ======================================== */
 
-console.log('🚀 BLS Projects loaded');
 
 // ========================================
 // LENIS SMOOTH SCROLL
@@ -57,7 +56,6 @@ rafId = requestAnimationFrame(raf);
 if (typeof gsap === 'undefined') {
   console.error('❌ GSAP not loaded!');
 } else {
-  console.log('✅ GSAP loaded');
 
   // Cancel the fallback RAF loop - GSAP ticker will handle Lenis updates
   if (rafId) {
@@ -112,7 +110,6 @@ if (typeof gsap === 'undefined') {
 
   // Listen for CMS content load
   window.addEventListener('projectsListLoaded', () => {
-    console.log('📦 CMS projects content loaded');
     cmsContentLoaded = true;
 
     // Re-initialize hover for new items
@@ -137,7 +134,6 @@ if (typeof gsap === 'undefined') {
 // ========================================
 
 function initHeaderAnimation() {
-  console.log('🎬 Starting header animation...');
 
   // Refresh ScrollTrigger after loader reveals the page
   ScrollTrigger.refresh();
@@ -168,7 +164,6 @@ function animateProjectItems() {
   if (items.length === 0) return;
 
   itemsAnimated = true;
-  console.log('🎬 Animating project items...');
 
   // Set initial states
   gsap.set(items, { opacity: 0, y: 40, borderColor: 'transparent' });

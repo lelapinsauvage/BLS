@@ -30,7 +30,6 @@ async function loadProjectsForGrid() {
         image: p.image,
         url: `project.html?project=${p.slug}`
       }));
-      console.log(`✅ Loaded ${projects.length} projects for grid from CMS`);
     } else {
       console.log('⚠️ No projects found in CMS, using fallback');
       // Fallback data

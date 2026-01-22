@@ -2,7 +2,6 @@
    BUTERIN L'ESTRANGE - Services Page
    ======================================== */
 
-console.log('🚀 BLS Services loaded');
 
 // ========================================
 // LENIS SMOOTH SCROLL
@@ -56,7 +55,6 @@ lenis.on('scroll', ({ scroll, direction }) => {
 
 // Check if GSAP is available
 if (typeof gsap !== 'undefined') {
-  console.log('✅ GSAP loaded');
 
   // Cancel the fallback RAF loop - GSAP ticker will handle Lenis updates
   if (rafId) {
@@ -79,8 +77,6 @@ if (typeof gsap !== 'undefined') {
   // ========================================
 
   function initHeroAnimation() {
-    console.log('🎬 Initializing Services hero animation');
-
     // Set initial states
     gsap.set('.navbar__line', { scaleX: 0, transformOrigin: 'left center' });
 
@@ -131,7 +127,6 @@ if (typeof gsap !== 'undefined') {
       ease: 'power2.inOut'
     }, 0.5);
 
-    console.log('✅ Services hero animation complete');
   }
 
   // ========================================
@@ -199,7 +194,6 @@ if (typeof gsap !== 'undefined') {
       }
     });
 
-    console.log('✅ Service cards animation initialized');
   }
 
   // ========================================
@@ -227,7 +221,6 @@ if (typeof gsap !== 'undefined') {
       }
     });
 
-    console.log('✅ Navbar color change initialized');
   }
 
   // ========================================
@@ -257,7 +250,6 @@ if (typeof gsap !== 'undefined') {
       );
     });
 
-    console.log('✅ Image parallax initialized');
   }
 
   // ========================================
@@ -307,7 +299,6 @@ if (typeof gsap !== 'undefined') {
       });
     }
 
-    console.log('✅ Footer animation initialized');
   }
 
   // ========================================
@@ -329,7 +320,6 @@ if (typeof gsap !== 'undefined') {
 
   // Initialize loader (from transitions.js) with hero animation as callback
   initLoader(() => {
-    console.log('🎬 Loader complete, starting Services animations');
     loaderComplete = true;
     initHeroAnimation();
     initNavbarColorChange();

@@ -4,13 +4,6 @@
 (function() {
   'use strict';
 
-  // DEBUG MODE - set to true for verbose logging
-  const DEBUG = true;
-
-  function debug(...args) {
-    if (DEBUG) console.log('🔍 [Projects CMS]', ...args);
-  }
-
   // Global projects store
   window.projectsStore = {
     all: [],
@@ -22,12 +15,8 @@
    * Check if a project has all required fields
    */
   function isProjectComplete(project) {
-    if (!project) {
-      debug('isProjectComplete: project is null/undefined');
-      return false;
-    }
+    if (!project) return false;
 
-    // Required fields check
     const hasTitle = project.title && project.title.trim() !== '';
     const hasYear = project.year && project.year.trim() !== '';
     const hasCategory = project.category && project.category.trim() !== '';
@@ -35,41 +24,19 @@
     const hasImage = project.image && project.image.trim() !== '';
     const hasGallery = project.gallery && Array.isArray(project.gallery) && project.gallery.length >= 3;
 
-    const isComplete = hasTitle && hasYear && hasCategory && hasDescription && hasImage && hasGallery;
-
-    if (!isComplete) {
-      debug(`Project "${project.title || 'unknown'}" incomplete:`, {
-        hasTitle,
-        hasYear,
-        hasCategory,
-        hasDescription,
-        hasImage,
-        hasGallery,
-        galleryLength: project.gallery ? project.gallery.length : 0
-      });
-    }
-
-    return isComplete;
+    return hasTitle && hasYear && hasCategory && hasDescription && hasImage && hasGallery;
   }
 
   /**
    * Load project manifest to discover all projects
    */
   async function loadManifest() {
-    debug('Loading manifest from /content/projects/_manifest.json');
     try {
       const response = await fetch('/content/projects/_manifest.json');
-      debug('Manifest response status:', response.status);
-      if (!response.ok) {
-        debug('Manifest not found, will use fallback');
-        return null;
-      }
+      if (!response.ok) return null;
       const manifest = await response.json();
-      debug('Manifest loaded, projects:', manifest.projects);
       return manifest.projects || [];
     } catch (error) {
-      debug('Manifest error:', error.message);
-      console.log('No manifest found, using fallback discovery');
       return null;
     }
   }
@@ -78,23 +45,13 @@
    * Load a single project by slug
    */
   async function loadProject(slug) {
-    debug(`Loading project: ${slug}`);
     try {
-      const url = `/content/projects/${slug}.json`;
-      debug(`Fetching: ${url}`);
-      const response = await fetch(url);
-      debug(`Response for ${slug}:`, response.status);
-      if (!response.ok) {
-        debug(`Project ${slug} not found (${response.status})`);
-        return null;
-      }
+      const response = await fetch(`/content/projects/${slug}.json`);
+      if (!response.ok) return null;
       const project = await response.json();
       project.slug = slug;
-      debug(`Project ${slug} loaded:`, project);
       return project;
     } catch (error) {
-      debug(`Error loading project ${slug}:`, error.message);
-      console.log(`Failed to load project: ${slug}`);
       return null;
     }
   }
@@ -103,16 +60,11 @@
    * Load all projects from CMS
    */
   async function loadAllProjects() {
-    debug('loadAllProjects called');
-
     if (window.projectsStore.loaded) {
-      debug('Projects already loaded, returning cached:', window.projectsStore.all.length);
       return window.projectsStore.all;
     }
 
     if (window.projectsStore.loading) {
-      debug('Projects currently loading, waiting...');
-      // Wait for existing load to complete
       return new Promise((resolve) => {
         const checkInterval = setInterval(() => {
           if (window.projectsStore.loaded) {
@@ -125,13 +77,11 @@
 
     window.projectsStore.loading = true;
 
-    // Try to load manifest
+    // Try to load manifest (auto-generated during Netlify build)
     let projectSlugs = await loadManifest();
 
-    // Fallback to known projects if manifest fails to load
-    // The manifest is auto-generated during Netlify build by scripts/generate-manifest.js
+    // Fallback to known projects if manifest fails
     if (!projectSlugs) {
-      debug('No manifest, using fallback slugs');
       projectSlugs = [
         'the-gantry',
         'lumos',
@@ -141,33 +91,12 @@
       ];
     }
 
-    // Also try to discover additional projects not in manifest
-    // Try common patterns for newly created projects
-    const additionalSlugsToTry = [
-      // Add any known new project slugs here for testing
-    ];
-
-    // Merge and dedupe
-    projectSlugs = [...new Set([...projectSlugs, ...additionalSlugsToTry])];
-
-    debug('Project slugs to load:', projectSlugs);
-
-    // Also log what we'll try to fetch
-    debug('Will attempt to fetch these project files:');
-    projectSlugs.forEach(slug => debug(`  - /content/projects/${slug}.json`));
-
     // Load all projects
     const projects = [];
     for (const slug of projectSlugs) {
       const project = await loadProject(slug);
       if (project && isProjectComplete(project)) {
-        debug(`✅ Project "${project.title}" is complete, adding to list`);
         projects.push(project);
-      } else if (project) {
-        debug(`❌ Project "${project.title || slug}" is incomplete, skipping`);
-        console.log(`Project "${project.title || slug}" is incomplete and will not be displayed`);
-      } else {
-        debug(`❌ Project "${slug}" could not be loaded`);
       }
     }
 
@@ -175,8 +104,6 @@
     window.projectsStore.loaded = true;
     window.projectsStore.loading = false;
 
-    debug(`Total complete projects: ${projects.length}`);
-    console.log(`Loaded ${projects.length} complete projects from CMS`);
     return projects;
   }
 
@@ -184,24 +111,14 @@
    * Get projects for homepage (featured, sorted by order)
    */
   async function getHomepageProjects() {
-    debug('getHomepageProjects called');
     const projects = await loadAllProjects();
-    debug('All projects:', projects.map(p => ({ title: p.title, display: p.display })));
-
-    const featured = projects
-      .filter(p => {
-        const isFeatured = p.display && p.display.feature_homepage;
-        debug(`Project "${p.title}" feature_homepage:`, isFeatured, 'display:', p.display);
-        return isFeatured;
-      })
+    return projects
+      .filter(p => p.display && p.display.feature_homepage)
       .sort((a, b) => {
         const orderA = a.display?.homepage_order || 99;
         const orderB = b.display?.homepage_order || 99;
         return orderA - orderB;
       });
-
-    debug('Homepage featured projects:', featured.length, featured.map(p => p.title));
-    return featured;
   }
 
   /**
@@ -295,7 +212,6 @@
 
     // Dispatch event for animations
     window.dispatchEvent(new CustomEvent('homepageProjectsLoaded', { detail: { projects } }));
-    console.log(`Rendered ${projects.length} homepage projects from CMS`);
   }
 
   /**
@@ -320,7 +236,6 @@
 
     // Dispatch event for animations
     window.dispatchEvent(new CustomEvent('projectsListLoaded', { detail: { projects } }));
-    console.log(`Rendered ${projects.length} projects on projects list from CMS`);
   }
 
   /**
@@ -341,7 +256,6 @@
 
     // Dispatch event for slider initialization
     window.dispatchEvent(new CustomEvent('selectedProjectsLoaded', { detail: { projects } }));
-    console.log(`Loaded ${projects.length} selected projects for slider from CMS`);
   }
 
   /**
@@ -352,16 +266,10 @@
     const urlParams = new URLSearchParams(window.location.search);
     const projectSlug = urlParams.get('project');
 
-    if (!projectSlug) {
-      console.log('No project specified in URL');
-      return;
-    }
+    if (!projectSlug) return;
 
     const project = await getProjectBySlug(projectSlug);
-    if (!project) {
-      console.log(`Project not found: ${projectSlug}`);
-      return;
-    }
+    if (!project) return;
 
     // Update page title
     document.title = `${project.title} | Buterin L'Estrange`;
@@ -473,7 +381,6 @@
 
     // Dispatch event for animations
     window.dispatchEvent(new CustomEvent('projectPageLoaded', { detail: { project } }));
-    console.log(`Loaded project: ${project.title} from CMS`);
   }
 
   /**
@@ -481,31 +388,19 @@
    */
   async function init() {
     const path = window.location.pathname;
-    debug('=== INIT START ===');
-    debug('Path:', path);
-    debug('Hostname:', window.location.hostname);
-    console.log('📦 Projects CMS init, path:', path);
 
     if (path === '/' || path === '/index.html' || path.endsWith('index.html')) {
-      debug('Detected: HOMEPAGE');
       await populateHomepageProjects();
     } else if (path.includes('projects-list') || path.endsWith('projects-list')) {
-      debug('Detected: PROJECTS LIST');
       await populateProjectsList();
     } else if ((path.includes('projects') || path.endsWith('projects')) && !path.includes('projects-list') && !path.includes('project.html') && !path.endsWith('project')) {
-      debug('Detected: SELECTED PROJECTS');
       await populateSelectedProjects();
     } else if (path.includes('project.html') || path.endsWith('project') || path.match(/\/project($|\?)/)) {
-      debug('Detected: SINGLE PROJECT');
       await populateProjectPage();
-    } else {
-      debug('No matching page detected');
     }
-
-    debug('=== INIT END ===');
   }
 
-  // Expose functions globally for debugging
+  // Expose functions globally
   window.projectsCMS = {
     loadAllProjects,
     getHomepageProjects,
@@ -513,33 +408,8 @@
     getAllProjects,
     getProjectBySlug,
     getNextProject,
-    isProjectComplete,
-    // Debug helpers
-    debug: {
-      testLoadProject: async (slug) => {
-        console.log(`Testing load of project: ${slug}`);
-        const project = await loadProject(slug);
-        console.log('Result:', project);
-        if (project) {
-          console.log('Is complete:', isProjectComplete(project));
-        }
-        return project;
-      },
-      listLoadedProjects: () => {
-        console.log('Loaded projects:', window.projectsStore.all);
-        return window.projectsStore.all;
-      },
-      reloadProjects: async () => {
-        window.projectsStore.loaded = false;
-        window.projectsStore.loading = false;
-        window.projectsStore.all = [];
-        return await loadAllProjects();
-      },
-      getStore: () => window.projectsStore
-    }
+    isProjectComplete
   };
-
-  console.log('💡 Projects CMS Debug: Use window.projectsCMS.debug for testing');
 
   // Initialize on DOM ready
   if (document.readyState === 'loading') {

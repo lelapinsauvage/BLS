@@ -54,7 +54,6 @@ function initProjectsCarousel() {
   // Create toggle buttons
   const projectsHeader = document.querySelector('.projects-header') || document.querySelector('.projects__header');
   if (!projectsHeader) {
-    console.log('❌ Projects header not found');
     return;
   }
 
@@ -69,7 +68,6 @@ function initProjectsCarousel() {
   // Create carousel container
   const projectsSection = document.querySelector('.projects--page') || document.querySelector('.projects');
   if (!projectsSection) {
-    console.log('❌ Projects section not found');
     return;
   }
   
@@ -310,7 +308,6 @@ function initProjectsCarousel() {
     isTouchActive = false;
   });
 
-  console.log('✅ Projects Carousel initialized');
 }
 
 // Initialize when DOM is ready

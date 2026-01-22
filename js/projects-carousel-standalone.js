@@ -306,5 +306,3 @@ document.addEventListener('keydown', (e) => {
     handleScroll('up');
   }
 });
-
-console.log('Projects Carousel initialized');

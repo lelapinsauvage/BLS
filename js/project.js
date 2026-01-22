@@ -2,7 +2,6 @@
    BUTERIN L'ESTRANGE - Project Detail Page
    ======================================== */
 
-console.log('🚀 BLS Project loaded');
 
 // ========================================
 // LENIS SMOOTH SCROLL
@@ -56,7 +55,6 @@ lenis.on('scroll', ({ scroll, direction }) => {
 
 // Check if GSAP is available
 if (typeof gsap !== 'undefined') {
-  console.log('✅ GSAP loaded');
 
   // Cancel the fallback RAF loop - GSAP ticker will handle Lenis updates
   if (rafId) {
@@ -81,7 +79,6 @@ if (typeof gsap !== 'undefined') {
   // ========================================
   
   function initProjectAnimations() {
-    console.log('🎬 Initializing Project animations');
 
     // Refresh ScrollTrigger after loader reveals the page
     if (typeof ScrollTrigger !== 'undefined') {
@@ -147,7 +144,6 @@ if (typeof gsap !== 'undefined') {
       ease: 'power3.out'
     }, 0.5);
     
-    console.log('✅ Project animations complete');
   }
   
   // ========================================
@@ -169,7 +165,6 @@ if (typeof gsap !== 'undefined') {
         }
       });
       
-      console.log('✅ Next project parallax initialized');
     }
   }
   
@@ -181,7 +176,6 @@ if (typeof gsap !== 'undefined') {
 
   // Wait for CMS content to load (for content-specific animations)
   window.addEventListener('projectPageLoaded', () => {
-    console.log('📦 Project CMS content loaded');
     cmsContentLoaded = true;
     initNextProjectParallax();
   });
@@ -189,7 +183,6 @@ if (typeof gsap !== 'undefined') {
   // Initialize loader (from transitions.js) with callback
   // Navbar animations run immediately after loader, content animations wait for CMS
   initLoader(() => {
-    console.log('🎬 Loader complete, starting animations');
     initProjectAnimations();
   });
 

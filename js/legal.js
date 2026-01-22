@@ -3,7 +3,6 @@
    (Privacy Policy, Cookie Policy)
    ======================================== */
 
-console.log('Legal page loaded');
 
 // ========================================
 // LENIS SMOOTH SCROLL
@@ -34,7 +33,6 @@ rafId = requestAnimationFrame(raf);
 if (typeof gsap === 'undefined') {
   console.error('GSAP not loaded!');
 } else {
-  console.log('GSAP loaded');
 
   // Cancel the fallback RAF loop - GSAP ticker will handle Lenis updates
   if (rafId) {
@@ -66,8 +64,6 @@ if (typeof gsap === 'undefined') {
 // ========================================
 
 function initPageAnimation() {
-  console.log('Starting legal page animation...');
-
   const master = gsap.timeline();
 
   master

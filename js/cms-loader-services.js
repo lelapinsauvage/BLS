@@ -57,7 +57,6 @@ async function loadServicesContent() {
       console.log('Separator content not loaded:', err.message);
     }
 
-    console.log('✅ Services page content loaded from CMS');
 
     // Dispatch event to signal content is ready for animations
     window.dispatchEvent(new CustomEvent('servicesContentLoaded'));

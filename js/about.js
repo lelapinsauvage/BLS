@@ -2,8 +2,6 @@
    BUTERIN L'ESTRANGE - About Page
    ======================================== */
 
-console.log('🚀 BLS About loaded');
-
 // ========================================
 // LENIS SMOOTH SCROLL
 // ========================================
@@ -64,7 +62,6 @@ lenis.on('scroll', ({ scroll, direction }) => {
 
 // Check if GSAP is available
 if (typeof gsap !== 'undefined') {
-  console.log('✅ GSAP loaded');
 
   // Cancel the fallback RAF loop - GSAP ticker will handle Lenis updates
   if (rafId) {
