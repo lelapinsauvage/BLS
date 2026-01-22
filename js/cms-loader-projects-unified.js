@@ -129,6 +129,7 @@
     let projectSlugs = await loadManifest();
 
     // Fallback to known projects if no manifest
+    // NOTE: When adding new projects via CMS, also add the slug here as backup
     if (!projectSlugs) {
       debug('No manifest, using fallback slugs');
       projectSlugs = [
@@ -136,7 +137,8 @@
         'lumos',
         'deux-freres',
         'tradies',
-        'coffee-emporium'
+        'coffee-emporium',
+        'zfefz'
       ];
     }
 
