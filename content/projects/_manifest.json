@@ -1,10 +1,11 @@
 {
   "projects": [
-    "the-gantry",
-    "lumos",
-    "deux-freres",
-    "tradies",
     "coffee-emporium",
+    "deux-freres",
+    "lumos",
+    "the-gantry",
+    "tradies",
     "zfefz"
-  ]
+  ],
+  "generated": "2026-01-22T00:02:11.680Z"
 }

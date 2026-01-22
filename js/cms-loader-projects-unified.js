@@ -128,8 +128,8 @@
     // Try to load manifest
     let projectSlugs = await loadManifest();
 
-    // Fallback to known projects if no manifest
-    // NOTE: When adding new projects via CMS, also add the slug here as backup
+    // Fallback to known projects if manifest fails to load
+    // The manifest is auto-generated during Netlify build by scripts/generate-manifest.js
     if (!projectSlugs) {
       debug('No manifest, using fallback slugs');
       projectSlugs = [
@@ -137,8 +137,7 @@
         'lumos',
         'deux-freres',
         'tradies',
-        'coffee-emporium',
-        'zfefz'
+        'coffee-emporium'
       ];
     }
 
