@@ -31,7 +31,7 @@
 
   /* Line Heights - tighter for headlines */
   --leading-eyebrow: 1.24;
-  --leading-hero: 0.88;   /* Tighter for impact */
+  --leading-hero: 1;   /* Prevents text clipping */
   --leading-body: 1.59;
   --leading-cta: 1;
 
@@ -540,8 +540,6 @@ body.is-loading {
 .hero__title .reveal {
   display: block;
   overflow: hidden;
-  padding-bottom: 0.15em;
-  margin-bottom: -0.1em;
 }
 
 .hero__title-line {
