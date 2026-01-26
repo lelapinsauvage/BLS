@@ -540,6 +540,7 @@ body.is-loading {
 .hero__title .reveal {
   display: block;
   overflow: hidden;
+  padding-bottom: 0.1em;
 }
 
 .hero__title-line {
